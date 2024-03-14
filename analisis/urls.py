@@ -1,3 +1,4 @@
+from cap_1 import views as cap_1_views
 """
 URL configuration for analisis project.
 
@@ -16,7 +17,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from cap_1 import views as cap_1_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', cap_1_views.home, name='index'),
+
 ]
