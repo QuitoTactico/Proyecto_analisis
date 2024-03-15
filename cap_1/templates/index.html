@@ -1,5 +1,32 @@
 {% extends 'template.html' %}
 {% block content %}
-    <h1>Home</h1>
-    <p>Welcome to my website. This is the home page.</p>
+<div class="card-deck">
+    <div class="card">
+      <img class="card-img-top" src="{'static' }" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Capitulo 1</h5>
+        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <button type="button" class="btn btn-success w-100">Si</button>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img-top" src="..." alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Capitulo 2</h5>
+        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+        <button type="button" class="btn btn-warning w-100">Tal vez</button>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+    <div class="card">
+      <img class="card-img-top" src="..." alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title">Capitulo 3</h5>
+        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+        <button type="button" class="btn btn-danger w-100">No</button>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
