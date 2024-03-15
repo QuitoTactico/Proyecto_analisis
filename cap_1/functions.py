@@ -21,11 +21,20 @@ def estandarizar_expresion(expresion:str):
         i += 1
     return expresion
 
-
-def graficar(expresion:str, x, a:float = -20, b:float=20):
+def graficar_template(expresion:str, x:float = 0, deriv:int=0, a:float = -5, b:float=5):
     expresion = expresion.replace("**", "^")
     x = sp.symbols('x')
-    return sp.plot(expresion, (x, -2*sp.pi, 2*sp.pi), line_color='r', show=False)
+    # i want the max y to be 100
+    # i want the min y to be -100
+    plot = sp.plot(expresion, (x, a, b), ylim=(-20, 20), line_color='r', show=False)
+    # ahora graficamos la derivada
+    if deriv == 1:
+        plot.append(sp.plot(sp.diff(expresion, x), (x, a, b), line_color='g', show=False)[0])
+    if deriv > 1:
+        for i in range(deriv):
+            plot.append(sp.plot(sp.diff(expresion, x, i), (x, a, b), line_color='g', show=False)[0])
+
+    return plot
     #return sp.plot_implicit(sp.Eq(expresion, 0), (x, -2*sp.pi, 2*sp.pi), line_color='b', show=False)
 
 def func(expresion:str, x:Decimal):
@@ -45,14 +54,16 @@ def func_2nd_deriv(expresion, x):
 def test():
     expresion_original = input("Ingrese la expresión a evaluar: ")
     expresion = estandarizar_expresion(expresion_original)
-    print(expresion)
 
     x = float(input("Ingrese el valor de x: "))
     resultado = func(expresion, x)
+
+    deriv = int(input("Ingrese el número de derivadas a calcular: "))
     
+    print(expresion)
     print(resultado)
 
-    plot = graficar(expresion, x)
+    plot = graficar_template(expresion, x, deriv)
     plot.show()
 
 test()
