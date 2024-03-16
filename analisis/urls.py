@@ -22,5 +22,6 @@ from cap_1 import views as cap_1_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', cap_1_views.home, name='index'),
+    path('test', cap_1_views.test, name='test'),
 
 ]
