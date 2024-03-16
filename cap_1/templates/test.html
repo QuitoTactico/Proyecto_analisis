@@ -1,0 +1,26 @@
+<body>
+    <form action="{% url 'test' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="funcion" placeholder="Escribe la función">
+        <input type="text" name="a" placeholder="Escribe el inicio del rango">
+        <input type="text" name="b" placeholder="Escribe el final del rango">
+        <input type="text" name="tol" placeholder="Tolerancia">
+        <input type="text" name="niter" placeholder="Número máximo de iteraciones">
+    
+        <input type="submit" value="Submit">
+    </form>
+
+    <br>
+    <br>
+
+    <h3> Solución: {{sol}} </h3>
+    <h3> Iteraciones: {{iter}} </h3>
+    <h3> Mensaje: {{final}} </h3>
+
+    {% for i in tabla %}
+        <h3> {{i}} </h3>
+    {% endfor %}
+
+    <img src="{{img}}" alt="imagen">
+</body>
+
