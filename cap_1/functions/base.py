@@ -72,10 +72,10 @@ def graficar_template(expresion:str, sol:float=0, a:float=-10, b:float=10, deriv
                                 line_color=deriv_colors[i], 
                                 show=False)[0])
 
-    # línea marcando la solución. Tocó agregar 3 líneas para que se grueso, a mano, terrible
+    # línea marcando la solución. Tocó agregar 3 líneas para que se vea grueso, a mano, terrible
     plot.append(sp.plot_implicit(sp.Eq(x, sol), line_color='r', show=False)[0])
-    plot.append(sp.plot_implicit(sp.Eq(x, sol+0.04), line_color='r', show=False)[0])
-    plot.append(sp.plot_implicit(sp.Eq(x, sol-0.05), line_color='r', show=False)[0])
+    #plot.append(sp.plot_implicit(sp.Eq(x, sol+0.04), line_color='r', show=False)[0])
+    #plot.append(sp.plot_implicit(sp.Eq(x, sol-0.05), line_color='r', show=False)[0])
 
     # líneas marcando los bordes
     plot.append(sp.plot_implicit(sp.Eq(x, a), line_color='g', show=False)[0])
@@ -133,20 +133,12 @@ def func_deriv(expresion, x:float=0, n_deriv:int=1):
     expresion = expresion.replace("**", "^").replace('e', 'E') # para que sympy entienda la expresión
 
     x = sp.symbols('x')
-    derivada = sp.diff(expresion, x)
-    return derivada
+    #derivada = sp.diff(expresion, x, n_deriv).evalf(subs={x: x})
+    derivada = sp.diff(expresion, x, n_deriv)
+    return float(derivada)
 
-''' Deprecated
-def func_2nd_deriv(expresion, x):
-    expresion = estandarizar_expresion(expresion)
 
-    expresion = expresion.replace("**", "^").replace('e', 'E')
-    x = sp.symbols('x')
-    derivada = sp.diff(expresion, x, 2)
-    return derivada
-'''
-
-def grafico_interactivo_basic(plot=None, sol=None, a=None, b=None):
+def grafico_interactivo_basico(plot=None, sol=None, a=None, b=None):
     plot_interactivo = figure(active_scroll='wheel_zoom')
     
     colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'black']
@@ -169,7 +161,7 @@ def grafico_interactivo_basic(plot=None, sol=None, a=None, b=None):
 
 
 def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=None, deriv:int=0):
-    plot_interactivo = figure(active_scroll='wheel_zoom')
+    plot_interactivo = figure(active_scroll='wheel_zoom', aspect_scale = 1 )
 
     colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'black']
     lista_leyenda = []
@@ -180,8 +172,8 @@ def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=No
         # para cada punto: si es la primera iteración, les evaluamos la función normal, si no, la derivada i-ésima
         eje_y = [func(funcion, x) for x in eje_x] if i == 0 else [func_deriv(funcion, x, i) for x in eje_x]
 
-        funcion = plot_interactivo.line(eje_x, eje_y, line_color=colors[i], line_width=2)
-        lista_leyenda.append(LegendItem(label='f'+"'"*i+'(x)', renderers=[funcion]))
+        funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color=colors[i], line_width=2)
+        lista_leyenda.append(LegendItem(label='f'+"'"*i+'(x)', renderers=[funcion_linea]))
         
     # agregar línea en la solución
     vline = Span(location=sol, dimension='height', line_color='black', line_width=1, line_dash='dashed')
@@ -203,9 +195,13 @@ def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=No
         lista_leyenda.append(LegendItem(label='Bordes', renderers=[invisible]))
 
     plot_interactivo.add_layout(Legend(items=lista_leyenda))
+
+    # btw esto simplemente no quiere funcionar. Horas gastadas aquí: (2)
+    #plot_interactivo.set(x_range=[a, b], y_range=[a, b], match_aspect=True)
     plot_interactivo.aspect_scale = 1       # para que los ejes tengan la misma escala, 1:1
     plot_interactivo.xaxis.visible = True   # para que se vean los ejes
     plot_interactivo.yaxis.visible = True
+    plot_interactivo.sizing_mode = 'stretch_both' # para que se ajuste al tamaño del contenedor
     
     return plot_interactivo
 
@@ -234,15 +230,16 @@ def test_interactivo():
     x = float(input("Ingrese el valor de x: "))
     sol = func(expresion, x)
     
-    a,b = map(float, input("Ingrese el intervalo a evaluar (a   b): ").split(" "))
+    a = float(input("Ingrese el valor de a: "))
+    b = float(input("Ingrese el valor de b: "))
 
     deriv = int(input("Ingrese el número de derivadas a calcular: "))
     
     print(expresion)
     print(sol)
 
-    plot = graficar_template(expresion, sol, deriv=deriv)
-    plot_interactivo = grafico_interactivo(plot, sol, a, b, deriv=deriv)
+    plot = graficar_template(expresion, sol=sol, deriv=deriv)
+    plot_interactivo = grafico_interactivo(expresion, sol=sol, a=a, b=b, deriv=deriv)
     show(plot_interactivo)
 
 

@@ -1,3 +1,4 @@
 sympy
 pillow
 matplotlib
+bokeh

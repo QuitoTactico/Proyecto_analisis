@@ -1,0 +1,29 @@
+plotly o bokeh
+
+# views.py
+from bokeh.plotting import figure
+from bokeh.embed import components
+
+def home(request):
+    # Crear un gráfico simple
+    plot = figure()
+    plot.line([1, 2, 3, 4, 5], [6, 7, 2, 4, 5])
+
+    # Obtener los componentes del gráfico para incrustarlos en la plantilla
+    script, div = components(plot)
+
+    return render(request, 'index.html', {'script': script, 'div': div})
+
+
+<!-- index.html -->
+<html>
+<head>
+    <!-- Incluir las bibliotecas de Bokeh -->
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.1.min.js"></script>
+</head>
+<body>
+    <!-- Incrustar el gráfico -->
+    {{ div|safe }}
+    {{ script|safe }}
+</body>
+</html>

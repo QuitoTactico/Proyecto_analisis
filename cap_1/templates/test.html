@@ -1,6 +1,22 @@
 {% extends 'template.html' %}
 {% load static %}
 {% block content %}
+
+<head>
+        <!-- Incluir BokehJS -->
+        <!--
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.1.min.js"></script>
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.0.0.min.js" crossorigin="anonymous"></script>
+        -->
+
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.4.0.min.js" crossorigin="anonymous"></script>
+        
+        <!-- Incluir el script de la gráfica -->
+        <!--
+        {{ script|safe }}
+        -->
+</head>
+
 <div class="container-all">
 
     <div class="form">
@@ -21,16 +37,22 @@
         </form>
     </div>
 
-    <!-- JOVEN PILLE -->
-    <div class="graph">
-        <img src="data:image/png;base64,{{img}}" style="width: 700px; height: 500px;">
-    </div>
-
+    {{ div|safe }}
+    {{ script|safe }}
+    
 </div>
 
-<h3> Solución: {{sol}} </h3>
-<h3> Iteraciones: {{iter}} </h3>
-<h3> Mensaje: {{final}} </h3>
+
+
+
+<!-- JOVEN PILLE -->
+<div class="graph">
+    <img src="data:image/png;base64,{{img}}" style="width: 700px; height: 500px;">
+</div>
+
+<h3> Solución: {{solucion}} </h3>
+<h3> Iteraciones: {{iteraciones}} </h3>
+<h3> Mensaje: {{mensaje}} </h3>
 
 <!-- JOVEN PILLE -->
 {% for iteracion in tabla %}

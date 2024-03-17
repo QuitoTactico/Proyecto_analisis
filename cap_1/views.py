@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 import io 
 import urllib, base64
+from bokeh.embed import components
+from bokeh.plotting import show
 
 def home(request):
     return render(request, 'index.html')
@@ -25,12 +27,12 @@ def test(request):
 
         response = biseccion_func(funcion, a, b, tol, niter)
 
-        img_interactiva = response['img']
+        img = response['img']
         #img = io.BytesIO(urllib.parse.unquote(img).encode('utf-8'))
         #img = base64.b64encode(img.getvalue()).decode()
 
         buffer = io.BytesIO()
-        img_interactiva.save(buffer)
+        img.save(buffer)
         #plt.savefig(buffer, format='png') 
         buffer.seek(0) 
         #img_interactiva.close() 
@@ -41,13 +43,19 @@ def test(request):
         img = base64.b64encode(image_png) 
         img = img.decode('utf-8') 
 
+        # lo épico
+        img_interactiva = response['img_interactiva']
+        script, div = components(img_interactiva)
+        show(img_interactiva)
+        #print(script, div)
 
-        return render(request, 'test.html', {'sol'  : response['sol'], 
-                                             'iter' : response['iter'],
+        return render(request, 'test.html', {'solucion'  : response['solucion'], 
+                                             'iteraciones' : response['iteraciones'],
                                              'tabla': response['tabla'],
                                              'img'  : img,
                                              'img_interactiva': img_interactiva,
-                                             'final': response['final']})
+                                             'script': script, 'div': div,
+                                             'mensaje': response['mensaje']})
     else:
         return render(request, 'test.html')
 
