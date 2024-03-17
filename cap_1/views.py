@@ -8,7 +8,6 @@ import matplotlib
 import io 
 import urllib, base64
 from bokeh.embed import components
-from bokeh.plotting import show
 
 def home(request):
     return render(request, 'index.html')
@@ -28,14 +27,10 @@ def test(request):
         response = biseccion_func(funcion, a, b, tol, niter)
 
         img = response['img']
-        #img = io.BytesIO(urllib.parse.unquote(img).encode('utf-8'))
-        #img = base64.b64encode(img.getvalue()).decode()
 
         buffer = io.BytesIO()
         img.save(buffer)
-        #plt.savefig(buffer, format='png') 
         buffer.seek(0) 
-        #img_interactiva.close() 
         
         # Convertir la gráfica a base64 
         image_png = buffer.getvalue() 
@@ -46,8 +41,6 @@ def test(request):
         # lo épico
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
-        show(img_interactiva)
-        #print(script, div)
 
         return render(request, 'test.html', {'solucion'  : response['solucion'], 
                                              'iteraciones' : response['iteraciones'],
