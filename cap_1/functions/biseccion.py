@@ -77,7 +77,7 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
     
     #img = graficar_template(funcion, sol=x, a=a, b=b, diplay_inicio=a-1, display_final=b+1)
     img = graficar_template(funcion, sol=x, a=a_inicial, b=b_inicial)
-    img_interactiva = grafico_interactivo(img, sol=x, a=a_inicial, b=b_inicial)
+    img_interactiva = grafico_interactivo(funcion, sol=x, a=a_inicial, b=b_inicial)
 
     return {'solucion'   : x, 
             'iteraciones': i, 

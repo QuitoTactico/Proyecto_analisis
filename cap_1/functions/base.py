@@ -168,14 +168,19 @@ def grafico_interactivo_basic(plot=None, sol=None, a=None, b=None):
     return plot_interactivo
 
 
-def grafico_interactivo(plot=None, sol:float=None, a:float=None, b:float=None, deriv:int=0):
+def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=None, deriv:int=0):
     plot_interactivo = figure(active_scroll='wheel_zoom')
 
     colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'black']
     lista_leyenda = []
-    for i in range(deriv+1):
-        funcion = plot_interactivo.line(plot[i].get_points()[0], plot[i].get_points()[1], line_color=colors[i], line_width=2)
 
+    for i in range(deriv+1):
+        # 200 puntos entre a y b
+        eje_x = [a + (b-a)/200 * i for i in range(201)]
+        # para cada punto: si es la primera iteración, les evaluamos la función normal, si no, la derivada i-ésima
+        eje_y = [func(funcion, x) for x in eje_x] if i == 0 else [func_deriv(funcion, x, i) for x in eje_x]
+
+        funcion = plot_interactivo.line(eje_x, eje_y, line_color=colors[i], line_width=2)
         lista_leyenda.append(LegendItem(label='f'+"'"*i+'(x)', renderers=[funcion]))
         
     # agregar línea en la solución
@@ -188,9 +193,9 @@ def grafico_interactivo(plot=None, sol:float=None, a:float=None, b:float=None, d
 
     # agregar líneas en a y b
     if a != None and b != None:
-        vline = Span(location=a, dimension='height', line_color='green', line_width=2, line_dash='dashed')
+        vline = Span(location=a, dimension='height', line_color='green', line_width=1, line_dash='dashed')
         plot_interactivo.add_layout(vline)
-        vline = Span(location=b, dimension='height', line_color='green', line_width=2, line_dash='dashed')
+        vline = Span(location=b, dimension='height', line_color='green', line_width=1, line_dash='dashed')
         plot_interactivo.add_layout(vline)
 
         # otra línea invisible línea invisible
