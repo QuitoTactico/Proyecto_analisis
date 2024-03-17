@@ -1,6 +1,20 @@
 from math import *
 from .base import func as base_func, graficar_template
 
+class iteracion:
+    def __init__(self, i:int, x:float, fx:float, err:float):
+        self.i = i
+        self.x = x
+        self.fx = fx
+        self.err = err
+
+    def __str__(self):
+        return f'{self.i} | {self.x} | {self.fx} | {self.err}'
+
+    def __repr__(self):
+        return f'{self.i} | {self.x} | {self.fx} | {self.err}'
+
+
 def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
     """
     Implementación método de bisección
@@ -23,16 +37,23 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
 
         x = (b + a)/2
 
-        x_menos_uno = float(tabla[-1]['x']) if i!=1 else None
+        x_menos_uno = float(tabla[-1].x) if i!=1 else None
 
         fx = func(x)
 
         err = abs(x - x_menos_uno) if x_menos_uno else None
 
+        '''
         tabla.append({'i'   : i, 
                       'x'   : f'{x:.30f}', 
                       'fx'  : f'{fx:.30f}', 
                       'err' : f'{err:.30f}' if err else None})
+        '''
+
+        tabla.append(iteracion(i, 
+                               f'{x:.30f}', 
+                               f'{fx:.30f}', 
+                               f'{err:.30f}' if err else None))
       
         # si f(x) = 0 o el error es menor que la tolerancia, terminamos
         err = err if err else 1 # para la comparación
@@ -63,11 +84,12 @@ def test():
     res = biseccion_func('2x-1', -2, 5, 1e-20, 100)
 
     for iteracion in res['tabla']:
-        print(iteracion)
+        print(iteracion.i, iteracion.x, iteracion.fx, iteracion.err)
 
     print(res['final'])
     print(f'Solución: {res["sol"]}')
     print(f'Iteraciones: {res['iter']}')
-'''
 
-#test()
+
+test()
+'''

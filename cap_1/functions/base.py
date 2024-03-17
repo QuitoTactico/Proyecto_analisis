@@ -1,6 +1,8 @@
 from math import *
 #from decimal import Decimal     # para precisión en los cálculos
 import sympy as sp              # para las derivadas y graficación
+import matplotlib.pyplot as plt # para graficar
+import numpy as np
 
 def estandarizar_expresion(expresion:str):
     '''Modificamos la expresión y la llevamos a una forma entendible por la función eval o la librería sympy, así se puede evaluar correctamente'''
@@ -20,6 +22,40 @@ def estandarizar_expresion(expresion:str):
         i += 1
     return expresion
 
+
+def graficar_template_2(expresion:str, x:float = 0, deriv:int=0, a:float = -10, b:float=10):
+    expresion = estandarizar_expresion(expresion)
+    expresion = expresion.replace("**", "^").replace('e', 'E') # para que sympy entienda la expresión
+    x = sp.symbols('x')
+
+    inferior = min(a-1, -1)
+
+    range = np.arange(a, b, 0.05)
+    funcion_plot = [eval(expresion) for x in range]
+
+    if 'fig' not in locals():
+        fig, ax = plt.subplots()
+
+    ax.plot(range, funcion_plot)
+    #fig.savefig
+    
+    '''
+    deriv_colors = ['g', 'b', 'y', 'c', 'm', 'k', 'r', 'g']
+    
+    # ahora graficamos las derivadas
+    if deriv > 0:
+        for i in range(deriv):
+            ax.append(plt.plot(sp.diff(expresion, x, i+1), 
+                                (x, a, b), 
+                                xlim=(a-1, b+1), 
+                                ylim=(inferior, b+1), 
+                                line_color=deriv_colors[i], 
+                                show=False
+                                )[0]
+                                )
+    '''
+    return ax
+    #return sp.plot_implicit(sp.Eq(expresion, 0), (x, -2*sp.pi, 2*sp.pi), line_color='b', show=False)
 
 def graficar_template(expresion:str, x:float = 0, deriv:int=0, a:float = -10, b:float=10):
     expresion = estandarizar_expresion(expresion)
@@ -77,7 +113,7 @@ def func_2nd_deriv(expresion, x):
     return derivada
 '''
 
-
+'''
 def test():
     expresion_original = input("Ingrese la expresión a evaluar: ")
     expresion = estandarizar_expresion(expresion_original)
@@ -95,4 +131,5 @@ def test():
     plot.save('static/img/test.png')
 
 
-#test()
+test()
+'''

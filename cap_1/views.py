@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from .functions.biseccion import biseccion_func
 # Create your views here.
 
+import matplotlib.pyplot as plt
+import matplotlib
 import io 
 import urllib, base64
 
@@ -13,6 +15,8 @@ def home(request):
 def test(request):
 
     if request.method == 'POST':
+        matplotlib.use('Agg')
+
         funcion = request.POST['funcion']
         a = float(request.POST['a'])
         b = float(request.POST['b'])
@@ -21,15 +25,28 @@ def test(request):
 
         response = biseccion_func(funcion, a, b, tol, niter)
 
-        img = response['img']
+        img_interactiva = response['img']
         #img = io.BytesIO(urllib.parse.unquote(img).encode('utf-8'))
         #img = base64.b64encode(img.getvalue()).decode()
+
+        buffer = io.BytesIO()
+        img_interactiva.save(buffer)
+        #plt.savefig(buffer, format='png') 
+        buffer.seek(0) 
+        #img_interactiva.close() 
+        
+        # Convertir la gráfica a base64 
+        image_png = buffer.getvalue() 
+        buffer.close() 
+        img = base64.b64encode(image_png) 
+        img = img.decode('utf-8') 
 
 
         return render(request, 'test.html', {'sol'  : response['sol'], 
                                              'iter' : response['iter'],
                                              'tabla': response['tabla'],
                                              'img'  : img,
+                                             'img_interactiva': img_interactiva,
                                              'final': response['final']})
     else:
         return render(request, 'test.html')
