@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-#from .functions.biseccion import biseccion_func
+from .functions.biseccion import biseccion_func
 # Create your views here.
 
 import io 
@@ -34,7 +34,6 @@ def test(request):
     else:
         return render(request, 'test.html')
 
-"""
 def biseccion(request):
 
     if request.method == 'POST':
@@ -46,10 +45,15 @@ def biseccion(request):
 
         response = biseccion_func(funcion, a, b, tol, niter)
 
+        img = response['img']
+        #img = io.BytesIO(urllib.parse.unquote(img).encode('utf-8'))
+        #img = base64.b64encode(img.getvalue()).decode()
+
+
         return render(request, 'biseccion.html', {'sol'  : response['sol'], 
-                                                  'iter' : response['iter'], 
-                                                  'tabla': response['tabla'], 
-                                                  'final': response['final']})
+                                             'iter' : response['iter'],
+                                             'tabla': response['tabla'],
+                                             'img'  : img,
+                                             'final': response['final']})
     else:
         return render(request, 'biseccion.html')
-"""

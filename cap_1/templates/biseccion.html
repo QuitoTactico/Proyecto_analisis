@@ -4,7 +4,7 @@
 <div class="container-all">
 
     <div class="form">
-        <form action="{% url 'test' %}" method="post">
+        <form action="{% url 'biseccion' %}" method="post">
             {% csrf_token %}
             <label for="exampleFormControlInput1" class="font-weight-bold">Función</label>
             <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escribe la función" name="funcion">
@@ -26,18 +26,7 @@
 
     </div>
 </div>
-<!--
-    <form action="{% url 'test' %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="funcion" placeholder="Escribe la función">
-        <input type="text" name="a" placeholder="Escribe el inicio del rango">
-        <input type="text" name="b" placeholder="Escribe el final del rango">
-        <input type="text" name="tol" placeholder="Tolerancia">
-        <input type="text" name="niter" placeholder="Número máximo de iteraciones">
-    
-        <input type="submit" value="Submit">
-    </form>
--->
+
 <h3> Solución: {{sol}} </h3>
 <h3> Iteraciones: {{iter}} </h3>
 <h3> Mensaje: {{final}} </h3>
