@@ -56,16 +56,3 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
             elif func(b)*fx > 0:
                 b = x
             i += 1
-
-def test():
-    # a = -2, b = 5, TOL = 1e-20, N0 = 100
-    res = biseccion_func('2x-1', -2, 5, 1e-20, 100)
-
-    for iteracion in res['tabla']:
-        print(iteracion)
-
-    print(res['final'])
-    print(f'Solución: {res["sol"]}')
-    print(f'Iteraciones: {res['iter']}')
-
-#test()

@@ -7,15 +7,15 @@
         <form action="{% url 'test' %}" method="post">
             {% csrf_token %}
             <label for="exampleFormControlInput1" class="font-weight-bold">Función</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Escribe la función" name="funcion">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escribe la función" name="funcion">
             <label for="exampleFormControlInput1" class="font-weight-bold">Valor inicial</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Escriba el inicio del rango" name="a">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escriba el inicio del rango" name="a">
             <label for="exampleFormControlInput1" class="font-weight-bold">Valor final</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Escriba el final del rango" name="b">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escriba el final del rango" name="b">
             <label for="exampleFormControlInput1" class="font-weight-bold">Tolerancia</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Escriba la tolerancia (valor del Error)" name="tol">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escriba la tolerancia (valor del Error)" name="tol">
             <label for="exampleFormControlInput1" class="font-weight-bold">Número de iteraciones</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Escriba el numero máximo de iteraciones" name="niter">
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escriba el numero máximo de iteraciones" name="niter">
             <br>
             <input type="submit" value="Submit" class="btn btn-danger">
         </form>
