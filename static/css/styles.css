@@ -31,3 +31,6 @@
     font-size: 1em;
     margin: 10px;
 }
+.container .container-all .form form .hide{
+    display: none;
+}
