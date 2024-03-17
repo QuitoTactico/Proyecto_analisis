@@ -1,0 +1,33 @@
+.container .container-all {
+  display: flex;
+  height: 70vh;
+  width: 100%;
+  align-items: space-between;
+  justify-content: center;
+  flex-direction: row;
+  background-color: rgb(230, 240, 248);
+
+}
+.container .container-all .form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+}
+.container .container-all .graph{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  
+}
+.container .container-all .graph img {
+    width: 50%;
+    height: 200px;
+}
+.container .container-all .form form label{
+    font-size: 1em;
+    margin: 10px;
+}

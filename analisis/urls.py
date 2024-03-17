@@ -1,4 +1,3 @@
-from cap_1 import views as cap_1_views
 """
 URL configuration for analisis project.
 
