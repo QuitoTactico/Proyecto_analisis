@@ -3,8 +3,11 @@ from django.http import HttpResponse
 from .functions.biseccion import biseccion_func
 # Create your views here.
 
+import matplotlib.pyplot as plt
+import matplotlib
 import io 
 import urllib, base64
+from bokeh.embed import components
 
 def home(request):
     return render(request, 'index.html')
@@ -12,6 +15,8 @@ def home(request):
 def test(request):
 
     if request.method == 'POST':
+        matplotlib.use('Agg')
+
         funcion = request.POST['funcion']
         a = float(request.POST['a'])
         b = float(request.POST['b'])
@@ -21,15 +26,28 @@ def test(request):
         response = biseccion_func(funcion, a, b, tol, niter)
 
         img = response['img']
-        #img = io.BytesIO(urllib.parse.unquote(img).encode('utf-8'))
-        #img = base64.b64encode(img.getvalue()).decode()
 
+        buffer = io.BytesIO()
+        img.save(buffer)
+        buffer.seek(0) 
+        
+        # Convertir la gráfica a base64 
+        image_png = buffer.getvalue() 
+        buffer.close() 
+        img = base64.b64encode(image_png) 
+        img = img.decode('utf-8') 
 
-        return render(request, 'test.html', {'sol'  : response['sol'], 
-                                             'iter' : response['iter'],
+        # lo épico
+        img_interactiva = response['img_interactiva']
+        script, div = components(img_interactiva)
+
+        return render(request, 'test.html', {'solucion'  : response['solucion'], 
+                                             'iteraciones' : response['iteraciones'],
                                              'tabla': response['tabla'],
                                              'img'  : img,
-                                             'final': response['final']})
+                                             'img_interactiva': img_interactiva,
+                                             'script': script, 'div': div,
+                                             'mensaje': response['mensaje']})
     else:
         return render(request, 'test.html')
 """

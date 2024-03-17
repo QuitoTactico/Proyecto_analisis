@@ -1,6 +1,22 @@
 {% extends 'template.html' %}
 {% load static %}
 {% block content %}
+
+<head>
+        <!-- Incluir BokehJS -->
+        <!--
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.1.min.js"></script>
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.0.0.min.js" crossorigin="anonymous"></script>
+        -->
+
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.4.0.min.js" crossorigin="anonymous"></script>
+        
+        <!-- Incluir el script de la gráfica -->
+        <!--
+        {{ script|safe }}
+        -->
+</head>
+
 <div class="container-all">
 
     <div class="form">
@@ -24,35 +40,30 @@
             <br>
             <input type="submit" value="Submit" class="btn btn-danger">
         </form>
-
     </div>
-    <div class="graph">
-        <img src="{% static 'img/cap_1.png' %}" alt="imagen">
 
-    </div>
+    <!-- JOVEN PILLE -->
+    {{ div|safe }}
+    {{ script|safe }}
+
 </div>
-<!--
-    <form action="{% url 'test' %}" method="post">
-        {% csrf_token %}
-        <input type="text" name="funcion" placeholder="Escribe la función">
-        <input type="text" name="a" placeholder="Escribe el inicio del rango">
-        <input type="text" name="b" placeholder="Escribe el final del rango">
-        <input type="text" name="tol" placeholder="Tolerancia">
-        <input type="text" name="niter" placeholder="Número máximo de iteraciones">
-    
-        <input type="submit" value="Submit">
-    </form>
--->
-<h3> Solución: {{sol}} </h3>
-<h3> Iteraciones: {{iter}} </h3>
-<h3> Mensaje: {{final}} </h3>
 
-{% for i in tabla %}
-<h3> {{i}} </h3>
+
+
+
+<!-- JOVEN PILLE -->
+<div class="graph">
+    <img src="data:image/png;base64,{{img}}" style="width: 700px; height: 500px;">
+</div>
+
+<h3> Solución: {{solucion}} </h3>
+<h3> Iteraciones: {{iteraciones}} </h3>
+<h3> Mensaje: {{mensaje}} </h3>
+
+<!-- JOVEN PILLE -->
+{% for iteracion in tabla %}
+<h3> {{iteracion.i}} {{iteracion.x}} {{iteracion.fx}} {{iteracion.err}} </h3>
 {% endfor %}
 
-<!--
-    <img src="{{img}}" alt="imagen">
-    <img src="data:image/png;base64,{{img.show}}" alt="imagen2">
-    -->
+
 {% endblock content %}
