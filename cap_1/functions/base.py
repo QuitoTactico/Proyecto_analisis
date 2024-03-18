@@ -1,10 +1,7 @@
 from math import *
-#from decimal import Decimal     # para precisión en los cálculos
-import sympy as sp              # para las derivadas y graficación
-#import matplotlib.pyplot as plt
-#import numpy as np
-from bokeh.plotting import figure, show
-from bokeh.models import Span, Legend, LegendItem
+import sympy as sp                                  # para las derivadas y graficación PNG
+from bokeh.plotting import figure, show             # para la graficación interactiva
+from bokeh.models import Span, Legend, LegendItem, CrosshairTool, HoverTool, ZoomInTool, ZoomOutTool, ExamineTool
 
 def estandarizar_expresion(expresion:str):
     '''Modificamos la expresión y la llevamos a una forma entendible por la función eval o la librería sympy, así se puede evaluar correctamente'''
@@ -138,50 +135,44 @@ def func_deriv(expresion, x:float=0, n_deriv:int=1):
     return float(derivada)
 
 
-def grafico_interactivo_basico(plot=None, sol=None, a=None, b=None):
-    plot_interactivo = figure(active_scroll='wheel_zoom')
-    
-    colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'black']
-    # Agregar líneas al gráfico
-    for i, color in enumerate(colors):
-        # Aquí puedes reemplazar [i, i+1, i+2] y [i, i**2, i**3] con tus propios datos
-        line = plot_interactivo.line([i, i+1, i+2], [i, i**2, i**3], line_color=color, line_width=2)
-
-        # Agregar la línea a la leyenda
-        plot_interactivo.add_layout(Legend(items=[LegendItem(label=color, renderers=[line])]))
-
-    # Agregar líneas verticales en a y b
-    vline = Span(location=3, dimension='height', line_color='green', line_width=2)
-    plot_interactivo.add_layout(vline)
-    # configures the lasso tool to be active
-
-    # Mostrar el gráfico
-    #show(plot_interactivo)
-    return plot_interactivo
-
-
 def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=None, deriv:int=0):
-    plot_interactivo = figure(active_scroll='wheel_zoom', aspect_scale = 1 )
+    distancia = abs(b-a)
+    plot_interactivo = figure(active_scroll='wheel_zoom', 
+                              aspect_scale = 1, 
+                              #x_range=(a-distancia_media/2, b+distancia_media/2), 
+                              x_range=(a-(distancia*0.2), b+(distancia*0.2)),
+                              #y_range=(distancia_media*(-1.5), distancia_media*1.5), 
+                              y_range=(-distancia/1.7, distancia/1.7),
+                              match_aspect=True, 
+                              sizing_mode='stretch_both', 
+                              x_axis_label='x', 
+                              y_axis_label='f(x)')
+
+
+    width = Span(dimension="width", line_dash="dotted", line_alpha=0.4, line_width=1)
+    height = Span(dimension="height", line_dash="dotted", line_alpha=0.4, line_width=1)
+    plot_interactivo.add_tools(CrosshairTool(overlay=[width, height]))
+    plot_interactivo.add_tools(HoverTool(tooltips= [("name", "$name"),
+                                                    ("x",    "$x"),
+                                                    ("y", "@y")],
+                                         mode='vline'))
+    plot_interactivo.add_tools(ZoomInTool(factor=0.25))
+    plot_interactivo.add_tools(ZoomOutTool(factor=0.25))
+    plot_interactivo.add_tools(ExamineTool())  # to debug
 
     colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'black']
     lista_leyenda = []
 
+    # graficaremos la función y sus derivadas
     for i in range(deriv+1):
         # 200 puntos entre a y b
         eje_x = [a + (b-a)/200 * i for i in range(201)]
         # para cada punto: si es la primera iteración, les evaluamos la función normal, si no, la derivada i-ésima
         eje_y = [func(funcion, x) for x in eje_x] if i == 0 else [func_deriv(funcion, x, i) for x in eje_x]
 
-        funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color=colors[i], line_width=2)
+        funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color=colors[i], line_width=2, name='f'+"'"*i+'(x)')
         lista_leyenda.append(LegendItem(label='f'+"'"*i+'(x)', renderers=[funcion_linea]))
         
-    # agregar línea en la solución
-    vline = Span(location=sol, dimension='height', line_color='black', line_width=1, line_dash='dashed')
-    plot_interactivo.add_layout(vline)
-    # para ponerla en la leyenda, tocó poner una línea invisible
-    invisible = plot_interactivo.line([0], [0], line_color="black", line_dash='dashed')   
-    lista_leyenda.append(LegendItem(label='Solución', renderers=[invisible]))
-
 
     # agregar líneas en a y b
     if a != None and b != None:
@@ -194,14 +185,25 @@ def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=No
         invisible = plot_interactivo.line([0], [0], line_color="green", line_width=1, line_dash='dashed')   
         lista_leyenda.append(LegendItem(label='Bordes', renderers=[invisible]))
 
+    # agregar línea en la solución
+    vline = Span(location=sol, dimension='height', line_color='black', line_width=1, line_dash='dashed')
+    plot_interactivo.add_layout(vline)
+    # para ponerla en la leyenda, tocó poner una línea invisible
+    invisible = plot_interactivo.line([0], [0], line_color="black", line_dash='dashed')   
+    lista_leyenda.append(LegendItem(label='Solución', renderers=[invisible]))
+    # también un punto
+    plot_interactivo.scatter([sol], [0], fill_color='red', line_color="black", size=8, name="Solución")
+
     plot_interactivo.add_layout(Legend(items=lista_leyenda))
 
-    # btw esto simplemente no quiere funcionar. Horas gastadas aquí: (2)
+    # btw esto del 1:1 simplemente no quiere funcionar. Horas gastadas aquí: (4)
     #plot_interactivo.set(x_range=[a, b], y_range=[a, b], match_aspect=True)
     plot_interactivo.aspect_scale = 1       # para que los ejes tengan la misma escala, 1:1
     plot_interactivo.xaxis.visible = True   # para que se vean los ejes
     plot_interactivo.yaxis.visible = True
-    plot_interactivo.sizing_mode = 'stretch_both' # para que se ajuste al tamaño del contenedor
+    plot_interactivo.xaxis.fixed_location = 0   # para que el eje x pase por y=0 y no esté en el borde del grafico
+    plot_interactivo.yaxis.fixed_location = 0   # para que el eje y pase por x=0 y no esté en el borde del grafico
+    plot_interactivo.match_aspect = True        # otro intento de hacer que tengan la misma escala, 1:1
     
     return plot_interactivo
 

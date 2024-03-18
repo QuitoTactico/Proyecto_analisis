@@ -1,0 +1,3 @@
+<footer class="bg-light text-center py-3 text-muted">
+    <p>Esteban Vergara Giraldo &nbsp; ― &nbsp; Jonathan Betancur Espinosa &nbsp; ― &nbsp; Miguel Angel Cock Cano</p>
+</footer>
