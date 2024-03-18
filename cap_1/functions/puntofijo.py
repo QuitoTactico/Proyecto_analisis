@@ -59,7 +59,13 @@ def puntofijo_func(funcion:str, funcion_g:str, a:float, b:float, x0:float, tol:f
             x0 = x
             i += 1
 
-    img_interactiva = grafico_interactivo(funcion, sol=x, a=a, b=b, vlines= [('x0', x0_inicial)], funcion_g=funcion_g)
+    img_interactiva = grafico_interactivo(funcion, 
+                                          metodo='puntofijo', 
+                                          sol=x, 
+                                          a=a, 
+                                          b=b, 
+                                          vlines= [('x0', x0_inicial)], 
+                                          funcion_g=funcion_g)
     #img_interactiva = grafico_interactivo(funcion, sol=x, a=a, b=b, vlines= [('x0', x0_inicial)], funcion_g='NEWTON')
 
     return {'solucion'   : x, 

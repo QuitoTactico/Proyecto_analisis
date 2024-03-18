@@ -1,52 +1,87 @@
 from math import *
+from .base import func as base_func, graficar_template, grafico_interactivo
+#from base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
+from bokeh.plotting import show
 
-def funcion(x):
-    """Función de prueba"""
-    return x**2 + exp(-2*x) - 2*x*exp(-x)
+class Iteracion:
+    def __init__(self, i:int, x:float, fx:float, err:float):
+        self.i = i
+        self.x = x
+        self.fx = fx
+        self.err = err
 
-def funcionprima(x):
-    """Derivada función de prueba"""
-    return 2*x - 2*exp(-2*x) - 2*exp(-x) + 2*x*exp(-x)
+    def __str__(self):
+        return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def newton(f, fprima, p0, tol, n):
+    def __repr__(self):
+        return f'{self.i} | {self.x} | {self.fx} | {self.err}'
+
+def newton_func(funcion:str, a:float, b:float, x0:float, tol:float, niter:int):
     """
     Implementación método de Newton
     Entradas:
-    f -- función
-    fprima -- derivada función f
-    p0 -- aproximación inicial
+    funcion -- función
+    funcionprima -- derivada función f
+    x0 -- aproximación inicial
     tol -- tolerancia
-    n -- número máximo de iteraciones
-
-    Salida:
-    p aproximación a cero de f
-    None en caso de iteraciones agotadas
+    niter -- número máximo de iteraciones
     """
+
+    def func(x): 
+        return base_func(funcion, x)
+
+    def funcprima(x): 
+        return base_func_deriv(funcion, x)
+
     i = 1
+    x_anterior, err, mensaje = None, 1, None
     tabla = []
+    x0_inicial = x0
 
-    while i <= n:
-        p = p0 - f(p0)/fprima(p0)
-        err = abs(p - p0)
-        tabla.append({'i' : i, 'p' : f'{p:.30f}', 'f(p)' : f'{f(p):.30f}', 'err' : f'{err:.30f}'})
-        
-        if abs(f(p)) <= 1e-30 or err <= tol:
-            return p, tabla, True
+    while True:
+        x = x0 - func(x0)/funcprima(x0)
+        fx = func(x)
 
-        p0 = p
-        i += 1
+        if i != 1:
+            x_anterior = float(tabla[-1].x)
+            err = abs(x - x_anterior)
 
-    if i > n:
-        print("Iteraciones agotadas: Error!")
-        return p, tabla, False
+        tabla.append(Iteracion(i, 
+                            f'{x:.30f}', 
+                            f'{fx:.30f}', 
+                            f'{err:.30f}'))
 
-    return None
+        if abs(fx) <= 1e-64 or err <= tol:
+            mensaje = 'PUNTO ENCONTRADO'
+            break
 
-# expo(x), expoprima(x), p0 = 4.0, TOL = 10^-8, N0 = 100
-p, tabla, iter = newton(funcion, funcionprima, 4, 1e-8, 100)
+        elif i >= niter:
+            mensaje = 'ITERACIONES AGOTADAS'
+            break
 
-for iteracion in tabla:
-    print(iteracion)
+        else:
+            x0 = x
+            i += 1
 
-iter_str = 'No agotadas' if iter else 'Iteraciones agotadas'
-print(iter_str)
+    img_interactiva = grafico_interactivo(funcion, metodo='newton', sol=x, a=a, b=b, vlines= [('x0', x0_inicial)])
+
+    return {'solucion'   : x, 
+            'iteraciones': i, 
+            'tabla'      : tabla,
+            'img_interactiva': img_interactiva,
+            'mensaje'    : mensaje
+            }
+
+def newton_test():
+    res = newton_func('(x^3)-10x-5', -0.5, 4, 3, 1e-10, 100)
+
+    for iteracion in res['tabla']:
+        print(iteracion)
+
+    print(res['mensaje'])
+    print(f'Solución: {res["solucion"]}')
+    print(f'Iteraciones: {res["iteraciones"]}')
+
+    show(res['img_interactiva'])
+
+#newton_test()

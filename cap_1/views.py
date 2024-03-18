@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .functions.biseccion import biseccion_func
 from .functions.reglafalsa import reglafalsa_func
 from .functions.puntofijo import puntofijo_func
+from .functions.newton import newton_func
 # Create your views here.
 
 import matplotlib.pyplot as plt
@@ -98,3 +99,27 @@ def puntofijo(request):
                                              'mensaje': response['mensaje']})
     else:
         return render(request, 'puntofijo.html')
+
+def newton(request):
+
+        if request.method == 'POST':
+            funcion = request.POST['funcion']
+            x0 = float(request.POST['x0'])
+            a = float(request.POST['a'])
+            b = float(request.POST['b'])
+            tol = float(request.POST['tol'])
+            niter = int(request.POST['niter'])
+    
+            response = newton_func(funcion, a, b, x0, tol, niter)
+    
+            img_interactiva = response['img_interactiva']
+            script, div = components(img_interactiva)
+    
+            return render(request, 'newton.html', {'solucion'  : response['solucion'], 
+                                                'iteraciones' : response['iteraciones'],
+                                                'tabla': response['tabla'],
+                                                'img_interactiva': img_interactiva,
+                                                'script': script, 'div': div,
+                                                'mensaje': response['mensaje']})
+        else:
+            return render(request, 'newton.html')

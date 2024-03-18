@@ -149,7 +149,7 @@ def func_deriv(expresion, x_input:float=0, n_deriv:int=1, eval:bool=True):
         return derivada
 
 
-def grafico_interactivo(funcion='2x-1', metodo:str='biseccion', sol:float=None, a:float=None, b:float=None, vlines:list=[], hlines:list=[], deriv:int=0, funcion_g:str=None):
+def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float=None, b:float=None, vlines:list=[], hlines:list=[], deriv:int=0, funcion_g:str=None):
     '''Grafica la función y sus derivadas, con líneas punteadas en a y b, y una línea punteada en la solución si es que se especifica'''
 
     distancia = abs(b-a)
@@ -194,19 +194,22 @@ def grafico_interactivo(funcion='2x-1', metodo:str='biseccion', sol:float=None, 
 
 
     # para los métodos como Newton, Newton M1, Newton M2 y punto fijo (respectivamente), graficamos la función g(x)
-    if funcion_g is not None:
+    if metodo is not None:
         # graficamos su respectiva g(x). Para puntofijo es el usuario quien la ingresa. Para los Newton, la calculamos
-        if funcion_g == 'NEWTON':
+        if metodo == 'puntofijo': # o sea, punto fijo
+            if funcion_g is None:
+                metodo = 'newton' # si no se especifica la g(x), se hará el método de Newton
+            else:
+                eje_x = [a + (b-a)/200 * i for i in range(201)]
+                eje_y = [func(funcion_g, x) for x in eje_x]
+                funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
+                lista_leyenda.append(LegendItem(label='g(x) Manual', renderers=[funcion_linea])) 
+        if metodo == 'newton':
             eje_x = [a + (b-a)/200 * i for i in range(201)]
             funcion_g = f'x-(({funcion})/({str(func_deriv(funcion, eval=False))}))'
             eje_y = [func(funcion_g, x) for x in eje_x]
             funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
             lista_leyenda.append(LegendItem(label='g(x) Newton', renderers=[funcion_linea]))
-        else: # o sea, punto fijo
-            eje_x = [a + (b-a)/200 * i for i in range(201)]
-            eje_y = [func(funcion_g, x) for x in eje_x]
-            funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
-            lista_leyenda.append(LegendItem(label='g(x) Manual', renderers=[funcion_linea])) 
         
         # graficamos la derivada absoluta de g(x), para lo del tercer criterio
         eje_y_deriv = [abs(func_deriv(funcion_g, x)) for x in eje_x]
