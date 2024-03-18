@@ -86,7 +86,7 @@ def puntofijo(request):
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
 
-        response = puntofijo_func(funcion, a, b, tol, niter)
+        response = puntofijo_func(funcion, funcion_g, a, b, x0, tol, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
