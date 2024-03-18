@@ -34,3 +34,11 @@
 .container .container-all .form form .hide{
     display: none;
 }
+
+.container .resultsTable {
+    
+    display: none;
+}
+.container p{
+    display:none;
+}

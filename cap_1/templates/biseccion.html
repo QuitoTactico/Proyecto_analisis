@@ -1,43 +1,61 @@
 {% extends 'template.html' %}
 {% load static %}
 {% block content %}
+
 <div class="container-all">
 
     <div class="form">
-        <form action="{% url 'biseccion' %}" method="post" onsubmit="validar();">
+        <form action="{% url 'biseccion' %}" method="post"  id = "form-all">
             {% csrf_token %}
-            <label for="exampleFormControlInput1" class="font-weight-bold">Función</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escribe la función" name="funcion" required id="funcion">
-            <label for="exampleFormControlInput1" class="font-weight-bold">Inicio del rango</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escriba el inicio del rango" name="a" required id="a">
-            <label for="exampleFormControlInput1" class="font-weight-bold">Final del rango</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escriba el final del rango" name="b" required id="b">
-            <label for="exampleFormControlInput1" class="font-weight-bold">Tolerancia</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escriba la tolerancia (valor máximo del Error)" name="tol" required id="tol">
-            <label for="exampleFormControlInput1" class="font-weight-bold">Número de iteraciones</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Escriba el numero máximo de iteraciones" name="niter" required id="niter">
+            <label for="funcion" class="font-weight-bold">Función</label>
+            <input type="text" class="form-control" placeholder="Escribe la función"
+                name="funcion" required id="funcion">
+            <label for="a" class="font-weight-bold">Inicio del rango</label>
+            <input type="text" class="form-control"
+                placeholder="Escriba el inicio del rango" name="a" required id="a">
+            <label for="b" class="font-weight-bold">Final del rango</label>
+            <input type="text" class="form-control"
+                placeholder="Escriba el final del rango" name="b" required id="b">
+            <label for="tol" class="font-weight-bold">Tolerancia</label>
+            <input type="text" class="form-control"
+                placeholder="Escriba la tolerancia (valor máximo del Error)" name="tol" required id="tol">
+            <label for="niter" class="font-weight-bold">Número de iteraciones</label>
+            <input type="text" class="form-control"
+                placeholder="Escriba el numero máximo de iteraciones" name="niter" required id="niter">
             <br>
-            <input type="submit" value="submit" class="btn btn-danger" id="button">
-            <button id="hide" class="hide">si</button>
+            <input type="submit" value="Submit" class="btn btn-danger" id="submitBtn">
         </form>
-
     </div>
-    <div class="graph">
-        <img src="{% static 'img/cap_1.png' %}" alt="imagen">
 
-    </div>
+    {{ div|safe }}
+    {{ script|safe }}
+
 </div>
 
-<h3> Solución: {{sol}} </h3>
-<h3> Iteraciones: {{iter}} </h3>
-<h3> Mensaje: {{final}} </h3>
 
-{% for i in tabla %}
-<h3> {{i}} </h3>
-{% endfor %}
+<p class="solucion" id="solucion"> Solución: {{solucion}} </p>
+<p class="iter" id="iter"> Iteraciones: {{iteraciones}} </p>
+<p class="mensaje" id="mensaje"> Mensaje: {{mensaje}} </p>
+<table class="table table-striped resultsTable" id="resultsTable">
+    <thead class="thead-dark">
+        <tr>
+            <th>i</th>
+            <th>x</th>
+            <th>f(x)</th>
+            <th>error</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for iteracion in tabla %}
+        <tr>
+            <td scope="row">{{iteracion.i}}</td>
+            <td>{{iteracion.x}}</td>
+            <td>{{iteracion.fx}}</td>
+            <td>{{iteracion.err}}</td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
 
-<!--
-    <img src="{{img}}" alt="imagen">
-    <img src="data:image/png;base64,{{img.show}}" alt="imagen2">
-    -->
+
 {% endblock content %}

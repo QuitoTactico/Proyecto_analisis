@@ -1,5 +1,6 @@
 from math import *
 from .base import func as base_func, graficar_template, grafico_interactivo
+from bokeh.plotting import show
 #from base import func as base_func, graficar_template, grafico_interactivo
 
 # CUANDO VAYAN A TESTEAR, COMENTEN EL SEGUNDO IMPORT Y DESCOMENTEN EL TERCERO
@@ -10,7 +11,7 @@ class iteracion:
         self.x = x
         self.fx = fx
         self.err = err
-
+ 
     def __str__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
@@ -87,9 +88,9 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
             'mensaje'    : mensaje_final
             }
 
-
+"""
 def test_biseccion():
-    from bokeh.plotting import show
+
 
     # a = -2, b = 5, TOL = 1e-20, N0 = 100
     res = biseccion_func('(e^x)-2', -2, 5, 1e-20, 100)
@@ -106,3 +107,4 @@ def test_biseccion():
 
 
 #test_biseccion()
+"""

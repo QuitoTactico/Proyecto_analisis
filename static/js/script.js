@@ -1,21 +1,64 @@
+window.onload = function() {
+    let form = document.getElementById('form-all');
+    let resultsTable = document.getElementById('resultsTable');
+    let solucion = document.getElementById('solucion');
+    let iter = document.getElementById('iter');
+    let mensaje = document.getElementById('mensaje');
 
-
-const validar = (e) =>{
-    boton = document.getElementById('button');
-    hide = document.getElementById('hide');
-    e.preventDefault();
-    let funcion = document.getElementById('funcion').value;
-    let a = document.getElementById('a').value;
-    let b = document.getElementById('b').value;
-    let tol = document.getElementById('tol').value;
-    let iter = document.getElementById('iter').value;
-    
-    if(funcion == '' || a == '' || b == ''|| tol == '' || iter == ''){
-        alert('Todos los campos son obligatorios');
-        return false;
-    }else{
-        hide.style.display='block';
-        alert('Datos ingresados correctamente');
-        return true;
+    let formData = JSON.parse(sessionStorage.getItem('formData'));
+    if (formData) {
+        document.getElementById('funcion').value = formData.funcion;
+        document.getElementById('a').value = formData.a;
+        document.getElementById('b').value = formData.b;
+        document.getElementById('tol').value = formData.tol;
+        document.getElementById('niter').value = formData.iter;
+        resultsTable.style.display = 'table'; // show the table
+        solucion.style.display = 'block';
+        iter.style.display = 'block';
+        mensaje.style.display = 'block';
     }
+    else {
+        sessionStorage.clear(); 
+        resultsTable.style.display = 'none'; 
+        solucion.style.display = 'none';
+        iter.style.display = 'none';
+        mensaje.style.display = 'none';
+    }
+
+    form.addEventListener('submit', function(e) {
+        sessionStorage.clear();
+        let funcion = document.getElementById('funcion').value;
+        let a = document.getElementById('a').value;
+        let b = document.getElementById('b').value;
+        let tol = document.getElementById('tol').value;
+        let iter = document.getElementById('niter').value;
+
+
+        sessionStorage.setItem('formData', JSON.stringify({
+            funcion: funcion,
+            a: a,
+            b: b,
+            tol: tol,
+            iter: iter
+        }));
+
+        // If form fields are not empty, show the table
+        if(funcion !== '' && a !== '' && b !== '' && tol !== '' && iter !== ''){
+            resultsTable.style.display = 'table'; // show the table
+        }
+        
+    });
+
+    if(!formData){
+        document.getElementById('funcion').value = '';
+        document.getElementById('a').value = '';
+        document.getElementById('b').value = '';
+        document.getElementById('tol').value = '';
+        document.getElementById('niter').value = '';
+        resultsTable.style.display = 'none'; 
+        solucion.style.display = 'none';
+        iter.style.display = 'none';
+        mensaje.style.display = 'none';
+        sessionStorage.clear(); 
+    }
 }
