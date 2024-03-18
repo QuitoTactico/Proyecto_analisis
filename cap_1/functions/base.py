@@ -14,13 +14,20 @@ def estandarizar_expresion(expresion:str):
     i = 0
     while i < len(expresion):
         if i>0:
+            expresion = expresion.replace("exp","LALALA")
             if expresion[i] in ["x","e","pi"] and (expresion[i-1].isdigit() or expresion[i-1] in [")","x","e","pi"]):
                 expresion = expresion[:i] + "*" + expresion[i:]
             if expresion[i].isdigit() and expresion[i-1] in [")","x","e","pi"]:
                 expresion = expresion[:i] + "*" + expresion[i:]
+            expresion = expresion.replace("LALALA", "exp")
         i += 1
     return expresion
 
+def estandarizar_sympy(expresion:str):
+    expresion = expresion.replace("exp","LALALA")
+    expresion = expresion.replace("**", "^").replace('e', 'E')
+    expresion = expresion.replace("LALALA", "exp")
+    return expresion
 
 def graficar_template(expresion:str, sol:float=0, a:float=-10, b:float=10, deriv:int=0, display_inicio=None, display_final=None):
 
@@ -35,7 +42,7 @@ def graficar_template(expresion:str, sol:float=0, a:float=-10, b:float=10, deriv
         display_final = centro+b
 
     expresion = estandarizar_expresion(expresion)
-    expresion = expresion.replace("**", "^").replace('e', 'E') # para que sympy entienda la expresión
+    expresion = estandarizar_sympy(expresion) # para que sympy entienda la expresión
     x = sp.symbols('x')
 
     # intenté escalar los ejes en 1:1, pero es más importante poder ver el 0
@@ -127,7 +134,7 @@ def func(expresion:str, x:float=0):
 
 def func_deriv(expresion, x_input:float=0, n_deriv:int=1, eval:bool=True):
     expresion = estandarizar_expresion(expresion)
-    expresion = expresion.replace("**", "^").replace('e', 'E') # para que sympy entienda la expresión
+    expresion = estandarizar_sympy(expresion) # para que sympy entienda la expresión
 
     x = sp.symbols('x')
     #derivada = sp.diff(expresion, x, n_deriv).evalf(subs={x: x})

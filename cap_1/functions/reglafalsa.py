@@ -1,11 +1,8 @@
 from math import *
 from .base import func as base_func, graficar_template, grafico_interactivo
 #from base import func as base_func, graficar_template, grafico_interactivo
-from bokeh.plotting import show
 
-# CUANDO VAYAN A TESTEAR, COMENTEN EL SEGUNDO IMPORT Y DESCOMENTEN EL TERCERO
-
-class iteracion:
+class Iteracion:
     def __init__(self, i:int, x:float, fx:float, err:float):
         self.i = i
         self.x = x
@@ -18,21 +15,10 @@ class iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-
-def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
-    """
-    Implementación método de bisección
-    Entradas:
-    funcion -- función
-    a -- inicio intervalo
-    b -- fin intervalo
-    tol -- tolerancia
-    niter -- número máximo de iteraciones
-    """
-
+def reglafalsa_func(funcion:str, a:float, b:float, tol:float, niter:int):
     def func(x):
         return base_func(funcion, x)
-    
+
     i = 1
     x_anterior, err, mensaje = None, 1, None
     a_inicial, b_inicial = a, b
@@ -42,45 +28,33 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
         mensaje, i, x = 'ERR: NO HAY CAMBIO DE SIGNO EN EL INTERVALO', 0, None
     else:
         while True:
-
-            x = (b + a)/2
+            x = a-(func(a)*(b-a))/(func(b)-func(a))
             fx = func(x)
 
-            # En la primera iteración, estos valores no existen
             if i!=1:
                 x_anterior = float(tabla[-1].x)
                 err = abs(x - x_anterior)
 
-            tabla.append(iteracion(i, 
+            tabla.append(Iteracion(i, 
                                 f'{x:.30f}', 
                                 f'{fx:.30f}', 
-                                f'{err:.30f}'))
-        
-            # si f(x) = 0 o el error es menor que la tolerancia, terminamos
-            
-            # ya que el error no existe en la primera iteración, lo inicializamos para poder comparar
-            #if i == 1:  err = 1    # pusimos err = 1 antes del while
+                                f'{err:.30f}' if i!=1 else None))
 
-            # 1e-64 es casi 0. Realmente float solo guarda 16 digitos, pero lo dejamos así en caso de que usemos una alternativa, como decimal.Decimal 
             if abs(fx) <= 1e-64 or err <= tol:
                 mensaje = 'PUNTO ENCONTRADO'
                 break
 
-            # si se pasó de iteraciones, también, pero no se encontró el punto.
             elif i >= niter:
                 mensaje = 'ITERACIONES AGOTADAS'
                 break
-            # si no, seguimos
+
             else:
                 if func(a)*fx > 0:
                     a = x
-                elif func(b)*fx > 0:
+                else:
                     b = x
                 i += 1
 
-    
-    #img = graficar_template(funcion, sol=x, a=a, b=b, diplay_inicio=a-1, display_final=b+1)
-    #img = graficar_template(funcion, sol=x, a=a_inicial, b=b_inicial)
     img_interactiva = grafico_interactivo(funcion, sol=x, a=a_inicial, b=b_inicial)
 
     return {'solucion'   : x, 
@@ -90,20 +64,18 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
             'mensaje'    : mensaje
             }
 
+def test_regla_falsa():
+    from bokeh.plotting import show
 
-def test_biseccion():
-    # a = -2, b = 5, TOL = 1e-20, N0 = 100
-    res = biseccion_func('(e^x)-2', -2, 5, 1e-20, 100)
+    res = reglafalsa_func('exp(x) + 3*cos(x)', -4, 2, 1e-20, 100)
 
     for iteracion in res['tabla']:
-        print(iteracion.i, iteracion.x, iteracion.fx, iteracion.err)
+        print(iteracion)
 
     print(res['mensaje'])
     print(f'Solución: {res["solucion"]}')
     print(f'Iteraciones: {res["iteraciones"]}')
 
-    res['img'].show()
     show(res['img_interactiva'])
 
-
-#test_biseccion()
+#test_regla_falsa()
