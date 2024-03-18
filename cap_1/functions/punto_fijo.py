@@ -1,47 +1,89 @@
 from math import *
+#from .base import func as base_func, graficar_template, grafico_interactivo
+from base import func as base_func, graficar_template, grafico_interactivo
+from bokeh.plotting import show
 
-def funcion(x):
-    """Función de prueba"""
-    return exp(-x/4)
+class Iteracion:
+    def __init__(self, i:int, x:float, fx:float, err:float):
+        self.i = i
+        self.x = x
+        self.fx = fx
+        self.err = err
 
-def puntofijo(f, p0, tol, n):
+    def __str__(self):
+        return f'{self.i} | {self.x} | {self.fx} | {self.err}'
+
+    def __repr__(self):
+        return f'{self.i} | {self.x} | {self.fx} | {self.err}'
+
+def puntofijo_func(funcion:str, funcion_g:str, a:float, b:float, x0:float, tol:float, niter:int):
     """
     Implementación método de punto fijo
     Entradas:
-    f -- función
-    p0 -- aproximación inicial
+    funcion -- función
+    x0 -- aproximación inicial
     tol -- tolerancia
-    n -- número máximo de iteraciones
-
-    Salida:
-    p aproximación a punto fijo de f
-    None en caso de iteraciones agotadas
+    niter -- número máximo de iteraciones
     """
+
+    def func(x): 
+        return base_func(funcion_g, x)
+
     i = 1
+    x_anterior, err, mensaje = None, None, None
     tabla = []
+    x0_inicial = x0
 
-    while i <= n:
-        p = f(p0)
-        err = abs(p - p0)
-        tabla.append({'i' : i, 'p' : f'{p:.30f}', 'f(p)' : f'{f(p):.30f}', 'err' : f'{err:.30f}'})
-        
-        if abs(f(p)) <= 1e-30 or err <= tol:
-            return p, tabla, True
+    while True:
+        x = func(x0)
+        fx = func(x)
 
-        p0 = p
-        i += 1
+        if i != 1:
+            x_anterior = float(tabla[-1].x)
+            err = abs(x - x_anterior)
 
-    if i > n:
-        print("Iteraciones agotadas: Error!")
-        return p, tabla, False
+        tabla.append(Iteracion(i, 
+                            f'{x:.30f}', 
+                            f'{fx:.30f}', 
+                            f'{err:.30f}' if i != 1 else None))
 
-    return None
+        if i == 1:  err = 1
 
-# pol(x), p0 = 0.9, TOL = 10^-8, N0 = 100
-p, tabla, iter = puntofijo(funcion, 0.9, 1e-8, 100)
+        if abs(fx) <= 1e-64 or err <= tol:
+            mensaje = 'PUNTO ENCONTRADO'
+            break
 
-for iteracion in tabla:
-    print(iteracion)
+        elif i >= niter:
+            mensaje = 'ITERACIONES AGOTADAS'
+            break
 
-iter_str = 'No agotadas' if iter else 'Iteraciones agotadas'
-print(iter_str)
+        else:
+            x0 = x
+            i += 1
+
+    img_interactiva = grafico_interactivo(funcion, sol=x, a=a, b=b, vlines= [('x0', x0_inicial)], funcion_g=funcion_g)
+    #img_interactiva = grafico_interactivo(funcion, sol=x, a=a, b=b, vlines= [('x0', x0_inicial)], funcion_g='NEWTON')
+
+    return {'solucion'   : x, 
+            'iteraciones': i, 
+            'tabla'      : tabla,
+            'img_interactiva': img_interactiva,
+            'mensaje'    : mensaje
+            }
+
+
+def puntofijo_test():
+
+    #res = puntofijo_func('(e^x)-2', -2, 5, 3, 1e-20, 100)   # caso de fallo
+    res = puntofijo_func('(x^3)-10x-5', '(10x+5)^(1/3)', 0.5, 4, 1, 1e-20, 200)
+
+    for iteracion in res['tabla']:
+        print(iteracion.i, iteracion.x, iteracion.fx, iteracion.err)
+
+    print(res['mensaje'])
+    print(f'Solución: {res["solucion"]}')
+    print(f'Iteraciones: {res["iteraciones"]}')
+
+    show(res['img_interactiva'])
+
+#puntofijo_test()

@@ -90,10 +90,8 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
             'mensaje'    : mensaje
             }
 
-"""
+
 def test_biseccion():
-
-
     # a = -2, b = 5, TOL = 1e-20, N0 = 100
     res = biseccion_func('(e^x)-2', -2, 5, 1e-20, 100)
 
@@ -102,11 +100,10 @@ def test_biseccion():
 
     print(res['mensaje'])
     print(f'Solución: {res["solucion"]}')
-    print(f'Iteraciones: {res['iteraciones']}')
+    print(f'Iteraciones: {res["iteraciones"]}')
 
     res['img'].show()
     show(res['img_interactiva'])
 
 
 #test_biseccion()
-"""

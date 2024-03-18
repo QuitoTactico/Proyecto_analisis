@@ -125,17 +125,24 @@ def func(expresion:str, x:float=0):
     return resultado
 
 
-def func_deriv(expresion, x:float=0, n_deriv:int=1):
+def func_deriv(expresion, x_input:float=0, n_deriv:int=1, eval:bool=True):
     expresion = estandarizar_expresion(expresion)
     expresion = expresion.replace("**", "^").replace('e', 'E') # para que sympy entienda la expresión
 
     x = sp.symbols('x')
     #derivada = sp.diff(expresion, x, n_deriv).evalf(subs={x: x})
-    derivada = sp.diff(expresion, x, n_deriv)
-    return float(derivada)
+    derivada = sp.diff(expresion, x, n_deriv, evaluate=True)
+    #derivada.subs(x, x_input)
+    try:
+        if eval:
+            return float(derivada.evalf(subs={x: x_input}))
+        else:
+            return derivada
+    except:
+        return derivada
 
 
-def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=None, deriv:int=0):
+def grafico_interactivo(funcion='2x-1', metodo:str='biseccion', sol:float=None, a:float=None, b:float=None, vlines:list=[], hlines:list=[], deriv:int=0, funcion_g:str=None):
     '''Grafica la función y sus derivadas, con líneas punteadas en a y b, y una línea punteada en la solución si es que se especifica'''
 
     distancia = abs(b-a)
@@ -155,17 +162,15 @@ def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=No
         plot_interactivo.x_range = Range1d(a-(distancia*0.2), b+(distancia*0.2))
         plot_interactivo.y_range = Range1d(float(-distancia)/1.7, distancia/1.7)
 
-
+    # añado herramientas bacanas al gráfico
     width = Span(dimension="width", line_dash="dotted", line_alpha=0.4, line_width=1)
     height = Span(dimension="height", line_dash="dotted", line_alpha=0.4, line_width=1)
     plot_interactivo.add_tools(CrosshairTool(overlay=[width, height]))
-    plot_interactivo.add_tools(HoverTool(tooltips= [("name", "$name"),
-                                                    ("x",    "$x"),
-                                                    ("y", "@y")],
-                                         mode='vline'))
+    plot_interactivo.add_tools(HoverTool(tooltips= [("name", "$name"), ("x", "@x"), ("y", "@y")], mode='vline'))
     plot_interactivo.add_tools(ZoomInTool(factor=0.25))
     plot_interactivo.add_tools(ZoomOutTool(factor=0.25))
     plot_interactivo.add_tools(ExamineTool())  # to debug
+
 
     colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'black']
     lista_leyenda = []
@@ -176,11 +181,38 @@ def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=No
         eje_x = [a + (b-a)/200 * i for i in range(201)]
         # para cada punto: si es la primera iteración, les evaluamos la función normal, si no, la derivada i-ésima
         eje_y = [func(funcion, x) for x in eje_x] if i == 0 else [func_deriv(funcion, x, i) for x in eje_x]
-
+        # la añadimos al grafico y ponemos su leyenda
         funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color=colors[i], line_width=2, name='f'+"'"*i+'(x)')
-        lista_leyenda.append(LegendItem(label='f'+"'"*i+'(x)', renderers=[funcion_linea]))
-        
+        lista_leyenda.append(LegendItem(label='f'+"'"*i+'(x)', renderers=[funcion_linea]))        
 
+
+    # para los métodos como Newton, Newton M1, Newton M2 y punto fijo (respectivamente), graficamos la función g(x)
+    if funcion_g is not None:
+        # graficamos su respectiva g(x). Para puntofijo es el usuario quien la ingresa. Para los Newton, la calculamos
+        if funcion_g == 'NEWTON':
+            eje_x = [a + (b-a)/200 * i for i in range(201)]
+            funcion_g = f'x-(({funcion})/({str(func_deriv(funcion, eval=False))}))'
+            eje_y = [func(funcion_g, x) for x in eje_x]
+            funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
+            lista_leyenda.append(LegendItem(label='g(x) Newton', renderers=[funcion_linea]))
+        else: # o sea, punto fijo
+            eje_x = [a + (b-a)/200 * i for i in range(201)]
+            eje_y = [func(funcion_g, x) for x in eje_x]
+            funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
+            lista_leyenda.append(LegendItem(label='g(x) Manual', renderers=[funcion_linea])) 
+        
+        # graficamos la derivada absoluta de g(x), para lo del tercer criterio
+        eje_y_deriv = [abs(func_deriv(funcion_g, x)) for x in eje_x]
+        funcion_linea_deriv = plot_interactivo.line(eje_x, eje_y_deriv, line_color='purple', line_width=2, name="|g'(x)|", line_alpha=0.3)
+        lista_leyenda.append(LegendItem(label="|g'(x)|", renderers=[funcion_linea_deriv])) 
+
+        # finalmente agregamos líneas horizontales en y=1, y=a y y=b
+        for i in [(1,'red'), (a,'green'), (b,'green')]:
+            hline = Span(location=i[0], dimension='width', line_color=i[1], line_width=1, line_dash='dashed')
+            plot_interactivo.add_layout(hline)
+        invisible = plot_interactivo.line([0], [0], line_color="red", line_width=1, line_dash='dashed')   
+        lista_leyenda.append(LegendItem(label='y=1', renderers=[invisible]))
+    
     # agregar líneas en a y b
     if a is not None and b is not None:
         vline = Span(location=a, dimension='height', line_color='green', line_width=1, line_dash='dashed')
@@ -188,9 +220,26 @@ def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=No
         vline = Span(location=b, dimension='height', line_color='green', line_width=1, line_dash='dashed')
         plot_interactivo.add_layout(vline)
 
-        # otra línea invisible línea invisible
+        # otra línea invisible 
         invisible = plot_interactivo.line([0], [0], line_color="green", line_width=1, line_dash='dashed')   
-        lista_leyenda.append(LegendItem(label='Bordes', renderers=[invisible]))
+        lista_leyenda.append(LegendItem(label='bordes', renderers=[invisible]))
+
+    # agregar líneas en los puntos de interés
+    for linea in vlines:
+        vline = Span(location=linea[1], dimension='height', line_color='orange', line_width=1, line_dash='dashed')
+        plot_interactivo.add_layout(vline)
+
+        # otra línea invisible 
+        invisible = plot_interactivo.line([0], [0], line_color="orange", line_width=1, line_dash='dashed')   
+        lista_leyenda.append(LegendItem(label=linea[0], renderers=[invisible]))
+
+    for linea in hlines:
+        vline = Span(location=linea[1], dimension='width', line_color='orange', line_width=1, line_dash='dashed')
+        plot_interactivo.add_layout(vline)
+
+        # otra línea invisible 
+        invisible = plot_interactivo.line([0], [0], line_color="orange", line_width=1, line_dash='dashed')   
+        lista_leyenda.append(LegendItem(label=linea[0], renderers=[invisible]))
 
     if sol is not None:
         # agregar línea en la solución
@@ -249,7 +298,7 @@ def test_interactivo():
     print(sol)
 
     plot = graficar_template(expresion, sol=sol, deriv=deriv)
-    plot_interactivo = grafico_interactivo(expresion, sol=sol, a=a, b=b, deriv=deriv)
+    plot_interactivo = grafico_interactivo(expresion, sol=sol, vlines=[('a', a), ('b', b)], deriv=deriv)
     show(plot_interactivo)
 
 

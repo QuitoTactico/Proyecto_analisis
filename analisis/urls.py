@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', cap_1_views.home, name='index'),
     path('biseccion', cap_1_views.biseccion, name='biseccion'),
-
+    path('puntofijo', cap_1_views.puntofijo, name='puntofijo'),
 ]
