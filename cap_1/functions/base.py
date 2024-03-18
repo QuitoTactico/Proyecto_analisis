@@ -1,7 +1,7 @@
 from math import *
 import sympy as sp                                  # para las derivadas y graficación PNG
 from bokeh.plotting import figure, show             # para la graficación interactiva
-from bokeh.models import Span, Legend, LegendItem, CrosshairTool, HoverTool, ZoomInTool, ZoomOutTool, ExamineTool
+from bokeh.models import Span, Legend, LegendItem, CrosshairTool, HoverTool, ZoomInTool, ZoomOutTool, ExamineTool, Range1d
 
 def estandarizar_expresion(expresion:str):
     '''Modificamos la expresión y la llevamos a una forma entendible por la función eval o la librería sympy, así se puede evaluar correctamente'''
@@ -136,17 +136,24 @@ def func_deriv(expresion, x:float=0, n_deriv:int=1):
 
 
 def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=None, deriv:int=0):
+    '''Grafica la función y sus derivadas, con líneas punteadas en a y b, y una línea punteada en la solución si es que se especifica'''
+
     distancia = abs(b-a)
+
     plot_interactivo = figure(active_scroll='wheel_zoom', 
                               aspect_scale = 1, 
                               #x_range=(a-distancia_media/2, b+distancia_media/2), 
-                              x_range=(a-(distancia*0.2), b+(distancia*0.2)),
                               #y_range=(distancia_media*(-1.5), distancia_media*1.5), 
-                              y_range=(-distancia/1.7, distancia/1.7),
                               match_aspect=True, 
                               sizing_mode='stretch_both', 
                               x_axis_label='x', 
                               y_axis_label='f(x)')
+    
+    # identificamos con esta función charra que hice el rango de la gráfica. Pero si no se encontró solución, es
+    # mejor dejarlo con el autoático de la gráfica, porque de seguro algo raro pasó con esa función, y así podremos verlo
+    if sol is not None:
+        plot_interactivo.x_range = Range1d(a-(distancia*0.2), b+(distancia*0.2))
+        plot_interactivo.y_range = Range1d(float(-distancia)/1.7, distancia/1.7)
 
 
     width = Span(dimension="width", line_dash="dotted", line_alpha=0.4, line_width=1)
@@ -175,7 +182,7 @@ def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=No
         
 
     # agregar líneas en a y b
-    if a != None and b != None:
+    if a is not None and b is not None:
         vline = Span(location=a, dimension='height', line_color='green', line_width=1, line_dash='dashed')
         plot_interactivo.add_layout(vline)
         vline = Span(location=b, dimension='height', line_color='green', line_width=1, line_dash='dashed')
@@ -185,14 +192,15 @@ def grafico_interactivo(funcion='2x-1', sol:float=None, a:float=None, b:float=No
         invisible = plot_interactivo.line([0], [0], line_color="green", line_width=1, line_dash='dashed')   
         lista_leyenda.append(LegendItem(label='Bordes', renderers=[invisible]))
 
-    # agregar línea en la solución
-    vline = Span(location=sol, dimension='height', line_color='black', line_width=1, line_dash='dashed')
-    plot_interactivo.add_layout(vline)
-    # para ponerla en la leyenda, tocó poner una línea invisible
-    invisible = plot_interactivo.line([0], [0], line_color="black", line_dash='dashed')   
-    lista_leyenda.append(LegendItem(label='Solución', renderers=[invisible]))
-    # también un punto
-    plot_interactivo.scatter([sol], [0], fill_color='red', line_color="black", size=8, name="Solución")
+    if sol is not None:
+        # agregar línea en la solución
+        vline = Span(location=sol, dimension='height', line_color='black', line_width=1, line_dash='dashed')
+        plot_interactivo.add_layout(vline)
+        # para ponerla en la leyenda, tocó poner una línea invisible
+        invisible = plot_interactivo.line([0], [0], line_color="black", line_dash='dashed')   
+        lista_leyenda.append(LegendItem(label='Solución', renderers=[invisible]))
+        # también un punto
+        plot_interactivo.scatter([sol], [0], fill_color='red', line_color="black", size=8, name="Solución")
 
     plot_interactivo.add_layout(Legend(items=lista_leyenda))
 

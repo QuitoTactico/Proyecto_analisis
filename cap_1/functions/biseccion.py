@@ -1,7 +1,7 @@
 from math import *
 from .base import func as base_func, graficar_template, grafico_interactivo
-from bokeh.plotting import show
 #from base import func as base_func, graficar_template, grafico_interactivo
+from bokeh.plotting import show
 
 # CUANDO VAYAN A TESTEAR, COMENTEN EL SEGUNDO IMPORT Y DESCOMENTEN EL TERCERO
 
@@ -34,58 +34,60 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
         return base_func(funcion, x)
     
     i = 1
-    x_anterior, err, mensaje_final = None, None, None
+    x_anterior, err, mensaje = None, None, None
     a_inicial, b_inicial = a, b
     tabla = []
 
-    while True:
+    if func(a)*func(b) > 0:
+        mensaje, i, x = 'ERR: NO HAY CAMBIO DE SIGNO EN EL INTERVALO', 0, None
+    else:
+        while True:
 
-        x = (b + a)/2
-        fx = func(x)
+            x = (b + a)/2
+            fx = func(x)
 
-        # En la primera iteración, estos valores no existen
-        if i!=1:
-            x_anterior = float(tabla[-1].x)
-            err = abs(x - x_anterior)
+            # En la primera iteración, estos valores no existen
+            if i!=1:
+                x_anterior = float(tabla[-1].x)
+                err = abs(x - x_anterior)
 
-        tabla.append(iteracion(i, 
-                               f'{x:.30f}', 
-                               f'{fx:.30f}', 
-                               f'{err:.30f}' if i!=1 else None))
-      
-        # si f(x) = 0 o el error es menor que la tolerancia, terminamos
+            tabla.append(iteracion(i, 
+                                f'{x:.30f}', 
+                                f'{fx:.30f}', 
+                                f'{err:.30f}' if i!=1 else None))
         
-        # ya que el error no existe en la primera iteración, lo inicializamos para poder comparar
-        if i == 1:  err = 1
+            # si f(x) = 0 o el error es menor que la tolerancia, terminamos
+            
+            # ya que el error no existe en la primera iteración, lo inicializamos para poder comparar
+            if i == 1:  err = 1
 
-        # 1e-64 es casi 0
-        if abs(fx) <= 1e-64 or err <= tol:
-            mensaje_final = 'PUNTO ENCONTRADO'
-            break
+            # 1e-64 es casi 0. Realmente float solo guarda 16 digitos, pero lo dejamos así en caso de que usemos una alternativa, como decimal.Decimal 
+            if abs(fx) <= 1e-64 or err <= tol:
+                mensaje = 'PUNTO ENCONTRADO'
+                break
 
-        # si se pasó de iteraciones, también, pero no se encontró el punto.
-        elif i >= niter:
-            mensaje_final = 'ITERACIONES AGOTADAS'
-            break
-        # si no, seguimos
-        else:
-            if func(a)*fx > 0:
-                a = x
-            elif func(b)*fx > 0:
-                b = x
-            i += 1
+            # si se pasó de iteraciones, también, pero no se encontró el punto.
+            elif i >= niter:
+                mensaje = 'ITERACIONES AGOTADAS'
+                break
+            # si no, seguimos
+            else:
+                if func(a)*fx > 0:
+                    a = x
+                elif func(b)*fx > 0:
+                    b = x
+                i += 1
 
     
     #img = graficar_template(funcion, sol=x, a=a, b=b, diplay_inicio=a-1, display_final=b+1)
-    img = graficar_template(funcion, sol=x, a=a_inicial, b=b_inicial)
+    #img = graficar_template(funcion, sol=x, a=a_inicial, b=b_inicial)
     img_interactiva = grafico_interactivo(funcion, sol=x, a=a_inicial, b=b_inicial)
 
     return {'solucion'   : x, 
             'iteraciones': i, 
-            'tabla'      : tabla, 
-            'img'        : img,
+            'tabla'      : tabla,
             'img_interactiva': img_interactiva,
-            'mensaje'    : mensaje_final
+            'mensaje'    : mensaje
             }
 
 """
