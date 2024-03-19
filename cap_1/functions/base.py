@@ -212,17 +212,18 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
             lista_leyenda.append(LegendItem(label='g(x) '+metodo.capitalize(), renderers=[funcion_linea]))
             
         
-        # graficamos la derivada absoluta de g(x), para lo del tercer criterio
-        eje_y_deriv = [abs(func_deriv(funcion_g, x)) for x in eje_x]
-        funcion_linea_deriv = plot_interactivo.line(eje_x, eje_y_deriv, line_color='purple', line_width=2, name="|g'(x)|", line_alpha=0.3)
-        lista_leyenda.append(LegendItem(label="|g'(x)|", renderers=[funcion_linea_deriv])) 
+        if metodo != 'busquedas':
+            # graficamos la derivada absoluta de g(x), para lo del tercer criterio
+            eje_y_deriv = [abs(func_deriv(funcion_g, x)) for x in eje_x]
+            funcion_linea_deriv = plot_interactivo.line(eje_x, eje_y_deriv, line_color='purple', line_width=2, name="|g'(x)|", line_alpha=0.3)
+            lista_leyenda.append(LegendItem(label="|g'(x)|", renderers=[funcion_linea_deriv])) 
 
-        # finalmente agregamos líneas horizontales en y=1, y=a y y=b
-        for i in [(1,'red'), (a,'green'), (b,'green')]:
-            hline = Span(location=i[0], dimension='width', line_color=i[1], line_width=1, line_dash='dashed')
-            plot_interactivo.add_layout(hline)
-        invisible = plot_interactivo.line([0], [0], line_color="red", line_width=1, line_dash='dashed')   
-        lista_leyenda.append(LegendItem(label='y=1', renderers=[invisible]))
+            # finalmente agregamos líneas horizontales en y=1, y=a y y=b
+            for i in [(1,'red'), (a,'green'), (b,'green')]:
+                hline = Span(location=i[0], dimension='width', line_color=i[1], line_width=1, line_dash='dashed')
+                plot_interactivo.add_layout(hline)
+            invisible = plot_interactivo.line([0], [0], line_color="red", line_width=1, line_dash='dashed')   
+            lista_leyenda.append(LegendItem(label='y=1', renderers=[invisible]))
     
     # agregar líneas en a y b
     if a is not None and b is not None:
@@ -237,19 +238,29 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
 
     # agregar líneas en los puntos de interés
     for linea in vlines:
-        vline = Span(location=linea[1], dimension='height', line_color='orange', line_width=1, line_dash='dashed')
+        if len(linea) < 3:
+            linea_color = 'orange'
+        else:
+            linea_color = linea[2]
+
+        vline = Span(location=linea[1], dimension='height', line_color=linea_color, line_width=1, line_dash='dashed')
         plot_interactivo.add_layout(vline)
 
         # otra línea invisible 
-        invisible = plot_interactivo.line([0], [0], line_color="orange", line_width=1, line_dash='dashed')   
-        lista_leyenda.append(LegendItem(label=linea[0], renderers=[invisible]))
+        if linea[0] != '':
+            invisible = plot_interactivo.line([0], [0], line_color=linea_color, line_width=1, line_dash='dashed')   
+            lista_leyenda.append(LegendItem(label=linea[0], renderers=[invisible]))
 
     for linea in hlines:
-        vline = Span(location=linea[1], dimension='width', line_color='orange', line_width=1, line_dash='dashed')
+        if len(linea) < 3:
+            linea_color = 'orange'
+        else:
+            linea_color = linea[2]
+        vline = Span(location=linea[1], dimension='width', line_color=linea_color, line_width=1, line_dash='dashed')
         plot_interactivo.add_layout(vline)
 
         # otra línea invisible 
-        invisible = plot_interactivo.line([0], [0], line_color="orange", line_width=1, line_dash='dashed')   
+        invisible = plot_interactivo.line([0], [0], line_color=linea_color, line_width=1, line_dash='dashed')   
         lista_leyenda.append(LegendItem(label=linea[0], renderers=[invisible]))
 
     if sol is not None:

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .functions.busquedas import busquedas_func
 from .functions.biseccion import biseccion_func
 from .functions.reglafalsa import reglafalsa_func
 from .functions.puntofijo import puntofijo_func
@@ -15,6 +16,29 @@ from bokeh.embed import components
 
 def home(request):
     return render(request, 'index.html')
+
+
+def busquedas(request):
+    if request.method == 'POST':
+        funcion = request.POST['funcion']
+        x0 = float(request.POST['x0'])
+        dx = float(request.POST['dx'])
+        niter = int(request.POST['niter'])
+
+        response = busquedas_func(funcion, x0, dx, niter)
+
+        img_interactiva = response['img_interactiva']
+        script, div = components(img_interactiva)
+
+        return render(request, 'busquedas.html', {'solucion'  : response['solucion'], 
+                                            'iteraciones' : response['iteraciones'],
+                                            'tabla': response['tabla'],
+                                            'img_interactiva': img_interactiva,
+                                            'script': script, 'div': div,
+                                            'mensaje': response['mensaje']})
+    else:
+        return render(request, 'busquedas.html')
+
 
 def biseccion(request):
 
