@@ -1,6 +1,6 @@
 from math import *
-#from .base import func as base_func, graficar_template, grafico_interactivo
-from base import func as base_func, graficar_template, grafico_interactivo
+from .base import func as base_func, graficar_template, grafico_interactivo
+#from base import func as base_func, graficar_template, grafico_interactivo
 from bokeh.plotting import show
 
 class Iteracion:

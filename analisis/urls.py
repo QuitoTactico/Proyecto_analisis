@@ -21,7 +21,7 @@ from cap_1 import views as cap_1_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', cap_1_views.home, name='index'),
-    path('maquina', cap_1_views.maquina, name='maquina')
+    path('maquina', cap_1_views.maquina, name='maquina'),
     path('busquedas', cap_1_views.busquedas, name='busquedas'),
     path('biseccion', cap_1_views.biseccion, name='biseccion'),
     path('reglafalsa', cap_1_views.reglafalsa, name='reglafalsa'),
@@ -29,5 +29,5 @@ urlpatterns = [
     path('newton', cap_1_views.newton, name='newton'),
     path('secante', cap_1_views.secante, name='secante'),
     path('m1', cap_1_views.m1, name='m1'),
-    path('m2', cap_1_views.m1, name='m2'),
+    path('m2', cap_1_views.m2, name='m2'),
 ]

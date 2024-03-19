@@ -17,6 +17,8 @@ from bokeh.embed import components
 def home(request):
     return render(request, 'index.html')
 
+def maquina(request):
+    return render(request, 'maquina.html')
 
 def busquedas(request):
     if request.method == 'POST':
@@ -172,3 +174,9 @@ def secante(request):
                                             'mensaje': response['mensaje']})
     else:
         return render(request, 'secante.html')
+    
+def m1(request):
+    return render(request, 'm1.html')
+
+def m2(request):
+    return render(request, 'm2.html')
