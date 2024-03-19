@@ -1,6 +1,6 @@
 from math import *
-from .base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
-#from base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
+#from .base import func as base_func, grafico_interactivo
+from base import func as base_func, grafico_interactivo
 from bokeh.plotting import show
 
 class Iteracion:
@@ -16,13 +16,13 @@ class Iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def newton_func(funcion:str, a:float, b:float, x0:float, tol:float, niter:int):
+def secante_func(funcion:str, a:float, b:float, x0:float, x1:float, tol:float, niter:int):
     """
-    Implementación método de Newton
+    Implementación método de la secante
     Entradas:
     funcion -- función
-    funcionprima -- derivada función f
     x0 -- aproximación inicial
+    x1 -- segunda aproximación inicial
     tol -- tolerancia
     niter -- número máximo de iteraciones
     """
@@ -30,21 +30,19 @@ def newton_func(funcion:str, a:float, b:float, x0:float, tol:float, niter:int):
     def func(x): 
         return base_func(funcion, x)
 
-    def funcprima(x): 
-        return base_func_deriv(funcion, x)
-
     i = 1
-    x_anterior, err, mensaje = None, 1, None
+    err, mensaje = 1, None
     tabla = []
-    x0_inicial = x0
 
     while True:
-        x = x0 - func(x0)/funcprima(x0)
-        fx = func(x)
+        # x = x actual = Xn+1
+        # x1 = x anterior = Xn
+        # x0 = x penúltimo = Xn-1
+        x = x1 - (func(x1) * (x1 - x0)) / (func(x1) - func(x0))
 
-        if i != 1:
-            x_anterior = float(tabla[-1].x)
-            err = abs(x - x_anterior)
+        fx = func(x)
+        
+        err = abs(x - x1)
 
         tabla.append(Iteracion(i, 
                             f'{x:.30f}', 
@@ -60,10 +58,11 @@ def newton_func(funcion:str, a:float, b:float, x0:float, tol:float, niter:int):
             break
 
         else:
-            x0 = x
+            x0 = x1
+            x1 = x
             i += 1
 
-    img_interactiva = grafico_interactivo(funcion, metodo='newton', sol=x, a=a, b=b, vlines= [('x0', x0_inicial)])
+    img_interactiva = grafico_interactivo(funcion, metodo='secante', sol=x, a=a, b=b, vlines= [('x0', x0), ('x1', x1)])
 
     return {'solucion'   : x, 
             'iteraciones': i, 
@@ -72,8 +71,8 @@ def newton_func(funcion:str, a:float, b:float, x0:float, tol:float, niter:int):
             'mensaje'    : mensaje
             }
 
-def newton_test():
-    res = newton_func('(x^3)-10x-5', -0.5, 4, 3, 1e-10, 100)
+def secante_test():
+    res = secante_func(funcion='(x^3)-10x-5', a=-0.5, b=4, x0=3, x1=2, tol=1e-10, niter=100)
 
     for iteracion in res['tabla']:
         print(iteracion)
@@ -84,4 +83,4 @@ def newton_test():
 
     show(res['img_interactiva'])
 
-#newton_test()
+#secante_test()

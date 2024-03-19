@@ -204,12 +204,13 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
                 eje_y = [func(funcion_g, x) for x in eje_x]
                 funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
                 lista_leyenda.append(LegendItem(label='g(x) Manual', renderers=[funcion_linea])) 
-        if metodo == 'newton':
+        if metodo in ['newton', 'secante']:
             eje_x = [a + (b-a)/200 * i for i in range(201)]
             funcion_g = f'x-(({funcion})/({str(func_deriv(funcion, eval=False))}))'
             eje_y = [func(funcion_g, x) for x in eje_x]
             funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
-            lista_leyenda.append(LegendItem(label='g(x) Newton', renderers=[funcion_linea]))
+            lista_leyenda.append(LegendItem(label='g(x) '+metodo.capitalize(), renderers=[funcion_linea]))
+            
         
         # graficamos la derivada absoluta de g(x), para lo del tercer criterio
         eje_y_deriv = [abs(func_deriv(funcion_g, x)) for x in eje_x]
