@@ -20,9 +20,9 @@
             <input type="text" class="form-control"
                 placeholder="Escriba el final del rango" name="b" required id="b">
             -->
-            <label for="tol" class="font-weight-bold">Tolerancia</label>
+            <label for="dx" class="font-weight-bold">dx</label>
             <input type="text" class="form-control"
-                placeholder="Escriba la tolerancia (valor máximo del Error)" name="tol" required id="tol">
+                placeholder="Escriba la derivada de la funcion" name="dx" required id="dx">
             <label for="niter" class="font-weight-bold">Número de iteraciones</label>
             <input type="text" class="form-control"
                 placeholder="Escriba el numero máximo de iteraciones" name="niter" required id="niter">
@@ -81,6 +81,6 @@
     </tbody>
     {% endfor %}
 </table>
-
+<script src="../../static/js/busquedas.js"></script>
 
 {% endblock content %}
