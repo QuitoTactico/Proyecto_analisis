@@ -27,15 +27,16 @@
                           Capítulo 1
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Conversor Número Máquina</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Búsquedas incrementales</a>
+                            <a class="dropdown-item" href="#" onclick="sessionStorage.clear();">Número a Máquina</a>
+                            <a class="dropdown-item" href="#">Máquina a Número</a>
+                            <a class="dropdown-item" href="{% url 'busquedas' %}" onclick="sessionStorage.clear();">Búsquedas incrementales</a>
                             <a class="dropdown-item" href="{% url 'biseccion' %}" onclick="sessionStorage.clear();">Método de Bisección</a>
-                            <a class="dropdown-item" href="#">Método de Regla Falsa</a>
-                            <a class="dropdown-item" href="#">Método de Punto Fijo</a>
-                          <a class="dropdown-item" href="#">Método de Newton</a>
-                          <a class="dropdown-item" href="#">Método de Newton M1</a>
-                          <a class="dropdown-item" href="#">Método de Newton M2</a>
+                            <a class="dropdown-item" href="{% url 'reglafalsa' %}" onclick="sessionStorage.clear();">Método de Regla Falsa</a>
+                            <a class="dropdown-item" href="{% url 'puntofijo' %}" onclick="sessionStorage.clear();">Método de Punto Fijo</a>
+                          <a class="dropdown-item" href="{% url 'newton' %}" onclick="sessionStorage.clear();">Método de Newton</a>
+                          <a class="dropdown-item" href="{% url 'secante' %}" onclick="sessionStorage.clear();">Método Secante</a>
+                          <a class="dropdown-item" href="{% url 'm1' %}" onclick="sessionStorage.clear();">Método de Newton M1</a>
+                          <a class="dropdown-item" href="{% url 'm2'}" onclick="sessionStorage.clear();">Método de Newton M2</a>
                         </div>
                       </li>
                       <li class="nav-item dropdown">
@@ -69,17 +70,14 @@
         {% block content %}
         {% endblock %}
     </div>
-    
-    
-
-    <footer class="bg-light text-center py-3">
-        <p>&copy; 2022 My Website. All rights reserved.</p>
-    </footer>
+    <footer class="bg-light text-center py-3 text-muted">
+      <p>Esteban Vergara Giraldo &nbsp; ― &nbsp; Jonathan Betancur Espinosa &nbsp; ― &nbsp; Miguel Angel Cock Cano</p>
+  </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="../../static/js/script.js"></script>
+    
     <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.4.0.min.js" crossorigin="anonymous"></script>
 </body>
 

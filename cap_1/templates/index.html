@@ -7,13 +7,16 @@
       <div class="card-body">
         <h5 class="card-title">Capitulo 1</h5>
         <p class="card-text">Esta sección trabaja con el conversor de numeros a numeros máquina, a su vez de que contiene los métodos más conocidos de búsqueda de raíces</p>
-        <a href="#"><button type="button" class="btn btn-success w-100 my-1" ">Búsquedas Incrementales</button></a>
+        <a href="#" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Numero a Máquina</button></a>
+        <a href="#" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Máquina a Número</button></a>
+        <a href="{% url 'busquedas' %}"><button type="button" class="btn btn-success w-100 my-1" ">Búsquedas Incrementales</button></a>
         <a href="{% url 'biseccion' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Bisección</button></a>
-        <a href=""><button type="button" class="btn btn-success w-100 my-1">Método de Regla Falsa</button></a>
-        <a href=""><button type="button" class="btn btn-success w-100 my-1">Método de Punto Fijo</button></a>
-        <a href=""><button type="button" class="btn btn-success w-100 my-1">Método de Newton</button></a>
-        <a href=""><button type="button" class="btn btn-success w-100 my-1">Método de Newton M1</button></a>
-        <a href=""><button type="button" class="btn btn-success w-100 my-1">Método de Newton M2</button></a>
+        <a href="{% url 'reglafalsa' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Regla Falsa</button></a>
+        <a href="{% url 'puntofijo' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Punto Fijo</button></a>
+        <a href="{% url 'newton' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Newton</button></a>
+        <a href="{% url 'secante' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Secante</button></a>
+        <a href="{% url 'm1' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Newton M1</button></a>
+        <a href="{% url 'm2' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Newton M2</button></a>
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
       </div>
   </div>

@@ -1,0 +1,89 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block content %}
+<div class="container-all">
+
+    <div class="form">
+        <form action="{% url 'puntofijo' %}" method="post"  id = "form-all">
+            {% csrf_token %}
+            <label for="funcion" class="font-weight-bold">Función</label>
+            <input type="text" class="form-control" placeholder="Escribe la función"
+                name="funcion" required id="funcion">
+            <label for="funcion_g" class="font-weight-bold">Función g(x)</label>
+            <input type="text" class="form-control" placeholder="Escribe la funcion g(x) "
+                    name="funcion_g" required id="funcion_g">
+            <label for="x0" class="font-weight-bold">x0</label>
+            <input type="text" class="form-control" placeholder="Escribe x0"
+                        name="x0" required id="x0">
+            <label for="a" class="font-weight-bold">Rango</label>
+            <div class="section d-flex">
+                <input type="text" class="form-control mr-1"
+                    placeholder="Escriba el inicio del rango" name="a" required id="a">
+                <input type="text" class="form-control ml-1"
+                placeholder="Escriba el final del rango" name="b" required id="b">
+            </div>
+            <!--
+            <input type="text" class="form-control"
+                placeholder="Escriba el inicio del rango" name="a" required id="a">
+            <label for="b" class="font-weight-bold">Final del rango</label>
+            <input type="text" class="form-control"
+                placeholder="Escriba el final del rango" name="b" required id="b">
+            -->
+            <label for="tol" class="font-weight-bold">Tolerancia</label>
+            <input type="text" class="form-control"
+                placeholder="Escriba la tolerancia (valor máximo del Error)" name="tol" required id="tol">
+            <label for="niter" class="font-weight-bold">Número de iteraciones</label>
+            <input type="text" class="form-control"
+                placeholder="Escriba el numero máximo de iteraciones" name="niter" required id="niter">
+            <br>
+            <input type="submit" value="Submit" class="btn btn-danger" id="submitBtn">
+        </form>
+    </div>
+
+    {{ div|safe }}
+    {{ script|safe }}
+
+</div>
+
+<table class="table table-striped w-100 mt-3 soluciones" id= "soluciones">
+    <thead class="thead-dark">
+        <tr>
+            <th>Solución</th>
+            <th>Iteraciones</th>
+            <th>Mensaje</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>
+            <p class="solucion" id="solucion"> {{solucion}} </p>
+        </td>
+        <td>
+            <p class="iter" id="iter"> {{iteraciones}} </p>
+        </td>
+        <td>
+            <p class="mensaje" id="mensaje">{{mensaje}} </p>
+        </td>
+    </tr>
+</table>
+<table class="table table-striped resultsTable">
+    <thead class="thead-dark">
+        <tr>
+            <th>i</th>
+            <th>x</th>
+            <th>f(x)</th>
+            <th>error</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for iteracion in tabla %}
+        <tr>
+            <td scope="row">{{iteracion.i}}</td>
+            <td>{{iteracion.x}}</td>
+            <td>{{iteracion.fx}}</td>
+            <td>{{iteracion.err}}</td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+<script src="../../static/js/puntofijo.js"></script>
+{% endblock content %}

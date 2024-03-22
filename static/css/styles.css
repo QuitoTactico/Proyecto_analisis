@@ -1,6 +1,6 @@
 .container .container-all {
   display: flex;
-  height: 70vh;
+  height: 90vh;
   width: 100%;
   align-items: space-between;
   justify-content: center;
@@ -35,10 +35,28 @@
     display: none;
 }
 
+
+.container p{
+    display:none;
+}
+#submitBtn{
+    background-color: #d82525;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+#submitBtn:hover{
+    background-color: #ff4d4d;
+}
+.container input{
+    width: 100%;
+}
+/*Tablas*/
 .container .resultsTable {
     
     display: none;
 }
-.container p{
-    display:none;
+.container .soluciones{
+    display: none;
 }

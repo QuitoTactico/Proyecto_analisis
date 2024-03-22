@@ -10,12 +10,22 @@
             <label for="funcion" class="font-weight-bold">Función</label>
             <input type="text" class="form-control" placeholder="Escribe la función"
                 name="funcion" required id="funcion">
-            <label for="a" class="font-weight-bold">Inicio del rango</label>
+            <label for="a" class="font-weight-bold">Rango</label>
+            <div class="section d-flex">
+                <input type="text" class="form-control mr-1"
+                    placeholder="Escriba el inicio del rango" name="a" required id="a">
+                <input type="text" class="form-control ml-1"
+                placeholder="Escriba el final del rango" name="b" required id="b">
+                
+
+            </div>
+            <!--
             <input type="text" class="form-control"
                 placeholder="Escriba el inicio del rango" name="a" required id="a">
             <label for="b" class="font-weight-bold">Final del rango</label>
             <input type="text" class="form-control"
                 placeholder="Escriba el final del rango" name="b" required id="b">
+            -->
             <label for="tol" class="font-weight-bold">Tolerancia</label>
             <input type="text" class="form-control"
                 placeholder="Escriba la tolerancia (valor máximo del Error)" name="tol" required id="tol">
@@ -32,10 +42,31 @@
 
 </div>
 
-
+<table class="table table-striped w-100 mt-3 soluciones" id= "soluciones">
+    <thead class="thead-dark">
+        <tr>
+            <th>Solución</th>
+            <th>Iteraciones</th>
+            <th>Mensaje</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>
+            <p class="solucion" id="solucion"> {{solucion}} </p>
+        </td>
+        <td>
+            <p class="iter" id="iter"> {{iteraciones}} </p>
+        </td>
+        <td>
+            <p class="mensaje" id="mensaje">{{mensaje}} </p>
+        </td>
+    </tr>
+</table>
+<!--
 <p class="solucion" id="solucion"> Solución: {{solucion}} </p>
 <p class="iter" id="iter"> Iteraciones: {{iteraciones}} </p>
 <p class="mensaje" id="mensaje"> Mensaje: {{mensaje}} </p>
+-->
 <table class="table table-striped resultsTable" id="resultsTable">
     <thead class="thead-dark">
         <tr>
@@ -56,6 +87,6 @@
     </tbody>
     {% endfor %}
 </table>
-
+<script src="../../static/js/biseccion.js"></script>
 
 {% endblock content %}
