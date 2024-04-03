@@ -52,9 +52,9 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
                 err = abs(x - x_anterior)
 
             tabla.append(iteracion(i, 
-                                f'{x:.30f}', 
-                                f'{fx:.30f}', 
-                                f'{err:.30f}'))
+                                f'{x}', 
+                                f'{fx}', 
+                                f'{err}'))
         
             # si f(x) = 0 o el error es menor que la tolerancia, terminamos
             

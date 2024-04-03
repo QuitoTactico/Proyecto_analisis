@@ -35,13 +35,13 @@ def secante_func(funcion:str, a:float, b:float, x0:float, x1:float, tol:float, n
     tabla = []
 
     tabla.append(Iteracion(0, 
-                            f'{x0:.30f}', 
-                            f'{func(x0):.30f}', 
-                            f'{1:.30f}'))
+                            f'{x0}', 
+                            f'{func(x0)}', 
+                            f'{1}'))
     tabla.append(Iteracion(1, 
-                            f'{x1:.30f}', 
-                            f'{func(x1):.30f}', 
-                            f'{abs(x1 - x0):.30f}'))
+                            f'{x1}', 
+                            f'{func(x1)}', 
+                            f'{abs(x1 - x0)}'))
 
     while True:
         # x = x actual = Xn+1
@@ -61,9 +61,9 @@ def secante_func(funcion:str, a:float, b:float, x0:float, x1:float, tol:float, n
         err = abs(x - x1)
 
         tabla.append(Iteracion(i, 
-                            f'{x:.30f}', 
-                            f'{fx:.30f}', 
-                            f'{err:.30f}'))
+                            f'{x}', 
+                            f'{fx}', 
+                            f'{err}'))
 
         if abs(fx) <= 1e-64 or err <= tol:
             mensaje = 'PUNTO ENCONTRADO'

@@ -6,6 +6,7 @@ from .functions.reglafalsa import reglafalsa_func
 from .functions.puntofijo import puntofijo_func
 from .functions.newton import newton_func
 from .functions.secante import secante_func
+from .functions.m1 import m1_func
 # Create your views here.
 
 import matplotlib.pyplot as plt
@@ -177,9 +178,30 @@ def secante(request):
                                             'mensaje': response['mensaje']})
     else:
         return render(request, 'secante.html')
-    
+
 def m1(request):
-    return render(request, 'm1.html')
+    if request.method == 'POST':
+        funcion = request.POST['funcion']
+        x0 = float(request.POST['x0'])
+        a = float(request.POST['a'])
+        b = float(request.POST['b'])
+        m = float(request.POST['m'])
+        tol = float(request.POST['tol'])
+        niter = int(request.POST['niter'])
+
+        response = m1_func(funcion, m, a, b, x0, tol, niter)
+
+        img_interactiva = response['img_interactiva']
+        script, div = components(img_interactiva)
+
+        return render(request, 'm1.html', {'solucion'  : response['solucion'], 
+                                            'iteraciones' : response['iteraciones'],
+                                            'tabla': response['tabla'],
+                                            'img_interactiva': img_interactiva,
+                                            'script': script, 'div': div,
+                                            'mensaje': response['mensaje']})
+    else:
+        return render(request, 'm1.html')
 
 def m2(request):
     return render(request, 'm2.html')
