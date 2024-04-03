@@ -34,18 +34,22 @@ def puntofijo_func(funcion:str, funcion_g:str, a:float, b:float, x0:float, tol:f
     tabla = []
     x0_inicial = x0
 
+    tabla.append(Iteracion(0, 
+                            f'{x0}', 
+                            f'{func(x0)}', 
+                            1))
+
     while True:
         x = func(x0)
         fx = func(x)
 
-        if i != 1:
-            x_anterior = float(tabla[-1].x)
-            err = abs(x - x_anterior)
+        x_anterior = float(tabla[-1].x)
+        err = abs(x - x_anterior)
 
         tabla.append(Iteracion(i, 
-                            f'{x:.30f}', 
-                            f'{fx:.30f}', 
-                            f'{err:.30f}'))
+                            f'{x}', 
+                            f'{fx}', 
+                            f'{err}'))
 
         if abs(fx) <= 1e-64 or err <= tol:
             mensaje = 'PUNTO ENCONTRADO'

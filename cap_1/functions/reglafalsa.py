@@ -36,9 +36,9 @@ def reglafalsa_func(funcion:str, a:float, b:float, tol:float, niter:int):
                 err = abs(x - x_anterior)
 
             tabla.append(Iteracion(i, 
-                                f'{x:.30f}', 
-                                f'{fx:.30f}', 
-                                f'{err:.30f}' if i!=1 else None))
+                                f'{x}', 
+                                f'{fx}', 
+                                f'{err}' if i!=1 else 1))
 
             if abs(fx) <= 1e-64 or err <= tol:
                 mensaje = 'PUNTO ENCONTRADO'
