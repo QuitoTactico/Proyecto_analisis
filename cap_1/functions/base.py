@@ -1,4 +1,5 @@
 from math import *
+from numpy import abs
 import sympy as sp                                  # para las derivadas y graficación PNG
 from bokeh.plotting import figure, show             # para la graficación interactiva
 from bokeh.models import Span, Legend, LegendItem, CrosshairTool, HoverTool, ZoomInTool, ZoomOutTool, ExamineTool, Range1d
@@ -204,12 +205,15 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
                 eje_y = [func(funcion_g, x) for x in eje_x]
                 funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
                 lista_leyenda.append(LegendItem(label='g(x) Manual', renderers=[funcion_linea])) 
-        if metodo in ['newton', 'secante']:
-            eje_x = [a + (b-a)/200 * i for i in range(201)]
-            funcion_g = f'x-(({funcion})/({str(func_deriv(funcion, eval=False))}))'
-            eje_y = [func(funcion_g, x) for x in eje_x]
-            funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
-            lista_leyenda.append(LegendItem(label='g(x) '+metodo.capitalize(), renderers=[funcion_linea]))
+        try:
+            if metodo in ['newton', 'secante']:
+                eje_x = [a + (b-a)/200 * i for i in range(201)]
+                funcion_g = f'x-(({funcion})/({str(func_deriv(funcion, eval=False))}))'
+                eje_y = [func(funcion_g, x) for x in eje_x]
+                funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
+                lista_leyenda.append(LegendItem(label='g(x) '+metodo.capitalize(), renderers=[funcion_linea]))
+        except:
+            pass
             
         
         if metodo != 'busquedas':
@@ -322,7 +326,6 @@ def test_interactivo():
     plot = graficar_template(expresion, sol=sol, deriv=deriv)
     plot_interactivo = grafico_interactivo(expresion, sol=sol, vlines=[('a', a), ('b', b)], deriv=deriv)
     show(plot_interactivo)
-
 
 #test_base()
 #test_interactivo()

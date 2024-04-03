@@ -30,14 +30,30 @@ def secante_func(funcion:str, a:float, b:float, x0:float, x1:float, tol:float, n
     def func(x): 
         return base_func(funcion, x)
 
-    i = 1
+    i = 2
     err, mensaje = 1, None
     tabla = []
+
+    tabla.append(Iteracion(0, 
+                            f'{x0:.30f}', 
+                            f'{func(x0):.30f}', 
+                            f'{1:.30f}'))
+    tabla.append(Iteracion(1, 
+                            f'{x1:.30f}', 
+                            f'{func(x1):.30f}', 
+                            f'{abs(x1 - x0):.30f}'))
 
     while True:
         # x = x actual = Xn+1
         # x1 = x anterior = Xn
         # x0 = x penúltimo = Xn-1
+
+        if (func(x1) - func(x0)) == 0:
+            mensaje = 'f(Xn) - f(Xn-1) = 0 (División por cero)'
+            x = None
+            break
+
+
         x = x1 - (func(x1) * (x1 - x0)) / (func(x1) - func(x0))
 
         fx = func(x)
@@ -63,6 +79,7 @@ def secante_func(funcion:str, a:float, b:float, x0:float, x1:float, tol:float, n
             i += 1
 
     img_interactiva = grafico_interactivo(funcion, metodo='secante', sol=x, a=a, b=b, vlines= [('x0', x0), ('x1', x1)])
+
 
     return {'solucion'   : x, 
             'iteraciones': i, 

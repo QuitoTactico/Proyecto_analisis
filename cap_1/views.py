@@ -164,7 +164,10 @@ def secante(request):
         response = secante_func(funcion, a, b, x0, x1, tol, niter)
 
         img_interactiva = response['img_interactiva']
-        script, div = components(img_interactiva)
+        try:
+            script, div = components(img_interactiva)
+        except:
+            script, div = None, None
 
         return render(request, 'secante.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],
