@@ -2,42 +2,56 @@
 {% load static %}
 {% block content %}
 <div class="card-deck">
-    <div class="card">
-      <img class="card-img-top" src="{% static 'img/cap_1.png' %}" alt="Card image cap">
-      <div class="card-body">
-        <h5 class="card-title">Capitulo 1</h5>
-        <p class="card-text">Esta sección trabaja con el conversor de numeros a numeros máquina, a su vez de que contiene los métodos más conocidos de búsqueda de raíces</p>
-        <a href="#" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Numero a Máquina</button></a>
-        <a href="#" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Máquina a Número</button></a>
-        <a href="{% url 'busquedas' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1" ">Búsquedas Incrementales</button></a>
-        <a href="{% url 'biseccion' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Bisección</button></a>
-        <a href="{% url 'reglafalsa' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Regla Falsa</button></a>
-        <a href="{% url 'puntofijo' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Punto Fijo</button></a>
-        <a href="{% url 'newton' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Newton</button></a>
-        <a href="{% url 'secante' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Secante</button></a>
-        <a href="{% url 'm1' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Newton M1</button></a>
-        <a href="{% url 'm2' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Método de Newton M2</button></a>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-      </div>
-  </div>
   <div class="card">
     <img class="card-img-top" src="{% static 'img/cap_1.png' %}" alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title">Capitulo 2</h5>
-      <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident ut esse adipisci, quisquam ullam eligendi optio. Aliquid magni, a tenetur eveniet consequatur facilis nesciunt eius voluptas velit nam sint praesentium!</p>
-      <button type="button" class="btn btn-warning w-100 my-1">Tema1</button>
-      <button type="button" class="btn btn-warning w-100 my-1">Tema2</button>
+      <h5 class="card-title">Capitulo 1</h5>
+      <p class="card-text">Esta sección trabaja con el conversor de numeros a numeros máquina, a su vez de que contiene
+        los métodos más conocidos de búsqueda de raíces</p>
+      <a href="#" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Numero a
+          Máquina</button></a>
+      <a href="#" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Máquina a
+          Número</button></a>
+      <a href="{% url 'busquedas' %}" onclick="sessionStorage.clear();"><button type="button"
+          class="btn btn-success w-100 my-1" ">Búsquedas Incrementales</button></a>
+        <a href=" {% url 'biseccion' %}" onclick="sessionStorage.clear();"><button type="button"
+            class="btn btn-success w-100 my-1">Método de Bisección</button></a>
+      <a href="{% url 'reglafalsa' %}" onclick="sessionStorage.clear();"><button type="button"
+          class="btn btn-success w-100 my-1">Método de Regla Falsa</button></a>
+      <a href="{% url 'puntofijo' %}" onclick="sessionStorage.clear();"><button type="button"
+          class="btn btn-success w-100 my-1">Método de Punto Fijo</button></a>
+      <a href="{% url 'newton' %}" onclick="sessionStorage.clear();"><button type="button"
+          class="btn btn-success w-100 my-1">Método de Newton</button></a>
+      <a href="{% url 'secante' %}" onclick="sessionStorage.clear();"><button type="button"
+          class="btn btn-success w-100 my-1">Método de Secante</button></a>
+      <a href="{% url 'm1' %}" onclick="sessionStorage.clear();"><button type="button"
+          class="btn btn-success w-100 my-1">Método de Newton M1</button></a>
+      <a href="{% url 'm2' %}" onclick="sessionStorage.clear();"><button type="button"
+          class="btn btn-success w-100 my-1">Método de Newton M2</button></a>
       <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
     </div>
   </div>
   <div class="card">
     <img class="card-img-top" src="{% static 'img/cap_1.png' %}" alt="Card image cap">
     <div class="card-body">
+      <h5 class="card-title">Capitulo 2</h5>
+      <p class="card-text">Este capítulo recoge todos los temas más importantes de la solución numérica de ecuaciones
+        lineales</p>
+      <a href="{% url 'jacobi' %}" onclick="sessionStorage.clear();"><button type="button"
+          class="btn btn-warning w-100 my-1" ">Método de Jacobi</button></a>
+      <a href=" {% url 'gauss-seidel' %}" onclick="sessionStorage.clear();"><button type="button"
+            class="btn btn-warning w-100 my-1">Método de Gauss-Seidel</button></a>
+      <a href="{% url 'sor' %}" onclick="sessionStorage.clear();"><button type="button"
+          class="btn btn-warning w-100 my-1">Método de SOR</button></a>
+    </div>
+  </div>
+  <div class="card">
+    <img class="card-img-top" src="{% static 'img/cap_1.png' %}" alt="Card image cap">
+    <div class="card-body">
       <h5 class="card-title">Capitulo 3</h5>
-      <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis aperiam veniam qui dolorum ipsam provident, quisquam in voluptatum reiciendis fugit commodi eligendi unde dolorem dolore. Nemo aut sunt hic non.</p>
-      <button type="button" class="btn btn-danger w-100 my-1">Tema1</button>
-      <button type="button" class="btn btn-danger w-100 my-1">Tema2</button>
-      <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      <p class="card-text">Este capítulo recoge 2 de los métodos de interpolación, los cuales son: vandermonde y newton-interpolante</p>
+      <a href="{% url 'vandermonde' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-danger w-100 my-1" ">Vandermonde</button></a>
+      <a href=" {% url 'newton-interpolante' %}" onclick="sessionStorage.clear();"><button type="button" class="btn btn-danger w-100 my-1">Newton-Interpolante</button></a>
     </div>
   </div>
 </div>

@@ -16,8 +16,6 @@
                     placeholder="Escriba el inicio del rango" name="a" required id="a">
                 <input type="text" class="form-control ml-1"
                 placeholder="Escriba el final del rango" name="b" required id="b">
-                
-
             </div>
             <!--
             <input type="text" class="form-control"
@@ -26,6 +24,13 @@
             <input type="text" class="form-control"
                 placeholder="Escriba el final del rango" name="b" required id="b">
             -->
+            <label for="a" class="font-weight-bold">Error</label>
+            <div class="form-group">
+                <select class="form-control" id="exampleFormControlSelect1" required>
+                  <option>Error relativo</option>
+                  <option>Error absoluto</option>
+                </select>
+            </div>
             <label for="tol" class="font-weight-bold">Tolerancia</label>
             <input type="text" class="form-control"
                 placeholder="Escriba la tolerancia (valor máximo del Error)" name="tol" required id="tol">

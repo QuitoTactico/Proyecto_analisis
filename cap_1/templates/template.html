@@ -44,10 +44,9 @@
                           Capítulo 2
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a class="dropdown-item" href="#">Si</a>
-                          <a class="dropdown-item" href="#">Otro día</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Serguéi Kariakin</a>
+                          <a class="dropdown-item" href="{% url 'jacobi' %}" onclick="sessionStorage.clear();">Jacobi</a>
+                          <a class="dropdown-item" href="{% url 'gauss-seidel' %}" onclick="sessionStorage.clear();">Gauss-Seidel</a>
+                          <a class="dropdown-item" href="{% url 'sor' %}" onclick="sessionStorage.clear();">SOR</a>
                         </div>
                       </li>
                       <li class="nav-item dropdown">
@@ -55,10 +54,8 @@
                           Capítulo 3
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Something else here</a>
+                          <a class="dropdown-item" href="{% url 'vandermonde' %}" onclick="sessionStorage.clear();">Vandermonde</a>
+                          <a class="dropdown-item" href="{% url 'newton-interpolante' %}" onclick="sessionStorage.clear();">Newton Interpolante</a>
                         </div>
                       </li>
                 </ul>

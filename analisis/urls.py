@@ -30,4 +30,9 @@ urlpatterns = [
     path('secante', cap_1_views.secante, name='secante'),
     path('m1', cap_1_views.m1, name='m1'),
     path('m2', cap_1_views.m2, name='m2'),
+    path('jacobi', cap_1_views.m2, name='jacobi'),
+    path('gauss-seidel', cap_1_views.m2, name='gauss-seidel'),
+    path('sor', cap_1_views.m2, name='sor'),
+    path('vandermonde', cap_1_views.m2, name='vandermonde'),
+    path('newton-interpolante', cap_1_views.m2, name='newton-interpolante'),
 ]

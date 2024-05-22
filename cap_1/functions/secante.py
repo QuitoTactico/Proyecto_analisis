@@ -1,7 +1,7 @@
 from math import *
 from .base import func as base_func, grafico_interactivo
 #from base import func as base_func, grafico_interactivo
-from bokeh.plotting import show
+
 
 class Iteracion:
     def __init__(self, i:int, x:float, fx:float, err:float):
@@ -89,6 +89,7 @@ def secante_func(funcion:str, a:float, b:float, x0:float, x1:float, tol:float, n
             }
 
 def secante_test():
+    from bokeh.plotting import show
     res = secante_func(funcion='(x^3)-10x-5', a=-0.5, b=4, x0=3, x1=2, tol=1e-10, niter=100)
 
     for iteracion in res['tabla']:

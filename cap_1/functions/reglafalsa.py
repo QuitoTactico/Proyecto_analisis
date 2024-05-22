@@ -67,7 +67,7 @@ def reglafalsa_func(funcion:str, a:float, b:float, tol:float, niter:int):
 def test_regla_falsa():
     from bokeh.plotting import show
 
-    res = reglafalsa_func('exp(x) + 3*cos(x)', -4, 2, 1e-20, 100)
+    res = reglafalsa_func('-ln(x)-x+4', 0.1, 9, 5e-4, 100)
 
     for iteracion in res['tabla']:
         print(iteracion)
