@@ -34,11 +34,14 @@ def SOR(x0, A, b, Tol, niter, w):
                                x0))
 
     if error < Tol:
-        print(f'es una aproximación de la solución del sistema con una tolerancia= {Tol}')
+        mensaje = 'PUNTO ENCONTRADO'
     else:
-        print(f'Fracasó en {niter} iteraciones')
+        mensaje = 'ITERACIONES AGOTADAS'
 
-    return tabla
+    return {'solucion': x0,
+            'iteraciones': c,
+            'tabla': tabla,
+            'mensaje': mensaje}
 
 
 def ejemplo():
@@ -50,8 +53,8 @@ def ejemplo():
     niter = 100
     w = 1.25
 
-    tabla = SOR(x0, A, b, Tol, niter, w)
-    print(tabla)
+    iteraciones = SOR(x0, A, b, Tol, niter, w)
+    print(iteraciones['tabla'])
 
 
 ejemplo()
