@@ -1,40 +1,60 @@
 import numpy as np
 
 
+class Iteracion:
+    def __init__(self, ite, err, sol):
+        self.ite = ite
+        self.err = err
+        self.sol = sol
+
+    def __str__(self):
+        return f'{self.ite} | {self.err} | {self.sol}'
+
+    def __repr__(self):
+        return f'{self.ite} | {self.err} | {self.sol}'
+
+
 def matJacobi(x0, A, b, Tol, niter):
     c = 0
     error = Tol + 1
     D = np.diag(np.diag(A))
     L = -np.tril(A, -1)
     U = -np.triu(A, 1)
-    E = []
+
+    tabla = []
 
     while error > Tol and c < niter:
         T = np.linalg.inv(D) @ (L + U)
         C = np.linalg.inv(D) @ b
         x1 = T @ x0 + C
-        E.append(np.linalg.norm(x1 - x0, np.inf))
-        error = E[-1]
+        error = np.linalg.norm(x1 - x0, np.inf)
         x0 = x1
         c += 1
+        tabla.append(Iteracion(c,
+                               error,
+                               x0))
+
     if error < Tol:
-        s = x0
-        print(f'es una aproximación de la solución del sistema con una tolerancia= {Tol}')
+        mensaje = 'PUNTO ENCONTRADO'
     else:
-        s = x0
-        print(f'Fracasó en {niter} iteraciones')
+        mensaje = 'ITERACIONES AGOTADAS'
 
-    return E, s
-
-
-# Ejemplo de uso
-x0 = np.array([0, 0, 0])  # Ejemplo de vector inicial
-A = np.array([[4, -1, 0], [-1, 4, -1], [0, -1, 4]])  # Ejemplo de matriz A
-b = np.array([1, 2, 3])  # Ejemplo de vector b
-Tol = 1e-5
-niter = 100
+    return {'solucion': x0,
+            'iteraciones': c,
+            'tabla': tabla,
+            'mensaje': mensaje}
 
 
-E, s = matJacobi(x0, A, b, Tol, niter)
-print("Errores:", E)
-print("Solución:", s)
+def ejemplo():
+    # Ejemplo de uso
+    x0 = np.array([0, 0, 0])  # Ejemplo de vector inicial
+    A = np.array([[4, -1, 0], [-1, 4, -1], [0, -1, 4]])  # Ejemplo de matriz A
+    b = np.array([1, 2, 3])  # Ejemplo de vector b
+    Tol = 1e-5
+    niter = 100
+
+    iteraciones = matJacobi(x0, A, b, Tol, niter)
+    print(iteraciones['tabla'])
+
+
+ejemplo()

@@ -24,8 +24,7 @@ def Newtonint(x: np.array.__class__, y: np.array.__call__):
 
     return {'tabla': Tabla,
             #'img_interactiva': img_interactiva,
-            'mensaje': mensaje
-            }
+            'mensaje': mensaje}
 
 
 def ejemplo():
