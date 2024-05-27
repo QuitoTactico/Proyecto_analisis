@@ -15,7 +15,7 @@ class Iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def reglafalsa_func(funcion:str, a:float, b:float, tol:float, niter:int):
+def reglafalsa_func(funcion:str, a:float, b:float,error_type:str, tol:float, niter:int):
     def func(x):
         return base_func(funcion, x)
 
@@ -33,7 +33,10 @@ def reglafalsa_func(funcion:str, a:float, b:float, tol:float, niter:int):
 
             if i!=1:
                 x_anterior = float(tabla[-1].x)
-                err = abs(x - x_anterior)
+                if error_type == 'Error absoluto':
+                    err = abs(x - x_anterior)
+                elif error_type == 'Error relativo':
+                    err = abs((x - x_anterior)/x)
 
             tabla.append(Iteracion(i, 
                                 f'{x}', 

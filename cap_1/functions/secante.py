@@ -16,7 +16,7 @@ class Iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def secante_func(funcion:str, a:float, b:float, x0:float, x1:float, tol:float, niter:int):
+def secante_func(funcion:str, a:float, b:float, x0:float, x1:float,error_type:str, tol:float, niter:int):
     """
     Implementación método de la secante
     Entradas:
@@ -58,7 +58,10 @@ def secante_func(funcion:str, a:float, b:float, x0:float, x1:float, tol:float, n
 
         fx = func(x)
         
-        err = abs(x - x1)
+        if error_type == 'Error absoluto':
+            err = abs(x - x1)
+        elif error_type == 'Error relativo':
+            err = abs((x - x1)/x)
 
         tabla.append(Iteracion(i, 
                             f'{x}', 

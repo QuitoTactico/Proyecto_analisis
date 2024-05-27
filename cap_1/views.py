@@ -51,10 +51,11 @@ def biseccion(request):
         funcion = request.POST['funcion']
         a = float(request.POST['a'])
         b = float(request.POST['b'])
+        error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
 
-        response = biseccion_func(funcion, a, b, tol, niter)
+        response = biseccion_func(funcion, a, b,error_type, tol, niter)
 
         """
         img = response['img']
@@ -85,10 +86,11 @@ def reglafalsa(request):
             funcion = request.POST['funcion']
             a = float(request.POST['a'])
             b = float(request.POST['b'])
+            error_type = request.POST['error_type']
             tol = float(request.POST['tol'])
             niter = int(request.POST['niter'])
     
-            response = reglafalsa_func(funcion, a, b, tol, niter)
+            response = reglafalsa_func(funcion, a, b,error_type, tol, niter)
     
             img_interactiva = response['img_interactiva']
             script, div = components(img_interactiva)
@@ -111,10 +113,11 @@ def puntofijo(request):
         x0 = float(request.POST['x0'])
         a = float(request.POST['a'])
         b = float(request.POST['b'])
+        error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
 
-        response = puntofijo_func(funcion, funcion_g, a, b, x0, tol, niter)
+        response = puntofijo_func(funcion, funcion_g, a, b,error_type, x0, tol, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
@@ -134,10 +137,11 @@ def newton(request):
         x0 = float(request.POST['x0'])
         a = float(request.POST['a'])
         b = float(request.POST['b'])
+        error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
 
-        response = newton_func(funcion, a, b, x0, tol, niter)
+        response = newton_func(funcion, a, b, x0,error_type, tol, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
@@ -159,10 +163,11 @@ def secante(request):
         x1 = float(request.POST['x1'])
         a = float(request.POST['a'])
         b = float(request.POST['b'])
+        error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
 
-        response = secante_func(funcion, a, b, x0, x1, tol, niter)
+        response = secante_func(funcion, a, b, x0, x1,error_type, tol, niter)
 
         img_interactiva = response['img_interactiva']
         try:
@@ -186,10 +191,11 @@ def m1(request):
         a = float(request.POST['a'])
         b = float(request.POST['b'])
         m = float(request.POST['m'])
+        error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
 
-        response = m1_func(funcion, m, a, b, x0, tol, niter)
+        response = m1_func(funcion, m, a, b, x0,error_type, tol, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)

@@ -19,7 +19,7 @@ class iteracion:
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
 
-def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
+def biseccion_func(funcion:str, a:float, b:float,error_type:str, tol:float, niter:int):
     """
     Implementación método de bisección
     Entradas:
@@ -49,7 +49,10 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
             # En la primera iteración, estos valores no existen
             if i!=1:
                 x_anterior = float(tabla[-1].x)
-                err = abs(x - x_anterior)
+                if error_type == 'Error absoluto':
+                    err = abs(x - x_anterior)
+                elif error_type == 'Error relativo':
+                    err = abs((x - x_anterior)/x)
 
             tabla.append(iteracion(i, 
                                 f'{x}', 
@@ -93,7 +96,8 @@ def biseccion_func(funcion:str, a:float, b:float, tol:float, niter:int):
 
 def test_biseccion():
     # a = -2, b = 5, TOL = 1e-20, N0 = 100
-    res = biseccion_func('(e^x)-2', -2, 5, 1e-20, 100)
+    #res = biseccion_func('(e^x)-2', -2, 5, 1e-20, 100)
+    res = biseccion_func('x^5 - x^4 + 2*x^3 - x^2 + x - 1', -2, 2, 'Error relativo', 1e-20, 100)
 
     for iteracion in res['tabla']:
         print(iteracion.i, iteracion.x, iteracion.fx, iteracion.err)

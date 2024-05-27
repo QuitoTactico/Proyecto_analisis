@@ -16,7 +16,7 @@ class Iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def puntofijo_func(funcion:str, funcion_g:str, a:float, b:float, x0:float, tol:float, niter:int):
+def puntofijo_func(funcion:str, funcion_g:str, a:float, b:float, x0:float,error_type:str, tol:float, niter:int):
     """
     Implementación método de punto fijo
     Entradas:
@@ -44,7 +44,10 @@ def puntofijo_func(funcion:str, funcion_g:str, a:float, b:float, x0:float, tol:f
         fx = func(x)
 
         x_anterior = float(tabla[-1].x)
-        err = abs(x - x_anterior)
+        if error_type == 'Error absoluto':
+            err = abs(x - x_anterior)
+        elif error_type == 'Error relativo':
+            err = abs((x - x_anterior)/x)
 
         tabla.append(Iteracion(i, 
                             f'{x}', 
