@@ -205,3 +205,21 @@ def m1(request):
 
 def m2(request):
     return render(request, 'm2.html')
+
+def jacobi(request):
+    pass
+
+def gauss_seidel(request):
+    pass
+
+def sor(request):
+    pass
+
+def vandermonde(request):
+    pass
+
+def newtonInt(request):
+    pass
+
+def lagrange(request):
+    pass

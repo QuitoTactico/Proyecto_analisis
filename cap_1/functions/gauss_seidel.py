@@ -27,13 +27,17 @@ def matSeid(x0, A, b, Tol, niter):
     return E, s
 
 
-# Ejemplo de uso
-x0 = np.array([0, 0, 0])  # Ejemplo de vector inicial
-A = np.array([[4, -1, 0], [-1, 4, -1], [0, -1, 4]])  # Ejemplo de matriz A
-b = np.array([1, 2, 3])  # Ejemplo de vector b
-Tol = 1e-5
-niter = 100
+def ejemplo():
+    # Ejemplo de uso
+    x0 = np.array([0, 0, 0])  # Ejemplo de vector inicial
+    A = np.array([[4, -1, 0], [-1, 4, -1], [0, -1, 4]])  # Ejemplo de matriz A
+    b = np.array([1, 2, 3])  # Ejemplo de vector b
+    Tol = 1e-5
+    niter = 100
 
-E, s = matSeid(x0, A, b, Tol, niter)
-print("Errores:", E)
-print("Solución:", s)
+    E, s = matSeid(x0, A, b, Tol, niter)
+    print("Errores:", E)
+    print("Solución:", s)
+
+
+ejemplo()
