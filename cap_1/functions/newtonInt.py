@@ -1,7 +1,6 @@
 import numpy as np
-from math import *
 from .base import func as base_func, grafico_interactivo
-#from base import func as base_func, graficar_template, grafico_interactivo
+from bokeh.plotting import show
 
 
 def Newtonint(x: np.array.__class__, y: np.array.__call__):
@@ -16,14 +15,24 @@ def Newtonint(x: np.array.__class__, y: np.array.__call__):
 
     mensaje = "it worked"
 
-    #function = f"{Tabla[0][1]} + {Tabla[1][2]}*x + {Tabla[2][3]}*x*x + {Tabla[3][4]}*x*x*x "
+    coefficients = Tabla[np.arange(n), np.arange(1, n + 1)]
 
-    print(function)
+    # Constructing the polynomial as a string
+    polynomial_terms = []
+    for i in range(n):
+        term = f"{coefficients[i]:.6g}"
+        for j in range(i):
+            term += f" * (x - {x[j]:.6g})"
+        polynomial_terms.append(term)
 
-    img_interactiva = grafico_interactivo(function)
+    polynomial_str = " + ".join(polynomial_terms)
+    print(polynomial_str)
+
+    #img_interactiva = grafico_interactivo(function)
 
     return {'tabla': Tabla,
             #'img_interactiva': img_interactiva,
+            'funcion': polynomial_str,
             'mensaje': mensaje}
 
 
@@ -32,9 +41,9 @@ def ejemplo():
     x = np.array([1, 4, 13, 20])  # Ejemplo de puntos x
     y = np.array([-10, 8, -20, 1])  # Ejemplo de puntos y
 
-    Tabla = Newtonint(x, y)['tabla']
+    resultado = Newtonint(x, y)
     print("Tabla de diferencias divididas de Newton:")
-    print(Tabla)
+    print(resultado['tabla'])
 
 
-#ejemplo()
+ejemplo()
