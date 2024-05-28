@@ -27,8 +27,6 @@
                           Capítulo 1
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#" onclick="sessionStorage.clear();">Número a Máquina</a>
-                            <a class="dropdown-item" href="#">Máquina a Número</a>
                             <a class="dropdown-item" href="{% url 'busquedas' %}" onclick="sessionStorage.clear();">Búsquedas incrementales</a>
                             <a class="dropdown-item" href="{% url 'biseccion' %}" onclick="sessionStorage.clear();">Método de Bisección</a>
                             <a class="dropdown-item" href="{% url 'reglafalsa' %}" onclick="sessionStorage.clear();">Método de Regla Falsa</a>
@@ -45,7 +43,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" href="{% url 'jacobi' %}" onclick="sessionStorage.clear();">Jacobi</a>
-                          <a class="dropdown-item" href="{% url 'gauss-seidel' %}" onclick="sessionStorage.clear();">Gauss-Seidel</a>
+                          <a class="dropdown-item" href="{% url 'gauss_seidel' %}" onclick="sessionStorage.clear();">Gauss-Seidel</a>
                           <a class="dropdown-item" href="{% url 'sor' %}" onclick="sessionStorage.clear();">SOR</a>
                         </div>
                       </li>

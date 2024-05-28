@@ -1,5 +1,6 @@
 import numpy as np
-from base import func as base_func, grafico_interactivo
+#from base import func as base_func, grafico_interactivo
+from .base import func as base_func, graficar_template, grafico_interactivo
 from bokeh.plotting import show
 
 
@@ -50,4 +51,4 @@ def ejemplo():
     print(resultado['tabla'])
 
 
-ejemplo()
+#ejemplo()

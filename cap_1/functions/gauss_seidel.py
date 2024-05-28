@@ -2,16 +2,16 @@ import numpy as np
 
 
 class Iteracion:
-    def __init__(self, ite, err, sol):
-        self.ite = ite
-        self.err = err
-        self.sol = sol
+    def __init__(self, c, error, x0):
+        self.c = c
+        self.error = error
+        self.x0 = list(x0)
 
     def __str__(self):
-        return f'{self.ite} | {self.err} | {self.sol}'
+        return f'{self.c} | {self.error} | {self.x0}'
 
     def __repr__(self):
-        return f'{self.ite} | {self.err} | {self.sol}'
+        return f'{self.c} | {self.error} | {self.x0}'
 
 
 def Gauss_seidel(x0, A, b, Tol, niter):
@@ -67,4 +67,4 @@ def ejemplo():
     print(iteraciones['tabla'])
 
 
-ejemplo()
+#ejemplo()

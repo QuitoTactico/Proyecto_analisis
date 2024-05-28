@@ -8,10 +8,6 @@
       <h5 class="card-title">Capitulo 1: Solución numérica de ecuaciones no lineales</h5>
       <p class="card-text">Esta sección trabaja con el conversor de numeros a numeros máquina, a su vez de que contiene
         los métodos más conocidos de búsqueda de raíces</p>
-      <a href="#" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Numero a
-          Máquina</button></a>
-      <a href="#" onclick="sessionStorage.clear();"><button type="button" class="btn btn-success w-100 my-1">Máquina a
-          Número</button></a>
       <a href="{% url 'busquedas' %}" onclick="sessionStorage.clear();"><button type="button"
           class="btn btn-success w-100 my-1" ">Búsquedas Incrementales</button></a>
         <a href=" {% url 'biseccion' %}" onclick="sessionStorage.clear();"><button type="button"
@@ -39,7 +35,7 @@
         lineales</p>
       <a href="{% url 'jacobi' %}" onclick="sessionStorage.clear();"><button type="button"
           class="btn btn-warning w-100 my-1" ">Método de Jacobi</button></a>
-      <a href=" {% url 'gauss-seidel' %}" onclick="sessionStorage.clear();"><button type="button"
+      <a href=" {% url 'gauss_seidel' %}" onclick="sessionStorage.clear();"><button type="button"
             class="btn btn-warning w-100 my-1">Método de Gauss-Seidel</button></a>
       <a href="{% url 'sor' %}" onclick="sessionStorage.clear();"><button type="button"
           class="btn btn-warning w-100 my-1">Método de SOR</button></a>

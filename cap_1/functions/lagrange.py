@@ -1,5 +1,6 @@
 import numpy as np
-from base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
+#from base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
+from .base import func as base_func, graficar_template, grafico_interactivo
 from bokeh.plotting import show
 
 
@@ -50,4 +51,4 @@ def ejemplo():
     print(pol['tabla'])
 
 
-ejemplo()
+#ejemplo()
