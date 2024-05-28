@@ -2,16 +2,16 @@ import numpy as np
 
 
 class Iteracion:
-    def __init__(self, ite, err, sol):
-        self.ite = ite
-        self.err = err
-        self.sol = sol
+    def __init__(self, c, error, x0):
+        self.c = c
+        self.error = error
+        self.x0 = list(x0)
 
     def __str__(self):
-        return f'{self.ite} | {self.err} | {self.sol}'
+        return f'{self.c} | {self.error} | {self.x0}'
 
     def __repr__(self):
-        return f'{self.ite} | {self.err} | {self.sol}'
+        return f'{self.c} | {self.error} | {self.x0}'
 
 
 def MatJacobi(x0, A, b, Tol, niter):
@@ -41,14 +41,13 @@ def MatJacobi(x0, A, b, Tol, niter):
         error = np.linalg.norm(x1 - x0, np.inf)
         x0 = x1
         c += 1
-        tabla.append(Iteracion(c,
-                               error,
-                               x0))
+        tabla.append(Iteracion(c, error, x0))
 
     if error < Tol:
         mensaje = 'PUNTO ENCONTRADO'
     else:
         mensaje = 'ITERACIONES AGOTADAS'
+    
 
     return {'solucion': x0,
             'iteraciones': c,

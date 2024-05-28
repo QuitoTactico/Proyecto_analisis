@@ -31,11 +31,6 @@ from bokeh.embed import components
 def home(request):
     return render(request, 'index.html')
 
-
-def maquina(request):
-    return render(request, 'maquina.html')
-
-
 # ================================Part 1================================
 def busquedas(request):
     if request.method == 'POST':
@@ -236,12 +231,16 @@ def m2(request):
 def jacobi(request):
     if request.method == 'POST':
         x0 = request.POST['x0']
-        A = request.POST['a']
+        A = request.POST['A']
         b = request.POST['b']
         Tol = request.POST['tol']
-        n = request.POST['n']
+        niter = request.POST['niter']
 
-        s = MatJacobi(x0, A, b, Tol, n)
+        s = MatJacobi(x0, A, b, Tol, niter)
+        #print({'solucion': s['solucion'],
+       #'iteraciones': s['iteraciones'],
+       #'tabla': s['tabla'],
+       #'mensaje': s['mensaje']})
 
         return render(request, 'jacobi.html', {'solucion': s['solucion'],
                                                 'iteraciones': s['iteraciones'],
@@ -255,12 +254,12 @@ def jacobi(request):
 def gauss_seidel(request):
     if request.method == 'POST':
         x0 = request.POST['x0']
-        A = request.POST['a']
+        A = request.POST['A']
         b = request.POST['b']
         Tol = request.POST['tol']
-        n = request.POST['n']
+        niter = request.POST['niter']
 
-        s = Gauss_seidel(x0, A, b, Tol, n)
+        s = Gauss_seidel(x0, A, b, Tol, niter)
 
         return render(request, 'gauss_seidel.html', {'solucion': s['solucion'],
                                                 'iteraciones': s['iteraciones'],
@@ -274,13 +273,13 @@ def gauss_seidel(request):
 def sor(request):
     if request.method == 'POST':
         x0 = request.POST['x0']
-        A = request.POST['a']
+        A = request.POST['A']
         b = request.POST['b']
         Tol = request.POST['tol']
-        n = request.POST['n']
-        w = request.POSY['w']
+        niter = request.POST['niter']
+        w = request.POST['w']
 
-        s = SOR(x0, A, b, Tol, n, w)
+        s = SOR(x0, A, b, Tol, niter, w)
 
         return render(request, 'sor.html', {'solucion': s['solucion'],
                                                 'iteraciones': s['iteraciones'],
