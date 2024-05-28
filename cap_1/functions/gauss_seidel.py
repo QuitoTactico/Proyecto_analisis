@@ -67,4 +67,4 @@ def ejemplo():
     print(iteraciones['tabla'])
 
 
-ejemplo()
+#ejemplo()

@@ -17,7 +17,7 @@ def Vandermonde(x, y):
     for i in range(n):
         term = f"{a[i]:.6g}"
         if i > 0:
-            term += " * " + " * ".join([f"(x - {x[j]:.6g})" for j in range(i)])
+            term += " * " + " * ".join(["x" for j in range(i)])
         polynomial_terms.append(term)
 
     polynomial_str = " + ".join(polynomial_terms)
@@ -34,11 +34,11 @@ def Vandermonde(x, y):
 
 def ejemplo():
     # Example usage
-    x = "[1 2 3 10]"
-    y = "[2 3 5 -10]"
+    x = "[1 2 3 10 20]"
+    y = "[2 3 5 -10 100]"
 
     resultados = Vandermonde(x, y)
     print(resultados['tabla'])
 
 
-ejemplo()
+#ejemplo()
