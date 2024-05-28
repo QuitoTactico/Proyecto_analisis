@@ -4,6 +4,10 @@ from bokeh.plotting import show
 
 
 def Lagrange(x, y):
+
+    x = np.array([float(num) for num in x.strip("[]").split(" ")])
+    y = np.array([float(num) for num in y.strip("[]").split(" ")])
+
     n = len(x)
     Tabla = np.zeros((n, n))
     polynomial_terms = []
@@ -25,8 +29,10 @@ def Lagrange(x, y):
 
     pol = np.sum(Tabla, axis=0)
     polynomial_str = " + ".join(polynomial_terms)
+
     print(polynomial_str)
     #img_interactiva = grafico_interactivo(function)
+
     mensaje = "se logro"
 
     return {'tabla': pol,
@@ -36,8 +42,8 @@ def Lagrange(x, y):
 
 def ejemplo():
     # Ejemplo de uso
-    x = np.array([1, 2, 3, 10])
-    y = np.array([2, 3, 5, -10])
+    x = "[1 2 3 10]"
+    y = "[2 3 5 -10]"
 
     pol = Lagrange(x, y)
     print("Coeficientes del polinomio de interpolación de Lagrange:")

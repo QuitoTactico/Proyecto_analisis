@@ -2,6 +2,10 @@ import numpy as np
 
 
 def Vandermonde(x, y):
+
+    x = np.array([float(num) for num in x.strip("[]").split(" ")])
+    y = np.array([float(num) for num in y.strip("[]").split(" ")])
+
     n = len(x)
     # Create the Vandermonde matrix
     A = np.vander(x, increasing=True)
@@ -17,19 +21,24 @@ def Vandermonde(x, y):
         polynomial_terms.append(term)
 
     polynomial_str = " + ".join(polynomial_terms)
-    return a, polynomial_str
+    print(polynomial_str)
+    #img_interactiva = grafico_interactivo(function)
+
+    mensaje = "it worked"
+
+    return {'tabla': A,
+            #'img_interactiva': img_interactiva,
+            'funcion': polynomial_str,
+            'mensaje': mensaje}
 
 
 def ejemplo():
     # Example usage
-    x = np.array([1, 2, 3, 10])
-    y = np.array([2, 3, 5, -10])
+    x = "[1 2 3 10]"
+    y = "[2 3 5 -10]"
 
-    coefficients, polynomial_str = Vandermonde(x, y)
-    print("Coeficientes del polinomio de interpolación de Vandermonde:")
-    print(coefficients)
-    print("Polinomio de interpolación de Vandermonde:")
-    print(polynomial_str)
+    resultados = Vandermonde(x, y)
+    print(resultados['tabla'])
 
 
 ejemplo()
