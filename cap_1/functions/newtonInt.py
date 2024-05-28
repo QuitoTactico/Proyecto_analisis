@@ -3,7 +3,7 @@ from base import func as base_func, grafico_interactivo
 from bokeh.plotting import show
 
 
-def Newtonint(x: np.array.__class__, y: np.array.__call__):
+def NewtonInt(x: np.array.__class__, y: np.array.__call__):
     n = len(x)
     Tabla = np.zeros((n, n + 1))
     Tabla[:, 0] = x
@@ -41,7 +41,7 @@ def ejemplo():
     x = np.array([1, 4, 13, 20])  # Ejemplo de puntos x
     y = np.array([-10, 8, -20, 1])  # Ejemplo de puntos y
 
-    resultado = Newtonint(x, y)
+    resultado = NewtonInt(x, y)
     print("Tabla de diferencias divididas de Newton:")
     print(resultado['tabla'])
 

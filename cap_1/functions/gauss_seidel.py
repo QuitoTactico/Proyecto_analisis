@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def matSeid(x0, A, b, Tol, niter):
+def Gauss_seidel(x0, A, b, Tol, niter):
     c = 0
     error = Tol + 1
     D = np.diag(np.diag(A))
@@ -35,7 +35,7 @@ def ejemplo():
     Tol = 1e-5
     niter = 100
 
-    E, s = matSeid(x0, A, b, Tol, niter)
+    E, s = Gauss_seidel(x0, A, b, Tol, niter)
     print("Errores:", E)
     print("Solución:", s)
 

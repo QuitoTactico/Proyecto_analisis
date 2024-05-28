@@ -14,7 +14,7 @@ class Iteracion:
         return f'{self.ite} | {self.err} | {self.sol}'
 
 
-def matJacobi(x0, A, b, Tol, niter):
+def MatJacobi(x0, A, b, Tol, niter):
     c = 0
     error = Tol + 1
     D = np.diag(np.diag(A))
@@ -53,7 +53,7 @@ def ejemplo():
     Tol = 1e-5
     niter = 100
 
-    iteraciones = matJacobi(x0, A, b, Tol, niter)
+    iteraciones = MatJacobi(x0, A, b, Tol, niter)
     print(iteraciones['tabla'])
 
 
