@@ -15,6 +15,18 @@ class Iteracion:
 
 
 def SOR(x0, A, b, Tol, niter, w):
+
+    x0 = np.array([float(num) for num in x0.strip("[]").split(" ")])
+    a = A.strip("[]").split(";")
+    A = []
+    for row in a:
+        A.append([int(num) for num in row.split()])
+    A = np.array(A)
+    b = np.array([float(num) for num in b.strip("[]").split(" ")])
+    Tol = float(Tol)
+    niter = int(niter)
+    w = float(w)
+
     c = 0
     error = Tol + 1
     D = np.diag(np.diag(A))
@@ -46,12 +58,12 @@ def SOR(x0, A, b, Tol, niter, w):
 
 def ejemplo():
     # Ejemplo de uso
-    x0 = np.array([0, 0, 0])  # Ejemplo de vector inicial
-    A = np.array([[4, -1, 0], [-1, 4, -1], [0, -1, 4]])  # Ejemplo de matriz A
-    b = np.array([1, 2, 3])  # Ejemplo de vector b
-    Tol = 1e-5
-    niter = 100
-    w = 1.25
+    x0 = "[0 0 0]"  # Ejemplo de vector inicial
+    A = "[4 -1 0; -1 4 -1; 0 -1 4]"  # Ejemplo de matriz A
+    b = "[1 2 3]"  # Ejemplo de vector b
+    Tol = "1e-5"
+    niter = "100"
+    w = "1.25"
 
     iteraciones = SOR(x0, A, b, Tol, niter, w)
     print(iteraciones['tabla'])
