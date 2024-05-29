@@ -150,7 +150,7 @@ def func_deriv(expresion, x_input:float=0, n_deriv:int=1, eval:bool=True):
         return derivada
 
 
-def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float=None, b:float=None, vlines:list=[], hlines:list=[], deriv:int=0, funcion_g:str=None, m:int=1, points:list=[]):
+def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float=None, b:float=None, vlines:list=[], hlines:list=[], deriv:int=0, funcion_g:str=None, m:int=1, puntos:list=[]):
     '''Grafica la función y sus derivadas, con líneas punteadas en a y b, y una línea punteada en la solución si es que se especifica'''
 
     distancia = abs(b-a)
@@ -281,8 +281,8 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
         # también un punto
         plot_interactivo.scatter([sol], [0], fill_color='red', line_color="black", size=8, name="Solución")
 
-    for i, point in enumerate(points):
-        plot_interactivo.scatter([point[0]], [point[1]], fill_color='white', line_color="black", size=8, name=point[2])
+    for i, point in enumerate(puntos):
+        plot_interactivo.scatter([point[0]], [point[1]], fill_color='white', line_color="black", size=8, name=str(i))
 
     plot_interactivo.add_layout(Legend(items=lista_leyenda))
 
