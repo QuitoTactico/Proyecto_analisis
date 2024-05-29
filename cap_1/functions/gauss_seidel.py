@@ -16,15 +16,27 @@ class Iteracion:
 
 def Gauss_seidel(x0, A, b, Tol, niter):
 
-    x0 = np.array([float(num) for num in x0.strip("[]").split(" ")])
-    a = A.strip("[]").split(";")
-    A = []
-    for row in a:
-        A.append([int(num) for num in row.split()])
-    A = np.array(A)
-    b = np.array([float(num) for num in b.strip("[]").split(" ")])
-    Tol = float(Tol)
-    niter = int(niter)
+    # input error
+    try:
+        x0 = np.array([float(num) for num in x0.strip("[]").split(" ")])
+        a = A.strip("[]").split(";")
+        A = []
+        for row in a:
+            A.append([int(num) for num in row.split()])
+        A = np.array(A)
+        b = np.array([float(num) for num in b.strip("[]").split(" ")])
+        Tol = float(Tol)
+        niter = int(niter)
+    except ValueError:
+        return {'mensaje': "Incorrect format for input values. Ensure all inputs are correctly formatted."}
+
+    # matrix shape error
+    if A.shape[0] != A.shape[1]:
+        return {'mensaje': "Matrix A must be square."}
+    if len(x0) != A.shape[0]:
+        return {'mensaje': "Initial guess vector x0 must be the same length as the dimensions of matrix A."}
+    if len(b) != A.shape[0]:
+        return {'mensaje': "Vector b must be the same length as the dimensions of matrix A."}
 
     c = 0
     error = Tol + 1
@@ -32,6 +44,13 @@ def Gauss_seidel(x0, A, b, Tol, niter):
     L = -np.tril(A, -1)
     U = -np.triu(A, 1)
     tabla = []
+
+    # radius error
+    T = np.linalg.inv(D) @ (L + U)
+    spectral_radius = max(abs(np.linalg.eigvals(T)))
+    if spectral_radius >= 1:
+        raise ValueError("The matrix A is not suitable for the Jacobi method (spectral radius >= 1). The method may not converge.")
+
 
     while error > Tol and c < niter:
         T = np.linalg.inv(D - L) @ U

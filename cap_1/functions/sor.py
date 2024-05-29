@@ -16,16 +16,32 @@ class Iteracion:
 
 def SOR(x0, A, b, Tol, niter, w):
 
-    x0 = np.array([float(num) for num in x0.strip("[]").split(" ")])
-    a = A.strip("[]").split(";")
-    A = []
-    for row in a:
-        A.append([int(num) for num in row.split()])
-    A = np.array(A)
-    b = np.array([float(num) for num in b.strip("[]").split(" ")])
-    Tol = float(Tol)
-    niter = int(niter)
-    w = float(w)
+    # input error
+    try:
+        x0 = np.array([float(num) for num in x0.strip("[]").split(" ")])
+        a = A.strip("[]").split(";")
+        A = []
+        for row in a:
+            A.append([int(num) for num in row.split()])
+        A = np.array(A)
+        b = np.array([float(num) for num in b.strip("[]").split(" ")])
+        Tol = float(Tol)
+        niter = int(niter)
+        w = float(w)
+    except ValueError:
+        return {'mensaje': "Incorrect format for input values. Ensure all inputs are correctly formatted."}
+
+    # relaxation factor error
+    if not (0 < w < 2):
+        return {'mensaje': "The relaxation factor w must be in the range (0, 2)."}
+
+    # matrix shape error
+    if A.shape[0] != A.shape[1]:
+        return {'mensaje': "Matrix A must be square."}
+    if len(x0) != A.shape[0]:
+        return {'mensaje': "Initial guess vector x0 must be the same length as the dimensions of matrix A."}
+    if len(b) != A.shape[0]:
+        return {'mensaje': "Vector b must be the same length as the dimensions of matrix A."}
 
     c = 0
     error = Tol + 1
@@ -33,6 +49,12 @@ def SOR(x0, A, b, Tol, niter, w):
     L = -np.tril(A, -1)
     U = -np.triu(A, 1)
     tabla = []
+
+    # radius error
+    T = np.linalg.inv(D) @ (L + U)
+    spectral_radius = max(abs(np.linalg.eigvals(T)))
+    if spectral_radius >= 1:
+        return {'mensaje': "The matrix A is not suitable for the Jacobi method (spectral radius >= 1). The method may not converge."}
 
     while error > Tol and c < niter:
         T = np.linalg.inv(D - w * L) @ ((1 - w) * D + w * U)
