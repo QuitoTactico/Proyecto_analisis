@@ -49,8 +49,7 @@ def Gauss_seidel(x0, A, b, Tol, niter):
     T = np.linalg.inv(D) @ (L + U)
     spectral_radius = max(abs(np.linalg.eigvals(T)))
     if spectral_radius >= 1:
-        raise ValueError("The matrix A is not suitable for the Jacobi method (spectral radius >= 1). The method may not converge.")
-
+        return {'mensaje': "The matrix A is not suitable for the Jacobi method (spectral radius >= 1). The method may not converge."}
 
     while error > Tol and c < niter:
         T = np.linalg.inv(D - L) @ U

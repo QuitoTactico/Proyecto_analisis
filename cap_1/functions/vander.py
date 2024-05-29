@@ -1,5 +1,4 @@
 import numpy as np
-#from base import func as base_func, grafico_interactivo
 from .base import func as base_func, graficar_template, grafico_interactivo
 from bokeh.plotting import show
 
@@ -41,12 +40,14 @@ def Vandermonde(x, y):
         polynomial_terms.append(term)
 
     polynomial_str = " + ".join(polynomial_terms)
-    print(polynomial_str)
 
-    #img_interactiva = grafico_interactivo(function)
+    img_interactiva = grafico_interactivo(polynomial_str,
+                                          a=x[0],
+                                          b=x[-1],
+                                          puntos=zip(x, y))
 
     return {'tabla': A,
-            #'img_interactiva': img_interactiva,
+            'img_interactiva': img_interactiva,
             'funcion': polynomial_str,
             'mensaje': "it worked"}
 
@@ -58,6 +59,7 @@ def ejemplo():
 
     resultados = Vandermonde(x, y)
     print(resultados['tabla'])
+    show(resultados['img_interactiva'])
 
 
 #ejemplo()
