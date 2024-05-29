@@ -83,7 +83,7 @@ def m1_func(funcion:str, m:int, x0:float,error_type:str, tol:float, niter:int):
 
 def m1_test():
     #res = m1_func('(x^3)-10x-5', 2, -0.5, 4, 3, 1e-10, 100)
-    res = m1_func('ln(x)*(x^2-4x+4)', 2, 1.5, 1e-16, 100)
+    res = m1_func('ln(x)*(x^2-4x+4)', 2, 1.5, 'Error absoluto', 1e-16, 100)
 
     for iteracion in res['tabla']:
         print(iteracion)

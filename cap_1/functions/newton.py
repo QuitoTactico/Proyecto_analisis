@@ -82,7 +82,7 @@ def newton_func(funcion:str, x0:float,error_type:str, tol:float, niter:int):
             }
 
 def newton_test():
-    res = newton_func('(x^3)-10x-5', 3, 1e-10, 100)
+    res = newton_func('(x^3)-10x-5', 3, 'Error absoluto', 1e-10, 100)
 
     for iteracion in res['tabla']:
         print(iteracion)

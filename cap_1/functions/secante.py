@@ -94,7 +94,7 @@ def secante_func(funcion:str, x0:float, x1:float,error_type:str, tol:float, nite
 
 def secante_test():
     from bokeh.plotting import show
-    res = secante_func(funcion='(x^3)-10x-5', x0=3, x1=2, tol=1e-10, niter=100)
+    res = secante_func(funcion='(x^3)-10x-5', x0=3, x1=2, error_type='Error absoluto', tol=1e-10, niter=100)
 
     for iteracion in res['tabla']:
         print(iteracion)
@@ -104,5 +104,7 @@ def secante_test():
     print(f'Iteraciones: {res["iteraciones"]}')
 
     show(res['img_interactiva'])
+    #puntos = [(3, 0), (2, 0)]
+    #show(grafico_interactivo('2x-3', a=3, b=5, puntos=puntos))
 
 #secante_test()

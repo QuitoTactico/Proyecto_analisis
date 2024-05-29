@@ -88,7 +88,7 @@ def puntofijo_func(funcion:str, funcion_g:str, x0:float,error_type:str, tol:floa
 def puntofijo_test():
 
     #res = puntofijo_func('(e^x)-2', -2, 5, 3, 1e-20, 100)   # caso de fallo
-    res = puntofijo_func('(x^3)-10x-5', '(10x+5)^(1/3)', 1, 1e-20, 200)
+    res = puntofijo_func('(x^3)-10x-5', '(10x+5)^(1/3)', 1, 'Error absoluto', 1e-20, 200)
 
     for iteracion in res['tabla']:
         print(iteracion.i, iteracion.x, iteracion.fx, iteracion.err)
