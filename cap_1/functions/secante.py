@@ -16,7 +16,7 @@ class Iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def secante_func(funcion:str, a:float, b:float, x0:float, x1:float,error_type:str, tol:float, niter:int):
+def secante_func(funcion:str, x0:float, x1:float,error_type:str, tol:float, niter:int):
     """
     Implementación método de la secante
     Entradas:
@@ -81,8 +81,9 @@ def secante_func(funcion:str, a:float, b:float, x0:float, x1:float,error_type:st
             x1 = x
             i += 1
 
+    a = min(iteracion.x for iteracion in tabla)
+    b = max(iteracion.x for iteracion in tabla)
     img_interactiva = grafico_interactivo(funcion, metodo='secante', sol=x, a=a, b=b, vlines= [('x0', x0), ('x1', x1)])
-
 
     return {'solucion'   : x, 
             'iteraciones': i, 
@@ -93,7 +94,7 @@ def secante_func(funcion:str, a:float, b:float, x0:float, x1:float,error_type:st
 
 def secante_test():
     from bokeh.plotting import show
-    res = secante_func(funcion='(x^3)-10x-5', a=-0.5, b=4, x0=3, x1=2, tol=1e-10, niter=100)
+    res = secante_func(funcion='(x^3)-10x-5', x0=3, x1=2, tol=1e-10, niter=100)
 
     for iteracion in res['tabla']:
         print(iteracion)

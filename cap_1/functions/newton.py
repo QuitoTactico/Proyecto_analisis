@@ -16,7 +16,7 @@ class Iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def newton_func(funcion:str, a:float, b:float, x0:float,error_type:str, tol:float, niter:int):
+def newton_func(funcion:str, x0:float,error_type:str, tol:float, niter:int):
     """
     Implementación método de Newton
     Entradas:
@@ -70,6 +70,8 @@ def newton_func(funcion:str, a:float, b:float, x0:float,error_type:str, tol:floa
             x0 = x
             i += 1
 
+    a = min(iteracion.x for iteracion in tabla)
+    b = max(iteracion.x for iteracion in tabla)
     img_interactiva = grafico_interactivo(funcion, metodo='newton', sol=x, a=a, b=b, vlines= [('x0', x0_inicial)])
 
     return {'solucion'   : x, 
@@ -80,7 +82,7 @@ def newton_func(funcion:str, a:float, b:float, x0:float,error_type:str, tol:floa
             }
 
 def newton_test():
-    res = newton_func('(x^3)-10x-5', -0.5, 4, 3, 1e-10, 100)
+    res = newton_func('(x^3)-10x-5', 3, 1e-10, 100)
 
     for iteracion in res['tabla']:
         print(iteracion)
