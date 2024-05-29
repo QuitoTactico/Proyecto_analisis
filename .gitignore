@@ -1,3 +1,9 @@
 /cap_1/__pycache__/*.pyc
 *.pyc
+*pyc
+*pyc*
+*c
+*/cap_1/__pycache__/*
+*/cap_1/__pycache__/
 *.txt
+*analisis/__pycache__*
