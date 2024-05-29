@@ -458,3 +458,12 @@ def lagrange(request):
 
     else:
         return render(request, 'lagrange.html')
+
+def spline_lineal(request):
+    return render(request, 'spline_lineal.html')
+
+def spline_cuadratico(request):
+    return render(request, 'spline_cuadratico.html')
+
+def spline_cubico(request):
+    return render(request, 'spline_cubico.html')

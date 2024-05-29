@@ -34,4 +34,8 @@ urlpatterns = [
     path('sor', cap_1_views.sor, name='sor'),
     path('vandermonde', cap_1_views.vandermonde, name='vandermonde'),
     path('newton-interpolante', cap_1_views.newtonInt, name='newton-interpolante'),
+    path('lagrange', cap_1_views.lagrange, name='lagrange'),
+    path('spline-lineal', cap_1_views.spline_lineal, name='spline-lineal'),
+    path('spline-cuadratico', cap_1_views.spline_cuadratico, name='spline-cuadratico'),
+    path('spline-cubico', cap_1_views.spline_cubico, name='spline-cubico'),
 ]

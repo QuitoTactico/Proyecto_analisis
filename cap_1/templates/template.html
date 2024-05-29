@@ -32,9 +32,8 @@
                             <a class="dropdown-item" href="{% url 'reglafalsa' %}" onclick="sessionStorage.clear();">Método de Regla Falsa</a>
                             <a class="dropdown-item" href="{% url 'puntofijo' %}" onclick="sessionStorage.clear();">Método de Punto Fijo</a>
                           <a class="dropdown-item" href="{% url 'newton' %}" onclick="sessionStorage.clear();">Método de Newton</a>
-                          <a class="dropdown-item" href="{% url 'secante' %}" onclick="sessionStorage.clear();">Método Secante</a>
+                          <a class="dropdown-item" href="{% url 'secante' %}" onclick="sessionStorage.clear();">Método de Secante</a>
                           <a class="dropdown-item" href="{% url 'm1' %}" onclick="sessionStorage.clear();">Método de Newton M1</a>
-                          <a class="dropdown-item" href="{% url 'm2'}" onclick="sessionStorage.clear();">Método de Newton M2</a>
                         </div>
                       </li>
                       <li class="nav-item dropdown">
@@ -54,6 +53,11 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" href="{% url 'vandermonde' %}" onclick="sessionStorage.clear();">Vandermonde</a>
                           <a class="dropdown-item" href="{% url 'newton-interpolante' %}" onclick="sessionStorage.clear();">Newton Interpolante</a>
+                          <a class="dropdown-item" href="{% url 'lagrange' %}" onclick="sessionStorage.clear();">Newton Lagrange</a>
+                          <a class="dropdown-item" href="{% url 'spline-lineal' %}" onclick="sessionStorage.clear();">Spline Lineal</a>
+                          <a class="dropdown-item" href="{% url 'spline-cuadratico' %}" onclick="sessionStorage.clear();">Spline Cuadrático</a>
+                          <a class="dropdown-item" href="{% url 'spline-cubico' %}" onclick="sessionStorage.clear();">Spline Cúbico</a>
+
                         </div>
                       </li>
                 </ul>
