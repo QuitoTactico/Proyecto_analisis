@@ -1,6 +1,8 @@
 from cap_1.functions.spline_segment import *
 #from spline_segment import *
-
+from .base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
+#from base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
+from bokeh.plotting import show
 
 def spline_lineal(x, y):
 
@@ -16,7 +18,7 @@ def spline_lineal(x, y):
     if len(x) != len(y):
          return {'mensaje': f"Input vectors x and y must have the same length"}
     
-    puntos = zip(x,y)
+    puntos = list(zip(x,y))
 
     n = len(puntos) - 1
     splines = []
@@ -32,17 +34,21 @@ def spline_lineal(x, y):
         spline = SplineSegment(i=i, coef1=a, coef2=b, function_str=function_str)
         splines.append(spline)
     
-    return splines
+    img_interactiva = grafico_interactivo(metodo='spline', a=x[0], b=x[-1], puntos=puntos, splines=splines)
+    return splines, img_interactiva
 
 
 def ejemplo():
     # Ejemplo de uso:
-    puntos = [(1, 2), (2, 3), (3, 5), (5, 1)]
-    splines = spline_lineal(puntos)
+    x = '[1 2 3 5]'
+    y = '[2 3 5 1]'
+    splines, img_interactiva = spline_lineal(x, y)
+    show(img_interactiva)
 
+    '''
     for i, spline in enumerate(splines):
         print(puntos[i], puntos[i+1])
         print(spline.function_str)
-
+    '''
 
 #ejemplo()

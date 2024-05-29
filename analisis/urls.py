@@ -35,6 +35,6 @@ urlpatterns = [
     path('newtonint', cap_1_views.newtonInt, name='newtonint'),
     path('lagrange', cap_1_views.lagrange, name='lagrange'),
     path('splinelineal', cap_1_views.splinelineal, name='splinelineal'),
-    path('splinecuadratico', cap_1_views.spline_cuadratico, name='splinecuadratico'),
-    path('splinecubico', cap_1_views.spline_cubico, name='splinecubico'),
+    path('splinecuadratico', cap_1_views.splinecuadratico, name='splinecuadratico'),
+    path('splinecubico', cap_1_views.splinecubico, name='splinecubico'),
 ]

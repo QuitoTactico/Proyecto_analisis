@@ -34,12 +34,12 @@ from bokeh.embed import components
 
 def export_to_txt(filepath, response):
     filepath = f'{filepath}_results.txt'
-    directory = os.path.abspath('../Pruebas')
-    print(f"Directory: {directory}")  # Print the directory
+    directory = os.path.abspath('Pruebas')
+    print(f"Directory: {directory}")  
     if not os.path.exists(directory):
         os.makedirs(directory)
     filepath = os.path.join(directory, filepath)
-    print(f"Filepath: {filepath}")  # Print the filepath
+    print(f"Filepath: {filepath}")  
     with open(filepath, 'w') as f:
         for key, value in response.items():
             if key == 'tabla':
@@ -70,12 +70,12 @@ def busquedas(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
+            directory = os.path.abspath('Pruebas')
+            print(f"Directory: {directory}")  
             if not os.path.exists(directory):
                 os.makedirs(directory)
             filepath = os.path.join(directory, 'busquedas_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
+            print(f"Filepath: {filepath}")  
             with open(filepath, 'w') as f:
                 for key, value in response.items():
                     if key == 'tabla':
@@ -297,12 +297,12 @@ def jacobi(request):
        #'tabla': s['tabla'],
        #'mensaje': s['mensaje']})
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
+            directory = os.path.abspath('Pruebas')
+            print(f"Directory: {directory}")  
             if not os.path.exists(directory):
                 os.makedirs(directory)
             filepath = os.path.join(directory, 'jacobi_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
+            print(f"Filepath: {filepath}")  
             with open(filepath, 'w') as f:
                 for key, value in s.items():
                     if key == 'tabla':
@@ -338,12 +338,12 @@ def gauss_seidel(request):
         s = Gauss_seidel(x0, A, b, Tol, niter)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
+            directory = os.path.abspath('Pruebas')
+            print(f"Directory: {directory}")  
             if not os.path.exists(directory):
                 os.makedirs(directory)
             filepath = os.path.join(directory, 'gauss_seidel_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
+            print(f"Filepath: {filepath}")  
             with open(filepath, 'w') as f:
                 for key, value in s.items():
                     if key == 'tabla':
@@ -380,12 +380,12 @@ def sor(request):
         s = SOR(x0, A, b, Tol, niter, w)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
+            directory = os.path.abspath('Pruebas')
+            print(f"Directory: {directory}")  
             if not os.path.exists(directory):
                 os.makedirs(directory)
             filepath = os.path.join(directory, 'sor_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
+            print(f"Filepath: {filepath}")  
             with open(filepath, 'w') as f:
                 for key, value in s.items():
                     if key == 'tabla':
@@ -423,12 +423,12 @@ def vandermonde(request):
 
         
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
+            directory = os.path.abspath('Pruebas')
+            print(f"Directory: {directory}")  
             if not os.path.exists(directory):
                 os.makedirs(directory)
             filepath = os.path.join(directory, 'vander_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
+            print(f"Filepath: {filepath}")  
             with open(filepath, 'w') as f:
                 f.write(f"funcion: {s['funcion']}\n")
                 f.write(f"mensaje: {s['mensaje']}\n")
@@ -454,12 +454,12 @@ def newtonInt(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
+            directory = os.path.abspath('Pruebas')
+            print(f"Directory: {directory}")  
             if not os.path.exists(directory):
                 os.makedirs(directory)
             filepath = os.path.join(directory, 'newton_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
+            print(f"Filepath: {filepath}")  
             with open(filepath, 'w') as f:
                 f.write(f"funcion: {s['funcion']}\n")
                 f.write(f"mensaje: {s['mensaje']}\n")
@@ -490,12 +490,12 @@ def lagrange(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
+            directory = os.path.abspath('Pruebas')
+            print(f"Directory: {directory}")  
             if not os.path.exists(directory):
                 os.makedirs(directory)
             filepath = os.path.join(directory, 'lagrange_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
+            print(f"Filepath: {filepath}")  
             with open(filepath, 'w') as f:
                 f.write(f"funcion: {s['funcion']}\n")
                 f.write(f"mensaje: {s['mensaje']}\n")
@@ -518,14 +518,28 @@ def splinelineal(request):
     if request.method == 'POST':
         x = request.POST['x']
         y = request.POST['y']
-        #export_txt = request.POST.get('export-txt')
+        export_txt = request.POST.get('export-txt')
 
-        tabla = spline_lineal(x, y)
+        tabla, img_interactiva = spline_lineal(x, y)
 
         try:
             return render(request, 'spline_lineal.html', {'solucion': tabla['mensaje']})
         except:
-            return render(request, 'spline_lineal.html', {'solucion': tabla})
+
+            if export_txt == 'on':
+                directory = os.path.abspath('Pruebas')
+                print(f"Directory: {directory}")  
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                filepath = os.path.join(directory, 'splinelineal.txt')
+                print(f"Filepath: {filepath}")  
+                with open(filepath, 'w') as f:
+                    for item in tabla:
+                        f.write(str(item.function_str) + '\n')
+
+            script, div = components(img_interactiva)
+            return render(request, 'spline_lineal.html', {'solucion': tabla,
+                                                          'script': script, 'div': div,})
 
     return render(request, 'spline_lineal.html')
 
@@ -533,13 +547,27 @@ def splinecuadratico(request):
     if request.method == 'POST':
         x = request.POST['x']
         y = request.POST['y']
+        export_txt = request.POST.get('export-txt')
 
-        tabla = spline_cuadratico(x, y)
+        tabla, img_interactiva = spline_cuadratico(x, y)
 
         try:
             return render(request, 'spline_cuadratico.html', {'error': tabla['mensaje']})
         except:
-            return render(request, 'spline_cuadratico.html', {'tabla': tabla})
+            if export_txt == 'on':
+                directory = os.path.abspath('Pruebas')
+                print(f"Directory: {directory}")  
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                filepath = os.path.join(directory, 'splinecuadratico.txt')
+                print(f"Filepath: {filepath}")  
+                with open(filepath, 'w') as f:
+                    for item in tabla:
+                        f.write(str(item.function_str) + '\n')
+
+            script, div = components(img_interactiva)
+            return render(request, 'spline_cuadratico.html', {'tabla': tabla,
+                                                              'script': script, 'div': div})
 
     return render(request, 'spline_cuadratico.html')
 
@@ -547,12 +575,26 @@ def splinecubico(request):
     if request.method == 'POST':
         x = request.POST['x']
         y = request.POST['y']
+        export_txt = request.POST.get('export-txt')
 
-        tabla = spline_cubico(x, y)
+        tabla, img_interactiva = spline_cubico(x, y)
 
         try:
             return render(request, 'spline_cubico.html', {'solucion': tabla['mensaje']})
         except:
-            return render(request, 'spline_cubico.html', {'solucion': tabla})
+            if export_txt == 'on':
+                directory = os.path.abspath('Pruebas')
+                print(f"Directory: {directory}")  
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                filepath = os.path.join(directory, 'splinecubico.txt')
+                print(f"Filepath: {filepath}")  
+                with open(filepath, 'w') as f:
+                    for item in tabla:
+                        f.write(str(item.function_str) + '\n')
+
+            script, div = components(img_interactiva)
+            return render(request, 'spline_cubico.html', {'solucion': tabla,
+                                                          'script': script, 'div': div,})
 
     return render(request, 'spline_cubico.html')

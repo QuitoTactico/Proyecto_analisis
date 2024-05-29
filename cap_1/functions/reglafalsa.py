@@ -1,5 +1,5 @@
 from math import *
-from base import func as base_func, graficar_template, grafico_interactivo
+from .base import func as base_func, graficar_template, grafico_interactivo
 from bokeh.plotting import show
 
 
@@ -95,4 +95,4 @@ def test_regla_falsa():
 
     #show(res['img_interactiva'])
 
-test_regla_falsa()
+#test_regla_falsa()
