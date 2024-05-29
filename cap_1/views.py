@@ -66,34 +66,37 @@ def busquedas(request):
 
         response = busquedas_func(funcion, x0, dx, niter)
 
-        img_interactiva = response['img_interactiva']
-        script, div = components(img_interactiva)
+        try:
+            img_interactiva = response['img_interactiva']
+            script, div = components(img_interactiva)
 
-        if export_txt == 'on':
-            directory = os.path.abspath('Pruebas')
-            print(f"Directory: {directory}")  
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            filepath = os.path.join(directory, 'busquedas_results.txt')
-            print(f"Filepath: {filepath}")  
-            with open(filepath, 'w') as f:
-                for key, value in response.items():
-                    if key == 'tabla':
-                        f.write(f'{key}:\n')
-                        for item in value:
-                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}\n')
-                    elif key == 'img_interactiva':
-            # No imprimimos 'img_interactiva' ya que no es legible en texto
-                        continue
-                    else:
-                        f.write(f'{key}: {value}\n')
+            if export_txt == 'on':
+                directory = os.path.abspath('Pruebas')
+                print(f"Directory: {directory}")  
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                filepath = os.path.join(directory, 'busquedas_results.txt')
+                print(f"Filepath: {filepath}")  
+                with open(filepath, 'w') as f:
+                    for key, value in response.items():
+                        if key == 'tabla':
+                            f.write(f'{key}:\n')
+                            for item in value:
+                                f.write(f'i={item.i}, x={item.x}, fx={item.fx}\n')
+                        elif key == 'img_interactiva':
+                # No imprimimos 'img_interactiva' ya que no es legible en texto
+                            continue
+                        else:
+                            f.write(f'{key}: {value}\n')
 
-        return render(request, 'busquedas.html', {'solucion'  : response['solucion'], 
-                                            'iteraciones' : response['iteraciones'],
-                                            'tabla': response['tabla'],
-                                            'img_interactiva': img_interactiva,
-                                            'script': script, 'div': div,
-                                            'mensaje': response['mensaje']})
+            return render(request, 'busquedas.html', {'solucion'  : response['solucion'], 
+                                                'iteraciones' : response['iteraciones'],
+                                                'tabla': response['tabla'],
+                                                'img_interactiva': img_interactiva,
+                                                'script': script, 'div': div,
+                                                'mensaje': response['mensaje']})
+        except:
+            return render(request, 'busquedas.html', {'mensaje': response['mensaje']})
     else:
         return render(request, 'busquedas.html')
 
@@ -123,19 +126,21 @@ def biseccion(request):
         img = base64.b64encode(image_png) 
         img = img.decode('utf-8') 
         """
+        try:
+            img_interactiva = response['img_interactiva']
+            script, div = components(img_interactiva)
 
-        img_interactiva = response['img_interactiva']
-        script, div = components(img_interactiva)
+            if export_txt == 'on':
+                export_to_txt('biseccion', response)
 
-        if export_txt == 'on':
-            export_to_txt('biseccion', response)
-
-        return render(request, 'biseccion.html', {'solucion'  : response['solucion'], 
-                                             'iteraciones' : response['iteraciones'],
-                                             'tabla': response['tabla'],
-                                             'img_interactiva': img_interactiva,
-                                             'script': script, 'div': div,
-                                             'mensaje': response['mensaje']})
+            return render(request, 'biseccion.html', {'solucion'  : response['solucion'], 
+                                                'iteraciones' : response['iteraciones'],
+                                                'tabla': response['tabla'],
+                                                'img_interactiva': img_interactiva,
+                                                'script': script, 'div': div,
+                                                'mensaje': response['mensaje']})
+        except:
+            return render(request, 'biseccion.html', {'mensaje': response['mensaje']})
     else:
         return render(request, 'biseccion.html')
 
@@ -152,17 +157,21 @@ def reglafalsa(request):
         export_txt = request.POST.get('export-txt')
 
         response = reglafalsa_func(funcion, a, b,error_type, tol, niter)
-        img_interactiva = response['img_interactiva']
-        script, div = components(img_interactiva)
 
-        if export_txt == 'on':
-            export_to_txt('reglafalsa', response)
-        return render(request, 'reglafalsa.html', {'solucion'  : response['solucion'], 
-                                            'iteraciones' : response['iteraciones'],
-                                            'tabla': response['tabla'],
-                                            'img_interactiva': img_interactiva,
-                                            'script': script, 'div': div,
-                                            'mensaje': response['mensaje']})
+        try:
+            img_interactiva = response['img_interactiva']
+            script, div = components(img_interactiva)
+
+            if export_txt == 'on':
+                export_to_txt('reglafalsa', response)
+            return render(request, 'reglafalsa.html', {'solucion'  : response['solucion'], 
+                                                'iteraciones' : response['iteraciones'],
+                                                'tabla': response['tabla'],
+                                                'img_interactiva': img_interactiva,
+                                                'script': script, 'div': div,
+                                                'mensaje': response['mensaje']})
+        except:
+            return render(request, 'reglafalsa.html', {'mensaje': response['mensaje']})
     else:
         return render(request, 'reglafalsa.html')
 
@@ -180,17 +189,20 @@ def puntofijo(request):
 
         response = puntofijo_func(funcion, funcion_g, x0,error_type, tol, niter)
 
-        img_interactiva = response['img_interactiva']
-        script, div = components(img_interactiva)
+        try:
+            img_interactiva = response['img_interactiva']
+            script, div = components(img_interactiva)
 
-        if export_txt == 'on':
-            export_to_txt('puntofijo', response)
-        return render(request, 'puntofijo.html', {'solucion'  : response['solucion'], 
-                                             'iteraciones' : response['iteraciones'],
-                                             'tabla': response['tabla'],
-                                             'img_interactiva': img_interactiva,
-                                             'script': script, 'div': div,
-                                             'mensaje': response['mensaje']})
+            if export_txt == 'on':
+                export_to_txt('puntofijo', response)
+            return render(request, 'puntofijo.html', {'solucion'  : response['solucion'], 
+                                                'iteraciones' : response['iteraciones'],
+                                                'tabla': response['tabla'],
+                                                'img_interactiva': img_interactiva,
+                                                'script': script, 'div': div,
+                                                'mensaje': response['mensaje']})
+        except:
+            return render(request, 'puntofijo.html', {'mensaje': response['mensaje']})
     else:
         return render(request, 'puntofijo.html')
 
@@ -206,18 +218,21 @@ def newton(request):
 
         response = newton_func(funcion, x0,error_type, tol, niter)
 
-        img_interactiva = response['img_interactiva']
-        script, div = components(img_interactiva)
+        try:
+            img_interactiva = response['img_interactiva']
+            script, div = components(img_interactiva)
 
-        if export_txt == 'on':
-            export_to_txt('newton', response)
+            if export_txt == 'on':
+                export_to_txt('newton', response)
 
-        return render(request, 'newton.html', {'solucion'  : response['solucion'], 
-                                            'iteraciones' : response['iteraciones'],
-                                            'tabla': response['tabla'],
-                                            'img_interactiva': img_interactiva,
-                                            'script': script, 'div': div,
-                                            'mensaje': response['mensaje']})
+            return render(request, 'newton.html', {'solucion'  : response['solucion'], 
+                                                'iteraciones' : response['iteraciones'],
+                                                'tabla': response['tabla'],
+                                                'img_interactiva': img_interactiva,
+                                                'script': script, 'div': div,
+                                                'mensaje': response['mensaje']})
+        except:
+            return render(request, 'newton.html', {'mensaje': response['mensaje']})
     else:
         return render(request, 'newton.html')
 
@@ -238,17 +253,17 @@ def secante(request):
         img_interactiva = response['img_interactiva']
         try:
             script, div = components(img_interactiva)
-        except:
-            script, div = None, None
 
-        if export_txt == 'on':
-            export_to_txt('secante', response)
-        return render(request, 'secante.html', {'solucion'  : response['solucion'], 
-                                            'iteraciones' : response['iteraciones'],
-                                            'tabla': response['tabla'],
-                                            'img_interactiva': img_interactiva,
-                                            'script': script, 'div': div,
-                                            'mensaje': response['mensaje']})
+            if export_txt == 'on':
+                export_to_txt('secante', response)
+            return render(request, 'secante.html', {'solucion'  : response['solucion'], 
+                                                'iteraciones' : response['iteraciones'],
+                                                'tabla': response['tabla'],
+                                                'img_interactiva': img_interactiva,
+                                                'script': script, 'div': div,
+                                                'mensaje': response['mensaje']})
+        except:
+            return render(request, 'secante.html', {'mensaje': response['mensaje']})
     else:
         return render(request, 'secante.html')
 
@@ -266,18 +281,21 @@ def m1(request):
 
         response = m1_func(funcion, m, x0,error_type, tol, niter)
 
-        img_interactiva = response['img_interactiva']
-        script, div = components(img_interactiva)
+        try:
+            img_interactiva = response['img_interactiva']
+            script, div = components(img_interactiva)
 
-        if export_txt == 'on':
-            export_to_txt('m1', response)
+            if export_txt == 'on':
+                export_to_txt('m1', response)
 
-        return render(request, 'm1.html', {'solucion'  : response['solucion'], 
-                                            'iteraciones' : response['iteraciones'],
-                                            'tabla': response['tabla'],
-                                            'img_interactiva': img_interactiva,
-                                            'script': script, 'div': div,
-                                            'mensaje': response['mensaje']})
+            return render(request, 'm1.html', {'solucion'  : response['solucion'], 
+                                                'iteraciones' : response['iteraciones'],
+                                                'tabla': response['tabla'],
+                                                'img_interactiva': img_interactiva,
+                                                'script': script, 'div': div,
+                                                'mensaje': response['mensaje']})
+        except:
+            return render(request, 'm1.html', {'mensaje': response['mensaje']})
     else:
         return render(request, 'm1.html')
 
