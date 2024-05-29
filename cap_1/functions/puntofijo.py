@@ -1,5 +1,5 @@
 from math import *
-from base import func as base_func, graficar_template, grafico_interactivo
+from .base import func as base_func, graficar_template, grafico_interactivo
 from bokeh.plotting import show
 
 
@@ -114,4 +114,4 @@ def puntofijo_test():
 
     #show(res['img_interactiva'])
 
-puntofijo_test()
+#puntofijo_test()
