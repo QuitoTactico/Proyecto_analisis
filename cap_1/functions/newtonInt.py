@@ -49,10 +49,13 @@ def NewtonInt(x, y):
     polynomial_str = " + ".join(polynomial_terms)
 
     print(polynomial_str)
-    #img_interactiva = grafico_interactivo(function)
+    img_interactiva = grafico_interactivo(polynomial_str,
+                                          a=x[0],
+                                          b=x[-1],
+                                          puntos=zip(x, y))
 
     return {'tabla': Tabla,
-            #'img_interactiva': img_interactiva,
+            'img_interactiva': img_interactiva,
             'funcion': polynomial_str,
             'mensaje': "it worked"}
 
