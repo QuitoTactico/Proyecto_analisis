@@ -1,7 +1,7 @@
-#from cap_1.functions.spline_segment import *
-from spline_segment import *
-#from .base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
-from base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
+from cap_1.functions.spline_segment import *
+#from spline_segment import *
+from .base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
+#from base import func as base_func, func_deriv as base_func_deriv, graficar_template, grafico_interactivo
 from bokeh.plotting import show
 
 def spline_cubico(x, y):
@@ -35,7 +35,7 @@ def spline_cubico(x, y):
         
         spline = SplineSegment(i, a, b, c, d, function_str=function_str)
         splines.append(spline)
-    
+
     img_interactiva = grafico_interactivo(metodo='spline', a=x[0], b=x[-1], puntos=puntos, splines=splines)
     return splines, img_interactiva
 
@@ -53,4 +53,4 @@ def ejemplo():
         print(spline.function_str)
     '''
 
-ejemplo()
+#ejemplo()

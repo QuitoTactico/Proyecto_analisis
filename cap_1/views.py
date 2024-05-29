@@ -34,7 +34,7 @@ from bokeh.embed import components
 
 def export_to_txt(filepath, response):
     filepath = f'{filepath}_results.txt'
-    directory = os.path.abspath('../Pruebas')
+    directory = os.path.abspath('/Pruebas')
     print(f"Directory: {directory}")  # Print the directory
     if not os.path.exists(directory):
         os.makedirs(directory)
@@ -70,7 +70,7 @@ def busquedas(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
+            directory = os.path.abspath('/Pruebas')
             print(f"Directory: {directory}")  # Print the directory
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -297,7 +297,7 @@ def jacobi(request):
        #'tabla': s['tabla'],
        #'mensaje': s['mensaje']})
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
+            directory = os.path.abspath('/Pruebas')
             print(f"Directory: {directory}")  # Print the directory
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -338,7 +338,7 @@ def gauss_seidel(request):
         s = Gauss_seidel(x0, A, b, Tol, niter)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
+            directory = os.path.abspath('/Pruebas')
             print(f"Directory: {directory}")  # Print the directory
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -380,7 +380,7 @@ def sor(request):
         s = SOR(x0, A, b, Tol, niter, w)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
+            directory = os.path.abspath('/Pruebas')
             print(f"Directory: {directory}")  # Print the directory
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -423,7 +423,7 @@ def vandermonde(request):
 
         
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
+            directory = os.path.abspath('/Pruebas')
             print(f"Directory: {directory}")  # Print the directory
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -454,7 +454,7 @@ def newtonInt(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
+            directory = os.path.abspath('/Pruebas')
             print(f"Directory: {directory}")  # Print the directory
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -490,7 +490,7 @@ def lagrange(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
+            directory = os.path.abspath('/Pruebas')
             print(f"Directory: {directory}")  # Print the directory
             if not os.path.exists(directory):
                 os.makedirs(directory)
@@ -520,12 +520,14 @@ def splinelineal(request):
         y = request.POST['y']
         #export_txt = request.POST.get('export-txt')
 
-        tabla = spline_lineal(x, y)
+        tabla, img_interactiva = spline_lineal(x, y)
 
         try:
             return render(request, 'spline_lineal.html', {'solucion': tabla['mensaje']})
         except:
-            return render(request, 'spline_lineal.html', {'solucion': tabla})
+            script, div = components(img_interactiva)
+            return render(request, 'spline_lineal.html', {'solucion': tabla,
+                                                          'script': script, 'div': div,})
 
     return render(request, 'spline_lineal.html')
 
@@ -534,12 +536,14 @@ def splinecuadratico(request):
         x = request.POST['x']
         y = request.POST['y']
 
-        tabla = spline_cuadratico(x, y)
+        tabla, img_interactiva = spline_cuadratico(x, y)
 
         try:
             return render(request, 'spline_cuadratico.html', {'error': tabla['mensaje']})
         except:
-            return render(request, 'spline_cuadratico.html', {'tabla': tabla})
+            script, div = components(img_interactiva)
+            return render(request, 'spline_cuadratico.html', {'tabla': tabla,
+                                                              'script': script, 'div': div})
 
     return render(request, 'spline_cuadratico.html')
 
@@ -548,11 +552,13 @@ def splinecubico(request):
         x = request.POST['x']
         y = request.POST['y']
 
-        tabla = spline_cubico(x, y)
+        tabla, img_interactiva = spline_cubico(x, y)
 
         try:
             return render(request, 'spline_cubico.html', {'solucion': tabla['mensaje']})
         except:
-            return render(request, 'spline_cubico.html', {'solucion': tabla})
+            script, div = components(img_interactiva)
+            return render(request, 'spline_cubico.html', {'solucion': tabla,
+                                                          'script': script, 'div': div,})
 
     return render(request, 'spline_cubico.html')
