@@ -7,7 +7,7 @@ from bokeh.models import Span, Legend, LegendItem, CrosshairTool, HoverTool, Zoo
 def estandarizar_expresion(expresion:str):
     '''Modificamos la expresión y la llevamos a una forma entendible por la función eval o la librería sympy, así se puede evaluar correctamente'''
 
-    expresion = expresion.replace("^", "**").replace("sen", "sin").replace("tg", "tan").replace("ctg", "cot").replace('ln','log').lower()
+    expresion = expresion.replace("^", "**").replace("sen", "sin").replace("tg", "tan").replace("ctg", "cot").replace('ln','log').replace(' ','').replace(')(',')*(').lower()
 
     # aunque en la vida real escribamos 2x, para ser entendido se debe escribir 2*x. 
     # no es el único caso, puede suceder lo mismo con euler, pi, etc. 
