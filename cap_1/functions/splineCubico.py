@@ -2,7 +2,22 @@
 from spline_segment import *
 
 
-def spline_cubico(puntos):
+def spline_cubico(x, y):
+
+    try:
+            x = [float(num) for num in x.strip("[]").split()]
+            y = [float(num) for num in y.strip("[]").split()]
+    except ValueError as e:
+            return {'mensaje': f"Input parsing error: {e}"}
+
+    if not is_ascending(x):
+         return {'mensaje': f"Input x-values must be sorted in increasing order"}
+    
+    if len(x) != len(y):
+         return {'mensaje': f"Input vectors x and y must have the same length"}
+    
+    puntos = zip(x,y)
+
     n = len(puntos) - 1
     splines = []
     
@@ -32,4 +47,4 @@ def ejemplo():
         print(spline.function_str)
 
 
-ejemplo()
+#ejemplo()

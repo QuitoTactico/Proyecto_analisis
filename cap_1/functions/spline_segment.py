@@ -12,3 +12,9 @@ class SplineSegment:
     
     def __repr__(self):
         return f"SplineSegment(i={self.i}, coef1={self.coef1}, coef2={self.coef2}, coef3={self.coef3}, coef4={self.coef4}, function='{self.function_str}')"
+    
+def is_ascending(arr):
+    for i in range(len(arr) - 1):
+        if arr[i] > arr[i + 1]:
+            return False
+    return True

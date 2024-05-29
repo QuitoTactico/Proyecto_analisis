@@ -22,7 +22,9 @@ from .functions.sor import SOR
 from .functions.vander import Vandermonde
 from .functions.newtonInt import NewtonInt
 from .functions.lagrange import Lagrange
-# Create your views here.
+from .functions.splineLineal import spline_lineal
+from .functions.splineCuadratico import spline_cuadratico
+from .functions.splineCubico import spline_cubico
 
 import matplotlib.pyplot as plt
 import matplotlib
@@ -336,11 +338,6 @@ def m1(request):
     else:
         return render(request, 'm1.html')
 
-
-def m2(request):
-    return render(request, 'm2.html')
-
-
 # ================================Part 2================================
 def jacobi(request):
     if request.method == 'POST':
@@ -356,13 +353,15 @@ def jacobi(request):
        #'tabla': s['tabla'],
        #'mensaje': s['mensaje']})
 
-        return render(request, 'jacobi.html', {'solucion': s['solucion'],
-                                                'iteraciones': s['iteraciones'],
-                                                'tabla': s['tabla'],
-                                                'mensaje': s['mensaje']})
+        try:
+            return render(request, 'jacobi.html', {'solucion': s['solucion'],
+                                                    'iteraciones': s['iteraciones'],
+                                                    'tabla': s['tabla'],
+                                                    'mensaje': s['mensaje']})
+        except:
+            return render(request, 'jacobi.html', {'mensaje': s['mensaje']})
 
-    else:
-        return render(request, 'jacobi.html')
+    return render(request, 'jacobi.html')
 
 
 def gauss_seidel(request):
@@ -375,13 +374,15 @@ def gauss_seidel(request):
 
         s = Gauss_seidel(x0, A, b, Tol, niter)
 
-        return render(request, 'gauss_seidel.html', {'solucion': s['solucion'],
-                                                'iteraciones': s['iteraciones'],
-                                                'tabla': s['tabla'],
-                                                'mensaje': s['mensaje']})
+        try:
+            return render(request, 'gauss_seidel.html', {'solucion': s['solucion'],
+                                                    'iteraciones': s['iteraciones'],
+                                                    'tabla': s['tabla'],
+                                                    'mensaje': s['mensaje']})
+        except:
+            return render(request, 'gauss_seidel.html', {'mensaje': s['mensaje']})
 
-    else:
-        return render(request, 'gauss_seidel.html')
+    return render(request, 'gauss_seidel.html')
 
 
 def sor(request):
@@ -395,13 +396,15 @@ def sor(request):
 
         s = SOR(x0, A, b, Tol, niter, w)
 
-        return render(request, 'sor.html', {'solucion': s['solucion'],
-                                                'iteraciones': s['iteraciones'],
-                                                'tabla': s['tabla'],
-                                                'mensaje': s['mensaje']})
+        try:
+            return render(request, 'sor.html', {'solucion': s['solucion'],
+                                                    'iteraciones': s['iteraciones'],
+                                                    'tabla': s['tabla'],
+                                                    'mensaje': s['mensaje']})
+        except:
+            return render(request, 'sor.html', {'mensaje': s['mensaje']})
 
-    else:
-        return render(request, 'sor.html')
+    return render(request, 'sor.html')
 
 
 # ================================Part 3================================
@@ -415,13 +418,15 @@ def vandermonde(request):
         img_interactiva = s['img_interactiva']
         script, div = components(img_interactiva)
 
-        return render(request, 'lagrange.html', {'tabla': s['tabla'],
-                                                 'script': script, 'div': div,
-                                                    'funcion': s['funcion'],
-                                                    'mensaje': s['mensaje']})
+        try:
+            return render(request, 'lagrange.html', {'tabla': s['tabla'],
+                                                    'script': script, 'div': div,
+                                                        'funcion': s['funcion'],
+                                                        'mensaje': s['mensaje']})
+        except:
+            return render(request, 'lagrange.html', {'mensaje': s['mensaje']})
 
-    else:
-        return render(request, 'lagrange.html')
+    return render(request, 'lagrange.html')
 
 
 def newtonInt(request):
@@ -433,13 +438,15 @@ def newtonInt(request):
         img_interactiva = s['img_interactiva']
         script, div = components(img_interactiva)
 
-        return render(request, 'newtonint.html', {'tabla': s['tabla'],
-                                                    'script': script, 'div': div,
-                                                    'funcion': s['funcion'],
-                                                    'mensaje': s['mensaje']})
+        try:
+            return render(request, 'newtonint.html', {'tabla': s['tabla'],
+                                                        'script': script, 'div': div,
+                                                        'funcion': s['funcion'],
+                                                        'mensaje': s['mensaje']})
+        except:
+            return render(request, 'newtonint.html', {'mensaje': s['mensaje']})
 
-    else:
-        return render(request, 'newtonint.html')
+    return render(request, 'newtonint.html')
 
 
 def lagrange(request):
@@ -451,19 +458,54 @@ def lagrange(request):
         img_interactiva = s['img_interactiva']
         script, div = components(img_interactiva)
 
-        return render(request, 'lagrange.html', {'tabla': s['tabla'],
-                                                    'script': script, 'div': div,
-                                                    'funcion': s['funcion'],
-                                                    'mensaje': s['mensaje']})
+        try:
+            return render(request, 'lagrange.html', {'tabla': s['tabla'],
+                                                        'script': script, 'div': div,
+                                                        'funcion': s['funcion'],
+                                                        'mensaje': s['mensaje']})
+        except:
+            return render(request, 'lagrange.html', {'mensaje': s['mensaje']})
 
-    else:
-        return render(request, 'lagrange.html')
+    return render(request, 'lagrange.html')
 
 def spline_lineal(request):
+    if request.method == 'POST':
+        x = request.POST['x']
+        y = request.POST['y']
+
+        tabla = spline_lineal(x, y)
+
+        try:
+            return render(request, 'spline_lineal.html', {'solucion': tabla['mensaje']})
+        except:
+            return render(request, 'spline_lineal.html', {'solucion': tabla})
+
     return render(request, 'spline_lineal.html')
 
 def spline_cuadratico(request):
+    if request.method == 'POST':
+        x = request.POST['x']
+        y = request.POST['y']
+
+        tabla = spline_cuadratico(x, y)
+
+        try:
+            return render(request, 'spline_cuadratico.html', {'error': tabla['mensaje']})
+        except:
+            return render(request, 'spline_cuadratico.html', {'tabla': tabla})
+
     return render(request, 'spline_cuadratico.html')
 
 def spline_cubico(request):
+    if request.method == 'POST':
+        x = request.POST['x']
+        y = request.POST['y']
+
+        tabla = spline_cubico(x, y)
+
+        try:
+            return render(request, 'spline_cubico.html', {'solucion': tabla['mensaje']})
+        except:
+            return render(request, 'spline_cubico.html', {'solucion': tabla})
+
     return render(request, 'spline_cubico.html')
