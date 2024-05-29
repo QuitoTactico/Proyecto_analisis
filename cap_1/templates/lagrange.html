@@ -5,6 +5,8 @@
 <div class="container-all">
 
     <div class="form">
+        <h1 class="text-center">Interpolacion de lagrange</h1>
+        <h6 class="text-center p-3">Nota: Este método se basa en matrices, por lo que los campos de vector X y vector Y tienen que ir acompañados de [] y cada numero separado por un espacio, ejemplo: [0 0 0] </h6>
         <form action="{% url 'lagrange' %}" method="post" id="form-all">
             {% csrf_token %}
             <label for="x" class="font-weight-bold">Vector X</label>

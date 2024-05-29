@@ -4,6 +4,7 @@
 <div class="container-all">
 
     <div class="form">
+        <h1 class="text-center">Método de Punto fijo</h1>
         <form action="{% url 'puntofijo' %}" method="post"  id = "form-all">
             {% csrf_token %}
             <label for="funcion" class="font-weight-bold">Función</label>
@@ -13,7 +14,7 @@
             <input type="text" class="form-control" placeholder="Escribe la funcion g(x) "
                     name="funcion_g" required id="funcion_g">
             <label for="x0" class="font-weight-bold">x0</label>
-            <input type="text" class="form-control" placeholder="Escribe x0"
+            <input type="number" class="form-control" placeholder="Escriba la aproximación inicial"
                         name="x0" required id="x0">
             <label for="a" class="font-weight-bold">Error</label>
             <div class="form-group">
@@ -24,10 +25,10 @@
             </div>
             <label for="tol" class="font-weight-bold">Tolerancia</label>
             <input type="text" class="form-control"
-                placeholder="Escriba la tolerancia (valor máximo del Error)" name="tol" required id="tol">
+                placeholder="valor a buscar del Error" name="tol" required id="tol">
             <label for="niter" class="font-weight-bold">Número de iteraciones</label>
-            <input type="text" class="form-control"
-                placeholder="Escriba el numero máximo de iteraciones" name="niter" required id="niter">
+            <input type="number" class="form-control"
+                placeholder="Numero máximo de iteraciones" name="niter" required id="niter">
             <br>
             <label for="export-txt">Exportar a .txt:</label>
             <select id="export-txt" name="export-txt">

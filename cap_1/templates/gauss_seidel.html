@@ -4,11 +4,14 @@
 <div class="container-all">
 
     <div class="form">
+        <h1 class="text-center">Método de Gauss-seidel</h1>
+        <h6 class="p-3 text-center">Nota: Este método se basa en matrices, por lo que los campos de Vector inicial (x0) y las matrices A y el vector de resultados, tienen que ir acompañados de [] y cada numero separado por un espacio, ejemplo: [0 0 0] </h6>
         <form action="{% url 'gauss_seidel' %}" method="post" id="form-all">
             {% csrf_token %}
             <label for="x0" class="font-weight-bold">Vector inicial (X0)</label>
             <input type="text" class="form-control" placeholder="Escribe x0" name="x0" required id="x0">
             <label for="x0" class="font-weight-bold">Matrices</label>
+            <h6 class="text-center p-3">Sobre esta sección, para ingresar A, al igual que la nota anterior, cada elemento es con [] y separado cada numero con espacio, además, como es una matriz, si se quiere cambiar de fila, tiene que ser con un ;, ejemplo: [4 -1 0; -1 4 -1; 0 -1 4] </h6>
             <div class="section d-flex">
                 <input type="text" class="form-control mr-1" placeholder="Escriba la matriz A" name="A" required id="A">
                 <input type="text" class="form-control ml-1" placeholder="Escriba el vector de resultados b" name="b"

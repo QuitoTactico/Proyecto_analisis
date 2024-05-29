@@ -5,6 +5,7 @@
 <div class="container-all">
 
     <div class="form">
+        <h1 class="text-center">Método de Biseccion</h1>
         <form action="{% url 'biseccion' %}" method="post"  id = "form-all">
             {% csrf_token %}
             <label for="funcion" class="font-weight-bold">Función</label>
@@ -12,9 +13,9 @@
                 name="funcion" required id="funcion">
             <label for="a" class="font-weight-bold">Rango</label>
             <div class="section d-flex">
-                <input type="text" class="form-control mr-1"
+                <input type="number" class="form-control mr-1"
                     placeholder="Escriba el inicio del rango" name="a" required id="a">
-                <input type="text" class="form-control ml-1"
+                <input type="number" class="form-control ml-1"
                 placeholder="Escriba el final del rango" name="b" required id="b">
             </div>
             <!--
@@ -35,7 +36,7 @@
             <input type="text" class="form-control"
                 placeholder="Escriba la tolerancia (valor máximo del Error)" name="tol" required id="tol">
             <label for="niter" class="font-weight-bold">Número de iteraciones</label>
-            <input type="text" class="form-control"
+            <input type="number" class="form-control"
                 placeholder="Escriba el numero máximo de iteraciones" name="niter" required id="niter">
             <br>
             <label for="export-txt">Exportar a .txt:</label>
