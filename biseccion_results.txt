@@ -1,0 +1,5 @@
+solucion: 0.5
+iteraciones: 2
+tabla: [1 | 1.0 | 1.0 | 1, 2 | 0.5 | 0.0 | 1.0]
+img_interactiva: figure(id='p1169', ...)
+mensaje: PUNTO ENCONTRADO

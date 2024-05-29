@@ -15,8 +15,6 @@ window.onload = function () {
             document.getElementById('funcion').value = formData.funcion;
             document.getElementById('x0').value = formData.x0;
             document.getElementById('m').value = formData.m;
-            document.getElementById('a').value = formData.a;
-            document.getElementById('b').value = formData.b;
             document.getElementById('tol').value = formData.tol;
             document.getElementById('niter').value = formData.iter;
             resultsTable[0].style.display = 'table'; // show the table
@@ -38,8 +36,6 @@ window.onload = function () {
         let funcion = document.getElementById('funcion').value;
         let x0 = document.getElementById('x0').value;
         let m = document.getElementById('m').value;
-        let a = document.getElementById('a').value;
-        let b = document.getElementById('b').value;
         let tol = document.getElementById('tol').value;
         let iter = document.getElementById('niter').value;
 
@@ -47,8 +43,6 @@ window.onload = function () {
                 funcion: funcion,
                 x0:x0,
                 m:m,
-                a: a,
-                b: b,
                 tol: tol,
                 iter: iter,
 
