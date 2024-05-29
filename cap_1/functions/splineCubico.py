@@ -1,4 +1,5 @@
-from splineSegment import *
+#from cap_1.functions.spline_segment import *
+from spline_segment import *
 
 
 def spline_cubico(puntos):
@@ -25,7 +26,10 @@ def ejemplo():
     # Ejemplo de uso:
     puntos = [(1, 2), (2, 3), (3, 5)]
     splines = spline_cubico(puntos)
-    print(splines)
+    
+    for i, spline in enumerate(splines):
+        print(puntos[i], puntos[i+1])
+        print(spline.function_str)
 
 
 ejemplo()
