@@ -412,8 +412,11 @@ def vandermonde(request):
 
         s = Vandermonde(x, y)
 
+        img_interactiva = s['img_interactiva']
+        script, div = components(img_interactiva)
+
         return render(request, 'lagrange.html', {'tabla': s['tabla'],
-                                                    'img_interactiva': s['img_interactiva'],
+                                                 'script': script, 'div': div,
                                                     'funcion': s['funcion'],
                                                     'mensaje': s['mensaje']})
 
@@ -427,9 +430,11 @@ def newtonInt(request):
         y = request.POST['y']
 
         s = NewtonInt(x, y)
+        img_interactiva = s['img_interactiva']
+        script, div = components(img_interactiva)
 
         return render(request, 'newtonint.html', {'tabla': s['tabla'],
-                                                    'img_interactiva': s['img_interactiva'],
+                                                    'script': script, 'div': div,
                                                     'funcion': s['funcion'],
                                                     'mensaje': s['mensaje']})
 
@@ -443,9 +448,11 @@ def lagrange(request):
         y = request.POST['y']
 
         s = Lagrange(x, y)
+        img_interactiva = s['img_interactiva']
+        script, div = components(img_interactiva)
 
         return render(request, 'lagrange.html', {'tabla': s['tabla'],
-                                                    'img_interactiva': s['img_interactiva'],
+                                                    'script': script, 'div': div,
                                                     'funcion': s['funcion'],
                                                     'mensaje': s['mensaje']})
 
