@@ -1,7 +1,7 @@
 from math import *
-from .base import func as base_func, graficar_template, grafico_interactivo
-#from base import func as base_func, graficar_template, grafico_interactivo
+from base import func as base_func, graficar_template, grafico_interactivo
 from bokeh.plotting import show
+
 
 class Iteracion:
     def __init__(self, i:int, x:float, fx:float, err:float):
@@ -16,7 +16,8 @@ class Iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def puntofijo_func(funcion:str, funcion_g:str, x0:float,error_type:str, tol:float, niter:int):
+
+def puntofijo_func(funcion: str, funcion_g: str, x0: float, error_type: str, tol: float, niter: int):
     """
     Implementación método de punto fijo
     Entradas:
@@ -26,7 +27,9 @@ def puntofijo_func(funcion:str, funcion_g:str, x0:float,error_type:str, tol:floa
     niter -- número máximo de iteraciones
     """
 
-    def func(x): 
+    haveFunc = True
+
+    def func(x):
         return base_func(funcion_g, x)
 
     i = 1
@@ -34,61 +37,73 @@ def puntofijo_func(funcion:str, funcion_g:str, x0:float,error_type:str, tol:floa
     tabla = []
     x0_inicial = x0
 
-    tabla.append(Iteracion(0, 
-                            f'{x0}', 
-                            f'{func(x0)}', 
-                            1))
+    try:
+        tabla.append(Iteracion(0,
+                                f'{x0}',
+                                f'{func(x0)}',
+                                1))
+    except:
+        haveFunc = False
 
-    while True:
-        x = func(x0)
-        fx = func(x)
+    if haveFunc:
+        while True:
+            x = func(x0)
+            fx = func(x)
 
-        x_anterior = float(tabla[-1].x)
-        if error_type == 'Error absoluto':
-            err = abs(x - x_anterior)
-        elif error_type == 'Error relativo':
-            err = abs((x - x_anterior)/x)
+            x_anterior = float(tabla[-1].x)
+            try:
+                if error_type == 'Error absoluto':
+                    err = abs(x - x_anterior)
+                elif error_type == 'Error relativo':
+                    err = abs((x - x_anterior)/x)
+            except:
+                x, i, img_interactiva, mensaje = 0, 0, 0, 'OVERFLOW'
+                break
 
-        tabla.append(Iteracion(i, 
-                            f'{x}', 
-                            f'{fx}', 
-                            f'{err}'))
+            tabla.append(Iteracion(i,
+                                    f'{x}',
+                                    f'{fx}',
+                                    f'{err}'))
 
-        if abs(fx) <= 1e-64 or err <= tol:
-            mensaje = 'PUNTO ENCONTRADO'
-            break
+            if abs(fx) <= 1e-64 or err <= tol:
+                mensaje = 'PUNTO ENCONTRADO'
+                break
 
-        elif i >= niter:
-            mensaje = 'ITERACIONES AGOTADAS'
-            break
+            elif i >= niter:
+                mensaje = 'ITERACIONES AGOTADAS'
+                break
 
-        else:
-            x0 = x
-            i += 1
+            else:
+                x0 = x
+                i += 1
 
-    a = min(float(iteracion.x) for iteracion in tabla)
-    b = max(float(iteracion.x) for iteracion in tabla)
-    img_interactiva = grafico_interactivo(funcion, 
-                                          metodo='puntofijo', 
-                                          sol=x, 
-                                          a=a, 
-                                          b=b, 
-                                          vlines= [('x0', x0_inicial)], 
-                                          funcion_g=funcion_g)
-    #img_interactiva = grafico_interactivo(funcion, sol=x, a=a, b=b, vlines= [('x0', x0_inicial)], funcion_g='NEWTON')
+        a = min(float(iteracion.x) for iteracion in tabla)
+        b = max(float(iteracion.x) for iteracion in tabla)
+        try:
+            img_interactiva = grafico_interactivo(funcion,
+                                                  metodo='puntofijo',
+                                                  sol=x,
+                                                  a=a,
+                                                  b=b,
+                                                  vlines=[('x0', x0_inicial)],
+                                                  funcion_g=funcion_g)
+        except:
+            x, i, img_interactiva, mensaje = 0, 0, 0, 'FUNCION 1 MAL ESCRITA'
+        # img_interactiva = grafico_interactivo(funcion, sol=x, a=a, b=b, vlines= [('x0', x0_inicial)], funcion_g='NEWTON')
+    else:
+        x, i, img_interactiva, mensaje = 0, 0, 0, 'FUNCION 2 MAL ESCRITA'
 
-    return {'solucion'   : x, 
-            'iteraciones': i, 
-            'tabla'      : tabla,
+    return {'solucion': x,
+            'iteraciones': i,
+            'tabla': tabla,
             'img_interactiva': img_interactiva,
-            'mensaje'    : mensaje
-            }
+            'mensaje': mensaje}
 
 
 def puntofijo_test():
 
     #res = puntofijo_func('(e^x)-2', -2, 5, 3, 1e-20, 100)   # caso de fallo
-    res = puntofijo_func('(x^3)-10x-5', '(10x+5)^(1/3)', 1, 'Error absoluto', 1e-20, 200)
+    res = puntofijo_func('ahuevo', 'e**x-2', 1, 'Error absoluto', 1e-20, 200)
 
     for iteracion in res['tabla']:
         print(iteracion.i, iteracion.x, iteracion.fx, iteracion.err)
@@ -97,6 +112,6 @@ def puntofijo_test():
     print(f'Solución: {res["solucion"]}')
     print(f'Iteraciones: {res["iteraciones"]}')
 
-    show(res['img_interactiva'])
+    #show(res['img_interactiva'])
 
-#puntofijo_test()
+puntofijo_test()
