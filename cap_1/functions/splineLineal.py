@@ -10,13 +10,13 @@ def spline_lineal(x, y):
             x = [float(num) for num in x.strip("[]").split()]
             y = [float(num) for num in y.strip("[]").split()]
     except ValueError as e:
-            return {'mensaje': f"Input parsing error: {e}"}
+            return {'mensaje': f"Input parsing error: {e}"}, None
 
     if not is_ascending(x):
-         return {'mensaje': f"Input x-values must be sorted in increasing order"}
+         return {'mensaje': f"Input x-values must be sorted in increasing order"}, None
     
     if len(x) != len(y):
-         return {'mensaje': f"Input vectors x and y must have the same length"}
+         return {'mensaje': f"Input vectors x and y must have the same length"}, None
     
     puntos = list(zip(x,y))
 
