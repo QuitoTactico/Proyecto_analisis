@@ -1,5 +1,5 @@
-#from cap_1.functions.spline_segment import *
-from spline_segment import *
+from cap_1.functions.spline_segment import *
+#from spline_segment import *
 
 
 def spline_cubico(x, y):

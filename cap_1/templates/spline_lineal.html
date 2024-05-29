@@ -2,4 +2,51 @@
 {% load static %}
 {% block content %}
 
+<div class="container-all">
+
+    <div class="form">
+        <form action="{% url 'splinelineal' %}" method="post" id="form-all">
+            {% csrf_token %}
+            <label for="x" class="font-weight-bold">Vector X</label>
+            <input type="text" class="form-control" placeholder="Escribe el vector x" name="x" required id="x">
+            <label for="y" class="font-weight-bold">Vector Y</label>
+            <input type="text" class="form-control" placeholder="Escribe el vector y" name="y" required id="y">
+
+            <label for="export-txt">Exportar a .txt:</label>
+            <select id="export-txt" name="export-txt">
+                <option value="off">No</option>
+                <option value="on">Sí</option>
+            </select>
+            <input type="submit" value="Submit" class="btn btn-danger" id="submitBtn">
+        </form>
+    </div>
+</div>
+<h2>Tabla de Splines Lineales:</h2>
+<table class="table table-striped w-100 mt-3">
+    <thead class="thead-dark">
+        <tr>
+            <th>i</th>
+            <th>coef1</th>
+            <th>coef2</th>
+            <th>coef3</th>
+            <th>coef4</th>
+            <th>Función</th>
+        </tr>
+    </thead>
+    {% for spline in solucion %}
+    <tr>
+        <td>{{ spline.i }}</td>
+        <td>{{ spline.coef1 }}</td>
+        <td>{{ spline.coef2 }}</td>
+        <td>{{ spline.coef3 }}</td>
+        <td>{{ spline.coef4 }}</td>
+        <td>{{ spline.function_str }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{{ div|safe }}
+{{ script|safe }}
+
+
+
 {% endblock content %}

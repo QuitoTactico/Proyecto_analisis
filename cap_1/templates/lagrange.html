@@ -5,7 +5,7 @@
 <div class="container-all">
 
     <div class="form">
-        <form action="{% url 'vandermonde' %}" method="post" id="form-all">
+        <form action="{% url 'lagrange' %}" method="post" id="form-all">
             {% csrf_token %}
             <label for="x" class="font-weight-bold">Vector X</label>
             <input type="text" class="form-control" placeholder="Escribe el vector x" name="x" required id="x">
@@ -35,11 +35,9 @@
 </table>
 <h2>Tabla:</h2>
 <table class="table table-striped w-100 mt-3">
-{% for row in tabla %}
+{% for item in tabla %}
     <tr>
-    {% for cell in row %}
-        <td>{{ cell }}</td>
-    {% endfor %}
+        <td>{{ item }}</td>
     </tr>
 {% endfor %}
 </table>

@@ -59,7 +59,7 @@ def ejemplo():
 
     resultados = Vandermonde(x, y)
     print(resultados['tabla'])
-    show(resultados['img_interactiva'])
+    #show(resultados['img_interactiva'])
 
 
 #ejemplo()

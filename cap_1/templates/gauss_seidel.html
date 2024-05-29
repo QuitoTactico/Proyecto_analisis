@@ -4,7 +4,7 @@
 <div class="container-all">
 
     <div class="form">
-        <form action="{% url 'jacobi' %}" method="post" id="form-all">
+        <form action="{% url 'gauss_seidel' %}" method="post" id="form-all">
             {% csrf_token %}
             <label for="x0" class="font-weight-bold">Vector inicial (X0)</label>
             <input type="text" class="form-control" placeholder="Escribe x0" name="x0" required id="x0">
@@ -21,6 +21,11 @@
             <input type="text" class="form-control" placeholder="Escriba el numero máximo de iteraciones" name="niter"
                 required id="niter">
             <br>
+            <label for="export-txt">Exportar a .txt:</label>
+            <select id="export-txt" name="export-txt">
+                <option value="off">No</option>
+                <option value="on">Sí</option>
+            </select>
             <input type="submit" value="Submit" class="btn btn-danger" id="submitBtn">
         </form>
     </div>

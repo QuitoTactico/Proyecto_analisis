@@ -32,6 +32,25 @@ import io
 import urllib, base64
 from bokeh.embed import components
 
+def export_to_txt(filepath, response):
+    filepath = f'{filepath}_results.txt'
+    directory = os.path.abspath('../Pruebas')
+    print(f"Directory: {directory}")  # Print the directory
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+    filepath = os.path.join(directory, filepath)
+    print(f"Filepath: {filepath}")  # Print the filepath
+    with open(filepath, 'w') as f:
+        for key, value in response.items():
+            if key == 'tabla':
+                f.write(f'{key}:\n')
+                for item in value:
+                    f.write(f'i={item.i}, x={item.x}, fx={item.fx}\n, err={item.err}')
+            elif key == 'img_interactiva':
+    # No imprimimos 'img_interactiva' ya que no es legible en texto
+                continue
+            else:
+                f.write(f'{key}: {value}\n')
 
 def home(request):
     return render(request, 'index.html')
@@ -43,11 +62,31 @@ def busquedas(request):
         x0 = float(request.POST['x0'])
         dx = float(request.POST['dx'])
         niter = int(request.POST['niter'])
+        export_txt = request.POST.get('export-txt')
 
         response = busquedas_func(funcion, x0, dx, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
+
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'busquedas_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in response.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
 
         return render(request, 'busquedas.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],
@@ -89,23 +128,7 @@ def biseccion(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            filepath = os.path.join(directory, 'biseccion_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
-            with open(filepath, 'w') as f:
-                for key, value in response.items():
-                    if key == 'tabla':
-                        f.write(f'{key}:\n')
-                        for item in value:
-                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
-                    elif key == 'img_interactiva':
-            # No imprimimos 'img_interactiva' ya que no es legible en texto
-                        continue
-                    else:
-                        f.write(f'{key}: {value}\n')
+            export_to_txt('biseccion', response)
 
         return render(request, 'biseccion.html', {'solucion'  : response['solucion'], 
                                              'iteraciones' : response['iteraciones'],
@@ -133,23 +156,7 @@ def reglafalsa(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            filepath = os.path.join(directory, 'reglafalsa_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
-            with open(filepath, 'w') as f:
-                for key, value in response.items():
-                    if key == 'tabla':
-                        f.write(f'{key}:\n')
-                        for item in value:
-                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
-                    elif key == 'img_interactiva':
-            # No imprimimos 'img_interactiva' ya que no es legible en texto
-                        continue
-                    else:
-                        f.write(f'{key}: {value}\n')
+            export_to_txt('reglafalsa', response)
         return render(request, 'reglafalsa.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],
                                             'tabla': response['tabla'],
@@ -177,23 +184,7 @@ def puntofijo(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            filepath = os.path.join(directory, 'puntofijo_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
-            with open(filepath, 'w') as f:
-                for key, value in response.items():
-                    if key == 'tabla':
-                        f.write(f'{key}:\n')
-                        for item in value:
-                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
-                    elif key == 'img_interactiva':
-            # No imprimimos 'img_interactiva' ya que no es legible en texto
-                        continue
-                    else:
-                        f.write(f'{key}: {value}\n')
+            export_to_txt('puntofijo', response)
         return render(request, 'puntofijo.html', {'solucion'  : response['solucion'], 
                                              'iteraciones' : response['iteraciones'],
                                              'tabla': response['tabla'],
@@ -219,23 +210,7 @@ def newton(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            filepath = os.path.join(directory, 'newton_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
-            with open(filepath, 'w') as f:
-                for key, value in response.items():
-                    if key == 'tabla':
-                        f.write(f'{key}:\n')
-                        for item in value:
-                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
-                    elif key == 'img_interactiva':
-            # No imprimimos 'img_interactiva' ya que no es legible en texto
-                        continue
-                    else:
-                        f.write(f'{key}: {value}\n')
+            export_to_txt('newton', response)
 
         return render(request, 'newton.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],
@@ -267,23 +242,7 @@ def secante(request):
             script, div = None, None
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            filepath = os.path.join(directory, 'secante_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
-            with open(filepath, 'w') as f:
-                for key, value in response.items():
-                    if key == 'tabla':
-                        f.write(f'{key}:\n')
-                        for item in value:
-                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
-                    elif key == 'img_interactiva':
-            # No imprimimos 'img_interactiva' ya que no es legible en texto
-                        continue
-                    else:
-                        f.write(f'{key}: {value}\n')
+            export_to_txt('secante', response)
         return render(request, 'secante.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],
                                             'tabla': response['tabla'],
@@ -311,23 +270,7 @@ def m1(request):
         script, div = components(img_interactiva)
 
         if export_txt == 'on':
-            directory = os.path.abspath('../Pruebas')
-            print(f"Directory: {directory}")  # Print the directory
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            filepath = os.path.join(directory, 'm1_results.txt')
-            print(f"Filepath: {filepath}")  # Print the filepath
-            with open(filepath, 'w') as f:
-                for key, value in response.items():
-                    if key == 'tabla':
-                        f.write(f'{key}:\n')
-                        for item in value:
-                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
-                    elif key == 'img_interactiva':
-            # No imprimimos 'img_interactiva' ya que no es legible en texto
-                        continue
-                    else:
-                        f.write(f'{key}: {value}\n')
+            export_to_txt('m1', response)
 
         return render(request, 'm1.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],
@@ -346,12 +289,31 @@ def jacobi(request):
         b = request.POST['b']
         Tol = request.POST['tol']
         niter = request.POST['niter']
+        export_txt = request.POST.get('export-txt')
 
         s = MatJacobi(x0, A, b, Tol, niter)
         #print({'solucion': s['solucion'],
        #'iteraciones': s['iteraciones'],
        #'tabla': s['tabla'],
        #'mensaje': s['mensaje']})
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'jacobi_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in s.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'c={item.c}, error={item.error}, x0={item.x0}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
 
         try:
             return render(request, 'jacobi.html', {'solucion': s['solucion'],
@@ -371,8 +333,28 @@ def gauss_seidel(request):
         b = request.POST['b']
         Tol = request.POST['tol']
         niter = request.POST['niter']
+        export_txt = request.POST.get('export-txt')
 
         s = Gauss_seidel(x0, A, b, Tol, niter)
+
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'gauss_seidel_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in s.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'c={item.c}, error={item.error}, x0={item.x0}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
 
         try:
             return render(request, 'gauss_seidel.html', {'solucion': s['solucion'],
@@ -393,8 +375,28 @@ def sor(request):
         Tol = request.POST['tol']
         niter = request.POST['niter']
         w = request.POST['w']
+        export_txt = request.POST.get('export-txt')
 
         s = SOR(x0, A, b, Tol, niter, w)
+
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'sor_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in s.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'c={item.c}, error={item.error}, x0={item.x0}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
 
         try:
             return render(request, 'sor.html', {'solucion': s['solucion'],
@@ -412,31 +414,59 @@ def vandermonde(request):
     if request.method == 'POST':
         x = request.POST['x']
         y = request.POST['y']
+        export_txt = request.POST.get('export-txt')
 
         s = Vandermonde(x, y)
 
         img_interactiva = s['img_interactiva']
         script, div = components(img_interactiva)
 
+        
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'vander_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                f.write(f"funcion: {s['funcion']}\n")
+                f.write(f"mensaje: {s['mensaje']}\n")
         try:
-            return render(request, 'lagrange.html', {'tabla': s['tabla'],
+            return render(request, 'vandermonde.html', {'tabla': s['tabla'],
                                                     'script': script, 'div': div,
                                                         'funcion': s['funcion'],
                                                         'mensaje': s['mensaje']})
         except:
-            return render(request, 'lagrange.html', {'mensaje': s['mensaje']})
+            return render(request, 'vandermonde.html', {'mensaje': s['mensaje']})
 
-    return render(request, 'lagrange.html')
+    return render(request, 'vandermonde.html')
 
 
 def newtonInt(request):
     if request.method == 'POST':
         x = request.POST['x']
         y = request.POST['y']
+        export_txt = request.POST.get('export-txt')
 
         s = NewtonInt(x, y)
         img_interactiva = s['img_interactiva']
         script, div = components(img_interactiva)
+
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'newton_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                f.write(f"funcion: {s['funcion']}\n")
+                f.write(f"mensaje: {s['mensaje']}\n")
+                if 'tabla' in s:
+                    f.write('tabla:\n')
+                    for row in s['tabla']:
+                        f.write('\t'.join(map(str, row)) + '\n')
 
         try:
             return render(request, 'newtonint.html', {'tabla': s['tabla'],
@@ -453,10 +483,26 @@ def lagrange(request):
     if request.method == 'POST':
         x = request.POST['x']
         y = request.POST['y']
+        export_txt = request.POST.get('export-txt')
 
         s = Lagrange(x, y)
         img_interactiva = s['img_interactiva']
         script, div = components(img_interactiva)
+
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'lagrange_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                f.write(f"funcion: {s['funcion']}\n")
+                f.write(f"mensaje: {s['mensaje']}\n")
+                if 'tabla' in s:
+                    f.write('tabla:\n')
+                    for item in s['tabla']:
+                        f.write(str(item) + '\n')
 
         try:
             return render(request, 'lagrange.html', {'tabla': s['tabla'],
@@ -468,10 +514,11 @@ def lagrange(request):
 
     return render(request, 'lagrange.html')
 
-def spline_lineal(request):
+def splinelineal(request):
     if request.method == 'POST':
         x = request.POST['x']
         y = request.POST['y']
+        #export_txt = request.POST.get('export-txt')
 
         tabla = spline_lineal(x, y)
 
@@ -482,7 +529,7 @@ def spline_lineal(request):
 
     return render(request, 'spline_lineal.html')
 
-def spline_cuadratico(request):
+def splinecuadratico(request):
     if request.method == 'POST':
         x = request.POST['x']
         y = request.POST['y']
@@ -496,7 +543,7 @@ def spline_cuadratico(request):
 
     return render(request, 'spline_cuadratico.html')
 
-def spline_cubico(request):
+def splinecubico(request):
     if request.method == 'POST':
         x = request.POST['x']
         y = request.POST['y']
