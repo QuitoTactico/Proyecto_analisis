@@ -150,7 +150,7 @@ def func_deriv(expresion, x_input:float=0, n_deriv:int=1, eval:bool=True):
         return derivada
 
 
-def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float=None, b:float=None, vlines:list=[], hlines:list=[], deriv:int=0, funcion_g:str=None, m:int=1, puntos:list=[]):
+def grafico_interactivo(funcion:str=None, metodo:str=None, sol:float=None, a:float=None, b:float=None, vlines:list=[], hlines:list=[], deriv:int=0, funcion_g:str=None, m:int=1, puntos:list=[], splines:list=[]):
     '''Grafica la función y sus derivadas, con líneas punteadas en a y b, y una línea punteada en la solución si es que se especifica'''
 
     distancia = abs(b-a)
@@ -186,13 +186,20 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
     eje_x = [a + (b-a)/200 * i for i in range(201)]
 
     # graficaremos la función y sus derivadas
-    for i in range(deriv+1):
-        # 200 puntos entre a y b
-        # para cada punto: si es la primera iteración, les evaluamos la función normal, si no, la derivada i-ésima
-        eje_y = [func(funcion, x) for x in eje_x] if i == 0 else [func_deriv(funcion, x, i) for x in eje_x]
-        # la añadimos al grafico y ponemos su leyenda
-        funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color=colors[i], line_width=2, name='f'+"'"*i+'(x)')
-        lista_leyenda.append(LegendItem(label='f'+"'"*i+'(x)', renderers=[funcion_linea]))        
+    if funcion is not None:
+        for i in range(deriv+1):
+            # 200 puntos entre a y b
+            # para cada punto: si es la primera iteración, les evaluamos la función normal, si no, la derivada i-ésima
+            eje_y = [func(funcion, x) for x in eje_x] if i == 0 else [func_deriv(funcion, x, i) for x in eje_x]
+            # la añadimos al grafico y ponemos su leyenda
+            funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color=colors[i], line_width=2, name='f'+"'"*i+'(x)')
+            lista_leyenda.append(LegendItem(label='f'+"'"*i+'(x)', renderers=[funcion_linea]))  
+    elif metodo == 'spline':
+        for i, spline in enumerate(splines):
+            eje_x = [puntos[i][0] + (puntos[i+1][0]-puntos[i][0])/100 * j for j in range(101)]
+            eje_y = [func(spline.function_str, x) for x in eje_x]
+            funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color=colors[i], line_width=2, name='Spline '+str(i))
+            lista_leyenda.append(LegendItem(label='Spline '+str(i), renderers=[funcion_linea]))      
 
 
     # para los métodos como Newton, Newton M1, Newton M2 y punto fijo (respectivamente), graficamos la función g(x)
@@ -213,7 +220,7 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
         if metodo == 'm2':
             pass
 
-        if metodo != 'busquedas' and not (metodo == 'secante' and sol is None):
+        if metodo != 'busquedas' and not (metodo == 'secante' and sol is None) and funcion is not None:
             eje_y = [func(funcion_g, x) for x in eje_x]
             funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
             lista_leyenda.append(LegendItem(label='g(x) '+metodo.capitalize(), renderers=[funcion_linea]))
@@ -234,7 +241,7 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
             '''
     
     # agregar líneas en a y b
-    if a is not None and b is not None:
+    if a is not None and b is not None and funcion is not None:
         vline = Span(location=a, dimension='height', line_color='green', line_width=1, line_dash='dashed')
         plot_interactivo.add_layout(vline)
         vline = Span(location=b, dimension='height', line_color='green', line_width=1, line_dash='dashed')
@@ -282,7 +289,7 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
         plot_interactivo.scatter([sol], [0], fill_color='red', line_color="black", size=8, name="Solución")
 
     for i, point in enumerate(puntos):
-        plot_interactivo.scatter([point[0]], [point[1]], fill_color='white', line_color="black", size=8, name=str(i))
+        plot_interactivo.scatter([point[0]], [point[1]], fill_color='white', line_color="black", size=8, name='Punto '+str(i))
 
     plot_interactivo.add_layout(Legend(items=lista_leyenda))
 
