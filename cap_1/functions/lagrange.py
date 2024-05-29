@@ -6,10 +6,22 @@ from bokeh.plotting import show
 
 def Lagrange(x, y):
 
-    x = np.array([float(num) for num in x.strip("[]").split(" ")])
-    y = np.array([float(num) for num in y.strip("[]").split(" ")])
+    try:
+        x = np.array([float(num) for num in x.strip("[]").split()])
+        y = np.array([float(num) for num in y.strip("[]").split()])
+    except ValueError as e:
+        return {'mensaje': f"Input parsing error: {e}"}
 
     n = len(x)
+    if n != len(y):
+        return {'mensaje': "Input vectors x and y must have the same length"}
+
+    if n < 2:
+        return {'mensaje': "At least two data points are required for interpolation"}
+
+    if not np.all(np.diff(x) > 0):
+        return {'mensaje': "Input x-values must be sorted in increasing order"}
+
     Tabla = np.zeros((n, n))
     polynomial_terms = []
 
@@ -34,11 +46,9 @@ def Lagrange(x, y):
     print(polynomial_str)
     #img_interactiva = grafico_interactivo(function)
 
-    mensaje = "se logro"
-
     return {'tabla': pol,
             #'img_interactiva': img_interactiva,
-            'mensaje': mensaje}
+            'mensaje': "it worked"}
 
 
 def ejemplo():

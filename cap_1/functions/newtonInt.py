@@ -5,20 +5,36 @@ from bokeh.plotting import show
 
 
 def NewtonInt(x, y):
-
-    x = np.array([float(num) for num in x.strip("[]").split(" ")])
-    y = np.array([float(num) for num in y.strip("[]").split(" ")])
+ 
+    try:
+        x = np.array([float(num) for num in x.strip("[]").split()])
+        y = np.array([float(num) for num in y.strip("[]").split()])
+    except ValueError as e:
+        return {'mensaje': f"Input parsing error: {e}"}
 
     n = len(x)
+    if n != len(y):
+        return {'mensaje': "Input vectors x and y must have the same length"}
+
+    if n < 2:
+        return {'mensaje': "At least two data points are required for interpolation"}
+
+    if not np.all(np.diff(x) > 0):
+        return {'mensaje': "Input x-values must be sorted in increasing order"}
+
     Tabla = np.zeros((n, n + 1))
     Tabla[:, 0] = x
     Tabla[:, 1] = y
 
     for j in range(2, n + 1):
         for i in range(j - 1, n):
-            Tabla[i, j] = (Tabla[i, j - 1] - Tabla[i - 1, j - 1]) / (Tabla[i, 0] - Tabla[i - (j - 1), 0])
-
-    mensaje = "it worked"
+            try:
+                denominator = Tabla[i, 0] - Tabla[i - (j - 1), 0]
+                if denominator == 0:
+                    raise ZeroDivisionError("Division by zero")
+                Tabla[i, j] = (Tabla[i, j - 1] - Tabla[i - 1, j - 1]) / denominator
+            except ZeroDivisionError as e:
+                return {'mensaje': f"Error in calculating divided difference at index ({i}, {j}): {e}"}
 
     coefficients = Tabla[np.arange(n), np.arange(1, n + 1)]
 
@@ -38,7 +54,7 @@ def NewtonInt(x, y):
     return {'tabla': Tabla,
             #'img_interactiva': img_interactiva,
             'funcion': polynomial_str,
-            'mensaje': mensaje}
+            'mensaje': "it worked"}
 
 
 def ejemplo():
