@@ -70,8 +70,8 @@ def m1_func(funcion:str, m:int, x0:float,error_type:str, tol:float, niter:int):
             x0 = x
             i += 1
 
-    a = min(iteracion.x for iteracion in tabla)
-    b = max(iteracion.x for iteracion in tabla)
+    a = min(float(iteracion.x) for iteracion in tabla)
+    b = max(float(iteracion.x) for iteracion in tabla)
     img_interactiva = grafico_interactivo(funcion, metodo='m1', sol=x, a=a, b=b, vlines= [('x0', x0_inicial)], m=m)
 
     return {'solucion'   : x, 

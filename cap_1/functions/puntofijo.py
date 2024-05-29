@@ -66,8 +66,8 @@ def puntofijo_func(funcion:str, funcion_g:str, x0:float,error_type:str, tol:floa
             x0 = x
             i += 1
 
-    a = min(iteracion.x for iteracion in tabla)
-    b = max(iteracion.x for iteracion in tabla)
+    a = min(float(iteracion.x) for iteracion in tabla)
+    b = max(float(iteracion.x) for iteracion in tabla)
     img_interactiva = grafico_interactivo(funcion, 
                                           metodo='puntofijo', 
                                           sol=x, 

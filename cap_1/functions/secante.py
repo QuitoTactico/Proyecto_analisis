@@ -81,8 +81,8 @@ def secante_func(funcion:str, x0:float, x1:float,error_type:str, tol:float, nite
             x1 = x
             i += 1
 
-    a = min(iteracion.x for iteracion in tabla)
-    b = max(iteracion.x for iteracion in tabla)
+    a = min(float(iteracion.x) for iteracion in tabla)
+    b = max(float(iteracion.x) for iteracion in tabla)
     img_interactiva = grafico_interactivo(funcion, metodo='secante', sol=x, a=a, b=b, vlines= [('x0', x0), ('x1', x1)])
 
     return {'solucion'   : x, 

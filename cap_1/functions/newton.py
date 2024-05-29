@@ -70,8 +70,8 @@ def newton_func(funcion:str, x0:float,error_type:str, tol:float, niter:int):
             x0 = x
             i += 1
 
-    a = min(iteracion.x for iteracion in tabla)
-    b = max(iteracion.x for iteracion in tabla)
+    a = min(float(iteracion.x) for iteracion in tabla)
+    b = max(float(iteracion.x) for iteracion in tabla)
     img_interactiva = grafico_interactivo(funcion, metodo='newton', sol=x, a=a, b=b, vlines= [('x0', x0_inicial)])
 
     return {'solucion'   : x, 
