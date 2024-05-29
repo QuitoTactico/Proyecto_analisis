@@ -169,7 +169,7 @@ def puntofijo(request):
         niter = int(request.POST['niter'])
         export_txt = request.POST.get('export-txt')
 
-        response = puntofijo_func(funcion, funcion_g,error_type, x0, tol, niter)
+        response = puntofijo_func(funcion, funcion_g, x0,error_type, tol, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
@@ -206,14 +206,12 @@ def newton(request):
     if request.method == 'POST':
         funcion = request.POST['funcion']
         x0 = float(request.POST['x0'])
-        a = float(request.POST['a'])
-        b = float(request.POST['b'])
         error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
         export_txt = request.POST.get('export-txt')
 
-        response = newton_func(funcion, a, b, x0,error_type, tol, niter)
+        response = newton_func(funcion, x0,error_type, tol, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
