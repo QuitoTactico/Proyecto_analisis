@@ -40,12 +40,14 @@ window.onload = function () {
         let b = document.getElementById('b').value;
         let tol = document.getElementById('tol').value;
         let iter = document.getElementById('niter').value;
+        let exportTxt = document.getElementById('export-txt').checked ? "on" : "off";
             sessionStorage.setItem('formData', JSON.stringify({
                 funcion: funcion,
                 a: a,
                 b: b,
                 tol: tol,
                 iter: iter,
+                exportTxt: exportTxt
 
             }));
         // If form fields are not empty, show the table

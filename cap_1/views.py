@@ -1,5 +1,7 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse
+import os
 
 # ================Part 1================
 from .functions.busquedas import busquedas_func
@@ -9,6 +11,7 @@ from .functions.puntofijo import puntofijo_func
 from .functions.newton import newton_func
 from .functions.secante import secante_func
 from .functions.m1 import m1_func
+from .functions.biseccion import iteracion
 
 # ================Part 2================
 from .functions.jacobi import MatJacobi
@@ -65,6 +68,7 @@ def biseccion(request):
         error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
+        export_txt = request.POST.get('export-txt')
 
         response = biseccion_func(funcion, a, b,error_type, tol, niter)
 
@@ -81,6 +85,25 @@ def biseccion(request):
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
+
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'biseccion_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in response.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
 
         return render(request, 'biseccion.html', {'solucion'  : response['solucion'], 
                                              'iteraciones' : response['iteraciones'],
@@ -101,9 +124,30 @@ def reglafalsa(request):
         error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
+        export_txt = request.POST.get('export-txt')
+
         response = reglafalsa_func(funcion, a, b,error_type, tol, niter)
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
+
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'reglafalsa_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in response.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
         return render(request, 'reglafalsa.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],
                                             'tabla': response['tabla'],
@@ -120,17 +164,34 @@ def puntofijo(request):
         funcion = request.POST['funcion']
         funcion_g = request.POST['funcion_g']
         x0 = float(request.POST['x0'])
-        a = float(request.POST['a'])
-        b = float(request.POST['b'])
         error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
+        export_txt = request.POST.get('export-txt')
 
-        response = puntofijo_func(funcion, funcion_g, a, b,error_type, x0, tol, niter)
+        response = puntofijo_func(funcion, funcion_g,error_type, x0, tol, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
 
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'puntofijo_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in response.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
         return render(request, 'puntofijo.html', {'solucion'  : response['solucion'], 
                                              'iteraciones' : response['iteraciones'],
                                              'tabla': response['tabla'],
@@ -150,11 +211,31 @@ def newton(request):
         error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
+        export_txt = request.POST.get('export-txt')
 
         response = newton_func(funcion, a, b, x0,error_type, tol, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
+
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'newton_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in response.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
 
         return render(request, 'newton.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],
@@ -172,13 +253,12 @@ def secante(request):
         funcion = request.POST['funcion']
         x0 = float(request.POST['x0'])
         x1 = float(request.POST['x1'])
-        a = float(request.POST['a'])
-        b = float(request.POST['b'])
         error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
+        export_txt = request.POST.get('export-txt')
 
-        response = secante_func(funcion, a, b, x0, x1,error_type, tol, niter)
+        response = secante_func(funcion, x0, x1,error_type, tol, niter)
 
         img_interactiva = response['img_interactiva']
         try:
@@ -186,6 +266,24 @@ def secante(request):
         except:
             script, div = None, None
 
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'secante_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in response.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
         return render(request, 'secante.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],
                                             'tabla': response['tabla'],
@@ -201,17 +299,35 @@ def m1(request):
     if request.method == 'POST':
         funcion = request.POST['funcion']
         x0 = float(request.POST['x0'])
-        a = float(request.POST['a'])
-        b = float(request.POST['b'])
         m = float(request.POST['m'])
         error_type = request.POST['error_type']
         tol = float(request.POST['tol'])
         niter = int(request.POST['niter'])
+        export_txt = request.POST.get('export-txt')
 
-        response = m1_func(funcion, m, a, b, x0,error_type, tol, niter)
+        response = m1_func(funcion, m, x0,error_type, tol, niter)
 
         img_interactiva = response['img_interactiva']
         script, div = components(img_interactiva)
+
+        if export_txt == 'on':
+            directory = os.path.abspath('../Pruebas')
+            print(f"Directory: {directory}")  # Print the directory
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            filepath = os.path.join(directory, 'm1_results.txt')
+            print(f"Filepath: {filepath}")  # Print the filepath
+            with open(filepath, 'w') as f:
+                for key, value in response.items():
+                    if key == 'tabla':
+                        f.write(f'{key}:\n')
+                        for item in value:
+                            f.write(f'i={item.i}, x={item.x}, fx={item.fx}, err={item.err}\n')
+                    elif key == 'img_interactiva':
+            # No imprimimos 'img_interactiva' ya que no es legible en texto
+                        continue
+                    else:
+                        f.write(f'{key}: {value}\n')
 
         return render(request, 'm1.html', {'solucion'  : response['solucion'], 
                                             'iteraciones' : response['iteraciones'],

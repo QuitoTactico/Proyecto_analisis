@@ -150,7 +150,7 @@ def func_deriv(expresion, x_input:float=0, n_deriv:int=1, eval:bool=True):
         return derivada
 
 
-def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float=None, b:float=None, vlines:list=[], hlines:list=[], deriv:int=0, funcion_g:str=None):
+def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float=None, b:float=None, vlines:list=[], hlines:list=[], deriv:int=0, funcion_g:str=None, m:int=1, points:list=[]):
     '''Grafica la función y sus derivadas, con líneas punteadas en a y b, y una línea punteada en la solución si es que se especifica'''
 
     distancia = abs(b-a)
@@ -183,10 +183,11 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
     colors = ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'black']
     lista_leyenda = []
 
+    eje_x = [a + (b-a)/200 * i for i in range(201)]
+
     # graficaremos la función y sus derivadas
     for i in range(deriv+1):
         # 200 puntos entre a y b
-        eje_x = [a + (b-a)/200 * i for i in range(201)]
         # para cada punto: si es la primera iteración, les evaluamos la función normal, si no, la derivada i-ésima
         eje_y = [func(funcion, x) for x in eje_x] if i == 0 else [func_deriv(funcion, x, i) for x in eje_x]
         # la añadimos al grafico y ponemos su leyenda
@@ -197,26 +198,28 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
     # para los métodos como Newton, Newton M1, Newton M2 y punto fijo (respectivamente), graficamos la función g(x)
     if metodo is not None:
         # graficamos su respectiva g(x). Para puntofijo es el usuario quien la ingresa. Para los Newton, la calculamos
-        if metodo == 'puntofijo': # o sea, punto fijo
-            if funcion_g is None:
-                metodo = 'newton' # si no se especifica la g(x), se hará el método de Newton
-            else:
-                eje_x = [a + (b-a)/200 * i for i in range(201)]
-                eje_y = [func(funcion_g, x) for x in eje_x]
-                funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
-                lista_leyenda.append(LegendItem(label='g(x) Manual', renderers=[funcion_linea])) 
-        try:
-            if metodo in ['newton', 'secante']:
-                eje_x = [a + (b-a)/200 * i for i in range(201)]
-                funcion_g = f'x-(({funcion})/({str(func_deriv(funcion, eval=False))}))'
-                eje_y = [func(funcion_g, x) for x in eje_x]
-                funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
-                lista_leyenda.append(LegendItem(label='g(x) '+metodo.capitalize(), renderers=[funcion_linea]))
-        except:
-            pass
-            
         
-        if metodo != 'busquedas':
+        if metodo == 'newton':
+            funcion_g = f'x-(({funcion})/({str(func_deriv(funcion, eval=False))}))'
+
+        if metodo == 'secante':
+            if sol is not None:
+                funcion_sol = funcion.replace('x', str(sol))
+                funcion_g = f'x-((({funcion})*(x-{sol}))/(({funcion})-({funcion_sol})))'
+
+        if metodo == 'm1':
+            funcion_g = f'x-{m}*(({funcion})/({str(func_deriv(funcion, eval=False))}))'
+
+        if metodo == 'm2':
+            pass
+
+        if metodo != 'busquedas' and not (metodo == 'secante' and sol is None):
+            eje_y = [func(funcion_g, x) for x in eje_x]
+            funcion_linea = plot_interactivo.line(eje_x, eje_y, line_color='purple', line_width=2, name='g(x)')
+            lista_leyenda.append(LegendItem(label='g(x) '+metodo.capitalize(), renderers=[funcion_linea]))
+        
+            # evaluación de los criterios de aceptación
+            '''
             # graficamos la derivada absoluta de g(x), para lo del tercer criterio
             eje_y_deriv = [abs(func_deriv(funcion_g, x)) for x in eje_x]
             funcion_linea_deriv = plot_interactivo.line(eje_x, eje_y_deriv, line_color='purple', line_width=2, name="|g'(x)|", line_alpha=0.3)
@@ -228,6 +231,7 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
                 plot_interactivo.add_layout(hline)
             invisible = plot_interactivo.line([0], [0], line_color="red", line_width=1, line_dash='dashed')   
             lista_leyenda.append(LegendItem(label='y=1', renderers=[invisible]))
+            '''
     
     # agregar líneas en a y b
     if a is not None and b is not None:
@@ -277,9 +281,12 @@ def grafico_interactivo(funcion='2x-1', metodo:str=None, sol:float=None, a:float
         # también un punto
         plot_interactivo.scatter([sol], [0], fill_color='red', line_color="black", size=8, name="Solución")
 
+    for i, point in enumerate(points):
+        plot_interactivo.scatter([point[0]], [point[1]], fill_color='white', line_color="black", size=8, name=point[2])
+
     plot_interactivo.add_layout(Legend(items=lista_leyenda))
 
-    # btw esto del 1:1 simplemente no quiere funcionar. Horas gastadas aquí: (4)
+    # btw esto del 1:1 simplemente no quiere funcionar. Horas gastadas aquí: (5)
     #plot_interactivo.set(x_range=[a, b], y_range=[a, b], match_aspect=True)
     plot_interactivo.aspect_scale = 1       # para que los ejes tengan la misma escala, 1:1
     plot_interactivo.xaxis.visible = True   # para que se vean los ejes

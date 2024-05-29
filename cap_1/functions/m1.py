@@ -16,7 +16,7 @@ class Iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def m1_func(funcion:str, m:int, a:float, b:float, x0:float,error_type:str, tol:float, niter:int):
+def m1_func(funcion:str, m:int, x0:float,error_type:str, tol:float, niter:int):
     """
     Implementación método de Newton
     Entradas:
@@ -70,7 +70,9 @@ def m1_func(funcion:str, m:int, a:float, b:float, x0:float,error_type:str, tol:f
             x0 = x
             i += 1
 
-    img_interactiva = grafico_interactivo(funcion, metodo='newton', sol=x, a=a, b=b, vlines= [('x0', x0_inicial)])
+    a = min(float(iteracion.x) for iteracion in tabla)
+    b = max(float(iteracion.x) for iteracion in tabla)
+    img_interactiva = grafico_interactivo(funcion, metodo='m1', sol=x, a=a, b=b, vlines= [('x0', x0_inicial)], m=m)
 
     return {'solucion'   : x, 
             'iteraciones': i, 
@@ -81,7 +83,7 @@ def m1_func(funcion:str, m:int, a:float, b:float, x0:float,error_type:str, tol:f
 
 def m1_test():
     #res = m1_func('(x^3)-10x-5', 2, -0.5, 4, 3, 1e-10, 100)
-    res = m1_func('ln(x)*(x^2-4x+4)', 2, 1, 3, 1.5, 1e-16, 100)
+    res = m1_func('ln(x)*(x^2-4x+4)', 2, 1.5, 1e-16, 100)
 
     for iteracion in res['tabla']:
         print(iteracion)

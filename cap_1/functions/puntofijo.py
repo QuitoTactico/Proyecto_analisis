@@ -16,7 +16,7 @@ class Iteracion:
     def __repr__(self):
         return f'{self.i} | {self.x} | {self.fx} | {self.err}'
 
-def puntofijo_func(funcion:str, funcion_g:str, a:float, b:float, x0:float,error_type:str, tol:float, niter:int):
+def puntofijo_func(funcion:str, funcion_g:str, x0:float,error_type:str, tol:float, niter:int):
     """
     Implementación método de punto fijo
     Entradas:
@@ -66,6 +66,8 @@ def puntofijo_func(funcion:str, funcion_g:str, a:float, b:float, x0:float,error_
             x0 = x
             i += 1
 
+    a = min(float(iteracion.x) for iteracion in tabla)
+    b = max(float(iteracion.x) for iteracion in tabla)
     img_interactiva = grafico_interactivo(funcion, 
                                           metodo='puntofijo', 
                                           sol=x, 
@@ -86,7 +88,7 @@ def puntofijo_func(funcion:str, funcion_g:str, a:float, b:float, x0:float,error_
 def puntofijo_test():
 
     #res = puntofijo_func('(e^x)-2', -2, 5, 3, 1e-20, 100)   # caso de fallo
-    res = puntofijo_func('(x^3)-10x-5', '(10x+5)^(1/3)', 0.5, 4, 1, 1e-20, 200)
+    res = puntofijo_func('(x^3)-10x-5', '(10x+5)^(1/3)', 1, 1e-20, 200)
 
     for iteracion in res['tabla']:
         print(iteracion.i, iteracion.x, iteracion.fx, iteracion.err)
