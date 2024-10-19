@@ -226,7 +226,7 @@ def grafico_interactivo(funcion:str=None, metodo:str=None, sol:float=None, a:flo
             lista_leyenda.append(LegendItem(label='g(x) '+metodo.capitalize(), renderers=[funcion_linea]))
         
             # evaluación de los criterios de aceptación
-            '''
+            
             # graficamos la derivada absoluta de g(x), para lo del tercer criterio
             eje_y_deriv = [abs(func_deriv(funcion_g, x)) for x in eje_x]
             funcion_linea_deriv = plot_interactivo.line(eje_x, eje_y_deriv, line_color='purple', line_width=2, name="|g'(x)|", line_alpha=0.3)
@@ -238,7 +238,7 @@ def grafico_interactivo(funcion:str=None, metodo:str=None, sol:float=None, a:flo
                 plot_interactivo.add_layout(hline)
             invisible = plot_interactivo.line([0], [0], line_color="red", line_width=1, line_dash='dashed')   
             lista_leyenda.append(LegendItem(label='y=1', renderers=[invisible]))
-            '''
+            
     
     # agregar líneas en a y b
     if a is not None and b is not None and funcion is not None:

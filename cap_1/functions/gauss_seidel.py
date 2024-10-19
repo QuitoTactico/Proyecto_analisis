@@ -22,7 +22,7 @@ def Gauss_seidel(x0, A, b, Tol, niter):
         a = A.strip("[]").split(";")
         A = []
         for row in a:
-            A.append([int(num) for num in row.split()])
+            A.append([float(num) for num in row.split()])
         A = np.array(A)
         b = np.array([float(num) for num in b.strip("[]").split(" ")])
         Tol = float(Tol)
